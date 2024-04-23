@@ -1,533 +1,639 @@
-`define BIT_W           8
-`define IN_IMAGE_W      576     // 8bits*9*2*4
-`define IN_KERNAL_W     576     // 8*9*2*4
-`define IN_BIAS_W       15      // 8+7  
-`define OUT_DATA_W      32      // 8*4   
+module core(
+            i_clk,
+            i_rst,
+            i_data,
+            i_valid,
+            o_data,
+            o_valid
+            );
 
-`define PE_IMAGE_W      144     // 8bits*(3*3*2)
-`define PE_KERNAL_W     144     // 8bits*(3*3*2)*
-`define PE_BIAS_W       16      // 8bits*(2) 
-`define PE_OUT_W        16      // 8+7 
+/*========================IO declaration============================ */
+parameter  data_size = 8;
+parameter  H         = 4;
+parameter  W         = 4;
+parameter  idle      = 0;
+parameter  kernel_in = 1;
+parameter  image_in  = 2;
+parameter  mul_plse  = 3;
+input      i_clk;
+input      i_rst;
+input      i_valid;
+output     o_valid;
+input      [15:0] i_data;
+output     [data_size-1:0] o_data;
 
-`define REG_IMAGE_W     576     // 8bits*(3*3*2)*(2*2)
-`define REG_KERNAL_W    576     // 8bits*(3*3)*(8)
-`define REG_BIAS_W      16      // 8bits*(2)
-`define REG_OUT_W       16      // 8bits*(2) 
+/* =======================REG & wire================================ */
+reg  signed [data_size-1:0] data_o_w, data_o_r;
+reg  signed [data_size-1:0] i_image1      [0:H-1][0:W-1];
+reg  signed [data_size-1:0] i_image2      [0:H-1][0:W-1];
+reg  signed [data_size-1:0] i_image3      [0:H-1][0:W-1];
+reg  signed [data_size-1:0] i_image4      [0:H-1][0:W-1];
+reg  signed [data_size-1:0] i_image5      [0:H-1][0:W-1];
+reg  signed [data_size-1:0] i_image6      [0:H-1][0:W-1];
+reg  signed [data_size-1:0] i_image7      [0:H-1][0:W-1];
+reg  signed [data_size-1:0] i_image8      [0:H-1][0:W-1];
+reg  signed [data_size-1:0] next_i_image1 [0:H-1][0:W-1];
+reg  signed [data_size-1:0] next_i_image2 [0:H-1][0:W-1];
+reg  signed [data_size-1:0] next_i_image3 [0:H-1][0:W-1];
+reg  signed [data_size-1:0] next_i_image4 [0:H-1][0:W-1];
+reg  signed [data_size-1:0] next_i_image5 [0:H-1][0:W-1];
+reg  signed [data_size-1:0] next_i_image6 [0:H-1][0:W-1];
+reg  signed [data_size-1:0] next_i_image7 [0:H-1][0:W-1];
+reg  signed [data_size-1:0] next_i_image8 [0:H-1][0:W-1];
+reg  signed [data_size-1:0] kernel1       [0:2][0:2];
+reg  signed [data_size-1:0] kernel2       [0:2][0:2];
+reg  signed [data_size-1:0] kernel3       [0:2][0:2];
+reg  signed [data_size-1:0] kernel4       [0:2][0:2];
+reg  signed [data_size-1:0] kernel5       [0:2][0:2];
+reg  signed [data_size-1:0] kernel6       [0:2][0:2];
+reg  signed [data_size-1:0] kernel7       [0:2][0:2];
+reg  signed [data_size-1:0] kernel8       [0:2][0:2];
+reg  signed [data_size-1:0] next_kernel1  [0:2][0:2];
+reg  signed [data_size-1:0] next_kernel2  [0:2][0:2];
+reg  signed [data_size-1:0] next_kernel3  [0:2][0:2];
+reg  signed [data_size-1:0] next_kernel4  [0:2][0:2];
+reg  signed [data_size-1:0] next_kernel5  [0:2][0:2];
+reg  signed [data_size-1:0] next_kernel6  [0:2][0:2];
+reg  signed [data_size-1:0] next_kernel7  [0:2][0:2];
+reg  signed [data_size-1:0] next_kernel8  [0:2][0:2];
+reg  signed [data_size+3:0] tmp           [0:17];
+reg  signed [3:0] channel_count, next_channel_count;
+reg  signed [6:0] x_axis       , next_x_axis;
+reg  signed [6:0] y_axis       , next_y_axis;
+reg  signed [3:0] x_image      , next_x_image;
+reg  signed [3:0] y_image      , next_y_image;
+reg  signed [3:0] mul_sta      , next_mul_sta;
+reg  signed [3:0] state        , next_state;
+reg  signed [7:0] max_out      , next_max;
+reg  signed [7:0] conv_out;
+reg  signed [143:0] pe_image1  , pe_image2  , pe_image3  , pe_image4;
+reg  signed [143:0] pe_kernel1 , pe_kernel2 , pe_kernel3 , pe_kernel4;
+wire signed [15:0]  pe_result1 , pe_result2 , pe_result3 , pe_result4; 
+// wire signed [3:0] pe_image5    , pe_kernel5  , pe_result5;
+// wire signed [3:0] pe_image6    , pe_kernel6  , pe_result6;
+// wire signed [3:0] pe_image7    , pe_kernel7  , pe_result7;
+// wire signed [3:0] pe_image8    , pe_kernel8  , pe_result8;
 
-`define PTR_IMAGE_W     10
-`define PTR_KERNAL_W    10
-`define PTR_BIAS_W      4
-`define PTR_OUT_W       4
+reg signed [data_size*2+1:0] pixel_1, pixel_2, pixel_1_t, pixel_2_t;
 
+reg signed o_valid_w, o_valid_r;
+integer    i, j;
 
-
-`define CONV_2x48x48        0
-`define CONV_4x24x24        1
-`define CONV_1x12x12        2
-`define BN_2x48x48          3
-`define BN_4x24x24          4
-`define BN_1x12x12          5
-`define POOL_2x24x24        6
-`define POOL_4x12x12        7
-`define POOL_1x6x6          8
-`define LINEAR              9
-
-module core (
-    input                   i_clk,
-    input                   i_rst_n,
-    input                   i_trig,
-    input  [4-1:0]          i_opcode,
-    input  [`BIT_W-1:0]     i_image,
-    input  [`BIT_W-1:0]     i_kernal,
-    input  [`BIT_W-1:0]     i_bias,
-    output                  o_valid,
-    output                  o_data
+pe pe_u1(
+    .pe_image (pe_image1 ),
+    .pe_kernel(pe_kernel1),
+    .pe_result(pe_result1)
 );
-
-// ---------------------------------------------------------------------------
-// Parameter
-// ---------------------------------------------------------------------------
-localparam IDLE     = 3'd0;     // Initialization
-localparam IF       = 3'd1;     // Instruction Fetch
-localparam ID       = 3'd2;     // Instruction Decoder
-localparam EX       = 3'd3;     // Execution
-localparam WB       = 3'd4;     // Write Back
-localparam DONE     = 3'd5;     // Finish
-
-localparam INIT_MAX = 8'b1000_0000;
-
-
-// ---------------------------------------------------------------------------
-// Declaration
-// ---------------------------------------------------------------------------
-reg  [3-1:0] state;
-reg  [3-1:0] state_nxt;
-
-wire         image_wd_en, kernal_wd_en, bias_wd_en;
-wire         image_wd_en_2, kernal_wd_en_2, bias_wd_en_2;
-wire         out_wd_en, out_rd_en;
-
-
-wire [`PE_IMAGE_W-1:0 ] pe_image_0, pe_image_1, pe_image_2, pe_image_3, pe_image_4, pe_image_5, pe_image_6, pe_image_7;
-wire [`PE_KERNAL_W-1:0] pe_kernal_0,  pe_kernal_1,  pe_kernal_2,  pe_kernal_3, pe_kernal_4,  pe_kernal_5,  pe_kernal_6,  pe_kernal_7;
-wire [`PE_BIAS_W-1:0  ] pe_bias_0, pe_bias_1, pe_bias_2, pe_bias_3, pe_bias_4, pe_bias_5, pe_bias_6, pe_bias_7;
-wire [`PE_OUT_W-1:0   ] pe_result_0, pe_result_1, pe_result_2, pe_result_3, pe_result_4, pe_result_5, pe_result_6, pe_result_7;
-
-wire [`BIT_WIDTH-1:0] kernal_00;
-wire [`BIT_WIDTH-1:0] kernal_01;
-wire [`BIT_WIDTH-1:0] kernal_10;
-wire [`BIT_WIDTH-1:0] kernal_11;
-reg  [`BIT_WIDTH-1:0] kernal_max;
-reg  [`BIT_WIDTH-1:0] local_max0;
-reg  [`BIT_WIDTH-1:0] local_max1;
-
-
-
-// ---------------------------------------------------------------------------
-// Instantiation
-// ---------------------------------------------------------------------------
-// assign pe_clk =(pe_counter == 7) ~pe_clk;
-
-// always@(posedge i_clk or negedge i_rst_n) begin
-//     if(~i_rst_n) begin
-//         pe_counter <= 0;
-//     end else begin
-//         pe_counter <= pe_counter+1;
-//     end
-// end
-
-pe pe_u0 (
-    .i_clk      (i_clk      ),
-    .i_rst_n    (i_rst_n    ),
-    .pe_image   (pe_image_0 ),
-    .pe_kernal  (pe_kernal_0),
-    // .pe_bias      (pe_bias_0   ),
-    .pe_result  (pe_result_0)
+pe pe_u2(
+    .pe_image (pe_image2 ),
+    .pe_kernel(pe_kernel2),
+    // i_bias,
+    .pe_result(pe_result2)
 );
-
-pe pe_u1 (
-    .i_clk      (i_clk      ),
-    .i_rst_n    (i_rst_n    ),
-    .pe_image   (pe_image_1 ),
-    .pe_kernal  (pe_kernal_1),
-    // .pe_bias      (pe_bias_1   ),
-    .pe_result  (pe_result_1)
+pe pe_u3(
+    .pe_image (pe_image3 ),
+    .pe_kernel(pe_kernel3),
+    // i_bias,
+    .pe_result(pe_result3)
 );
-
-pe pe_u2 (
-    .i_clk      (i_clk      ),
-    .i_rst_n    (i_rst_n    ),
-    .pe_image   (pe_image_2 ),
-    .pe_kernal  (pe_kernal_2),
-    // .pe_bias      (pe_bias_2   ),
-    .pe_result  (pe_result_2)
+pe pe_u4(
+    .pe_image (pe_image4 ),
+    .pe_kernel(pe_kernel4),
+    // i_bias,
+    .pe_result(pe_result4)
 );
-
-pe pe_u3 (
-    .i_clk      (i_clk      ),
-    .i_rst_n    (i_rst_n    ),
-    .pe_image   (pe_image_3  ),
-    .pe_kernal  (pe_kernal_3 ),
-    // .i_bias      (pe_bias_3   ),
-    .pe_result  (pe_result_3)
-);
-
-pool pool_u0 (
-	.kernal_00      (pe_result_0),
-    .kernal_01      (pe_result_1),
-    .kernal_10      (pe_result_2),
-    .kernal_11      (pe_result_3),
-	.pool_result    (pool_result_0)
-);
-
-pool pool_u1 (
-	.kernal_00      (pe_result_4),
-    .kernal_01      (pe_result_5),
-    .kernal_10      (pe_result_6),
-    .kernal_11      (pe_result_7),
-	.pool_result    (pool_result_1)
-);
-
-// pool pool_u2 (
-// 	.kernal_00      (kernal_00),
-//     .kernal_01      (kernal_01),
-//     .kernal_10      (kernal_10),
-//     .kernal_11      (kernal_11),
-// 	.pool_result    (pool_result_2)
+// pe pe_u5(
+//     i_clk    (i_clk     ),
+//     i_rst_n  (i_rst     ),
+//     pe_image (pe_image5 ),
+//     pe_kernel(pe_kernel5),
+//     // i_bias,
+//     pe_result(pe_result5)
+// );
+// pe pe_u6(
+//     i_clk    (i_clk     ),
+//     i_rst_n  (i_rst     ),
+//     pe_image (pe_image6 ),
+//     pe_kernel(pe_kernel6),
+//     // i_bias,
+//     pe_result(pe_result6)
+// );
+// pe pe_u7(
+//     i_clk    (i_clk     ),
+//     i_rst_n  (i_rst     ),
+//     pe_image (pe_image7 ),
+//     pe_kernel(pe_kernel7),
+//     // i_bias,
+//     pe_result(pe_result7)
+// );
+// pe pe_u8(
+//     i_clk    (i_clk     ),
+//     i_rst_n  (i_rst     ),
+//     pe_image (pe_image8 ),
+//     pe_kernel(pe_kernel8),
+//     // i_bias,
+//     pe_result(pe_result8)
 // );
 
-// pool pool_u3 (
-// 	.kernal_00      (kernal_00),
-//     .kernal_01      (kernal_01),
-//     .kernal_10      (kernal_10),
-//     .kernal_11      (kernal_11),
-// 	.pool_result    (pool_result_3)
-// );
+assign     o_data     = data_o_r;
+assign     o_valid    = o_valid_r;
 
-// pe pe_u4 (
-//     .i_clk      (i_clk      ),
-//     .i_rst_n    (i_rst_n    ),
-//     .pe_image   (pe_image_4 ),
-//     .pe_kernal  (pe_kernal_4),
-//     // .pe_bias      (pe_bias_4   ),
-//     .pe_result  (pe_result_4)
-// );
-
-// pe pe_u5 (
-//     .i_clk      (i_clk      ),
-//     .i_rst_n    (i_rst_n    ),
-//     .pe_image   (pe_image_5 ),
-//     .pe_kernal  (pe_kernal_5),
-//     // .pe_bias      (pe_bias_5   ),
-//     .pe_result  (pe_result_5)
-// );
-
-// pe pe_u6 (
-//     .i_clk      (i_clk      ),
-//     .i_rst_n    (i_rst_n    ),
-//     .pe_image   (pe_image_6 ),
-//     .pe_kernal  (pe_kernal_6),
-//     // .pe_bias      (pe_bias_6   ),
-//     .pe_result  (pe_result_6)
-// );
-
-// pe pe_u7 (
-//     .i_clk      (i_clk      ),
-//     .i_rst_n    (i_rst_n    ),
-//     .pe_image   (pe_image_7  ),
-//     .pe_kernal  (pe_kernal_7 ),
-//     // .i_bias      (pe_bias_7   ),
-//     .pe_result  (pe_result_7)
-// );
-
-
-// ---------------------------------------------------------------------------
-// Finite State Machine
-// ---------------------------------------------------------------------------
-always@(*) begin
+/* ====================Combinational Part================== */
+always@ (*)
+begin
+    next_max   = 0;
+    o_valid_w  = 0;
+    data_o_w   = 0;
+    for (i = 0; i < 4; i = i + 1) 
+    begin
+        for (j = 0; j < 4; j = j + 1)
+        begin
+            next_i_image1[i][j] = i_image1[i][j];
+            next_i_image2[i][j] = i_image2[i][j];
+            next_i_image3[i][j] = i_image3[i][j];
+            next_i_image4[i][j] = i_image4[i][j];
+            next_i_image5[i][j] = i_image5[i][j];
+            next_i_image6[i][j] = i_image6[i][j];
+            next_i_image7[i][j] = i_image7[i][j];
+            next_i_image8[i][j] = i_image8[i][j];
+        end
+    end
+    for (i = 0; i < 3; i = i + 1) 
+    begin
+        for (j = 0; j < 3; j = j + 1)
+        begin
+            next_kernel1[i][j] = kernel1[i][j];
+            next_kernel2[i][j] = kernel2[i][j];
+            next_kernel3[i][j] = kernel3[i][j];
+            next_kernel4[i][j] = kernel4[i][j];
+            next_kernel5[i][j] = kernel5[i][j];
+            next_kernel6[i][j] = kernel6[i][j];
+            next_kernel7[i][j] = kernel7[i][j];
+            next_kernel8[i][j] = kernel8[i][j];
+        end
+    end
+    pe_image1  = {i_image1[x_axis][y_axis  ], i_image1[x_axis+1][y_axis  ], i_image1[x_axis+2][y_axis  ], 
+                i_image1  [x_axis][y_axis+1], i_image1[x_axis+1][y_axis+1], i_image1[x_axis+2][y_axis+1], 
+                i_image1  [x_axis][y_axis+2], i_image1[x_axis+1][y_axis+2], i_image1[x_axis+2][y_axis+2],
+                i_image2  [x_axis][y_axis  ], i_image2[x_axis+1][y_axis  ], i_image2[x_axis+2][y_axis  ], 
+                i_image2  [x_axis][y_axis+1], i_image2[x_axis+1][y_axis+1], i_image2[x_axis+2][y_axis+1], 
+                i_image2  [x_axis][y_axis+2], i_image2[x_axis+1][y_axis+2], i_image2[x_axis+2][y_axis+2]};
+    pe_image2  = {i_image3[x_axis][y_axis  ], i_image3[x_axis+1][y_axis  ], i_image3[x_axis+2][y_axis  ], 
+                i_image3  [x_axis][y_axis+1], i_image3[x_axis+1][y_axis+1], i_image3[x_axis+2][y_axis+1], 
+                i_image3  [x_axis][y_axis+2], i_image3[x_axis+1][y_axis+2], i_image3[x_axis+2][y_axis+2],
+                i_image4  [x_axis][y_axis  ], i_image4[x_axis+1][y_axis  ], i_image4[x_axis+2][y_axis  ], 
+                i_image4  [x_axis][y_axis+1], i_image4[x_axis+1][y_axis+1], i_image4[x_axis+2][y_axis+1], 
+                i_image4  [x_axis][y_axis+2], i_image4[x_axis+1][y_axis+2], i_image4[x_axis+2][y_axis+2]};
+    pe_image3  = {i_image5[x_axis][y_axis  ], i_image5[x_axis+1][y_axis  ], i_image5[x_axis+2][y_axis  ], 
+                i_image5  [x_axis][y_axis+1], i_image5[x_axis+1][y_axis+1], i_image5[x_axis+2][y_axis+1], 
+                i_image5  [x_axis][y_axis+2], i_image5[x_axis+1][y_axis+2], i_image5[x_axis+2][y_axis+2],
+                i_image6  [x_axis][y_axis  ], i_image6[x_axis+1][y_axis  ], i_image2[x_axis+2][y_axis  ], 
+                i_image6  [x_axis][y_axis+1], i_image6[x_axis+1][y_axis+1], i_image6[x_axis+2][y_axis+1], 
+                i_image6  [x_axis][y_axis+2], i_image6[x_axis+1][y_axis+2], i_image6[x_axis+2][y_axis+2]};
+    pe_image4  = {i_image7[x_axis][y_axis  ], i_image7[x_axis+1][y_axis  ], i_image7[x_axis+2][y_axis  ], 
+                i_image7  [x_axis][y_axis+1], i_image7[x_axis+1][y_axis+1], i_image7[x_axis+2][y_axis+1], 
+                i_image7  [x_axis][y_axis+2], i_image7[x_axis+1][y_axis+2], i_image7[x_axis+2][y_axis+2],
+                i_image8  [x_axis][y_axis  ], i_image8[x_axis+1][y_axis  ], i_image8[x_axis+2][y_axis  ], 
+                i_image8  [x_axis][y_axis+1], i_image8[x_axis+1][y_axis+1], i_image8[x_axis+2][y_axis+1], 
+                i_image8  [x_axis][y_axis+2], i_image8[x_axis+1][y_axis+2], i_image8[x_axis+2][y_axis+2]};
+    pe_kernel1 = {kernel1 [x_axis][y_axis  ], kernel1 [x_axis+1][y_axis  ], kernel1 [x_axis+2][y_axis  ], 
+                kernel1   [x_axis][y_axis+1], kernel1 [x_axis+1][y_axis+1], kernel1 [x_axis+2][y_axis+1], 
+                kernel1   [x_axis][y_axis+2], kernel1 [x_axis+1][y_axis+2], kernel1 [x_axis+2][y_axis+2],
+                kernel2   [x_axis][y_axis  ], kernel2 [x_axis+1][y_axis  ], kernel2 [x_axis+2][y_axis  ], 
+                kernel2   [x_axis][y_axis+1], kernel2 [x_axis+1][y_axis+1], kernel2 [x_axis+2][y_axis+1], 
+                kernel2   [x_axis][y_axis+2], kernel2 [x_axis+1][y_axis+2], kernel2 [x_axis+2][y_axis+2]};
+    pe_kernel2 = {kernel3 [x_axis][y_axis  ], kernel3 [x_axis+1][y_axis  ], kernel3 [x_axis+2][y_axis  ], 
+                kernel3   [x_axis][y_axis+1], kernel3 [x_axis+1][y_axis+1], kernel3 [x_axis+2][y_axis+3], 
+                kernel3   [x_axis][y_axis+2], kernel3 [x_axis+1][y_axis+2], kernel3 [x_axis+2][y_axis+2],
+                kernel4   [x_axis][y_axis  ], kernel4 [x_axis+1][y_axis  ], kernel4 [x_axis+2][y_axis  ], 
+                kernel4   [x_axis][y_axis+1], kernel4 [x_axis+1][y_axis+1], kernel4 [x_axis+2][y_axis+1], 
+                kernel4   [x_axis][y_axis+2], kernel4 [x_axis+1][y_axis+2], kernel4 [x_axis+2][y_axis+2]};
+    pe_kernel3 = {kernel5 [x_axis][y_axis  ], kernel5 [x_axis+1][y_axis  ], kernel5 [x_axis+2][y_axis  ], 
+                kernel5   [x_axis][y_axis+1], kernel5 [x_axis+1][y_axis+1], kernel5 [x_axis+2][y_axis+1], 
+                kernel5   [x_axis][y_axis+2], kernel5 [x_axis+1][y_axis+2], kernel5 [x_axis+2][y_axis+2],
+                kernel6   [x_axis][y_axis  ], kernel6 [x_axis+1][y_axis  ], kernel6 [x_axis+2][y_axis  ], 
+                kernel6   [x_axis][y_axis+1], kernel6 [x_axis+1][y_axis+1], kernel6 [x_axis+2][y_axis+1], 
+                kernel6   [x_axis][y_axis+2], kernel6 [x_axis+1][y_axis+2], kernel6 [x_axis+2][y_axis+2]};
+    pe_kernel4 = {kernel7 [x_axis][y_axis  ], kernel7 [x_axis+1][y_axis  ], kernel7 [x_axis+2][y_axis  ], 
+                kernel7   [x_axis][y_axis+1], kernel7 [x_axis+1][y_axis+1], kernel7 [x_axis+2][y_axis+1], 
+                kernel7   [x_axis][y_axis+2], kernel7 [x_axis+1][y_axis+2], kernel7 [x_axis+2][y_axis+2],
+                kernel8   [x_axis][y_axis  ], kernel8 [x_axis+1][y_axis  ], kernel8 [x_axis+2][y_axis  ], 
+                kernel8   [x_axis][y_axis+1], kernel8 [x_axis+1][y_axis+1], kernel8 [x_axis+2][y_axis+1], 
+                kernel8   [x_axis][y_axis+2], kernel8 [x_axis+1][y_axis+2], kernel8 [x_axis+2][y_axis+2]};
     case(state)
-        IDLE: state_nxt = IF;
-
-        IF: state_nxt = ID;
-
-        ID: state_nxt = EX;
-
-        EX: state_nxt = WB;
-
-        WB: state_nxt = DONE;
-
-        DONE: state_nxt  = IDLE;
+        idle:
+        begin
+        end
+        kernel_in:
+        begin
+            if (i_valid) 
+            begin
+                if (channel_count == 1)
+                begin
+                    next_kernel1[x_axis][y_axis] = i_data[7:0];
+                end
+                else if (channel_count == 2)
+                begin
+                    next_kernel2[x_axis][y_axis] = i_data[7:0];
+                end
+                else if (channel_count == 3)
+                begin
+                    next_kernel3[x_axis][y_axis] = i_data[7:0];
+                end
+                else if (channel_count == 4)
+                begin
+                    next_kernel4[x_axis][y_axis] = i_data[7:0];
+                end
+                else if (channel_count == 5)
+                begin
+                    next_kernel5[x_axis][y_axis] = i_data[7:0];
+                end
+                else if (channel_count == 6)
+                begin
+                    next_kernel6[x_axis][y_axis] = i_data[7:0];
+                end
+                else if (channel_count == 7)
+                begin
+                    next_kernel7[x_axis][y_axis] = i_data[7:0];
+                end
+                else if (channel_count == 8)
+                begin
+                    next_kernel8[x_axis][y_axis] = i_data[7:0];
+                end
+            end 
+        end
+        image_in:
+        begin
+            if (i_valid)
+                if (x_image == 0)
+                begin
+                    if (channel_count == 1)
+                    begin
+                        next_i_image1[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image1[x_axis][y_axis] = i_data[15:8];
+                    end
+                    else if (channel_count == 2)
+                    begin
+                        next_i_image2[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image2[x_axis][y_axis] = i_data[15:8];
+                    end
+                    else if (channel_count == 3)
+                    begin
+                        next_i_image3[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image3[x_axis][y_axis] = i_data[15:8];
+                    end
+                    else if (channel_count == 4)
+                    begin
+                        next_i_image4[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image4[x_axis][y_axis] = i_data[15:8];
+                    end
+                    else if (channel_count == 5)
+                    begin
+                        next_i_image5[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image5[x_axis][y_axis] = i_data[15:8];
+                    end
+                    else if (channel_count == 6)
+                    begin
+                        next_i_image6[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image6[x_axis][y_axis] = i_data[15:8];
+                    end
+                    else if (channel_count == 7)
+                    begin
+                        next_i_image7[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image7[x_axis][y_axis] = i_data[15:8];
+                    end
+                    else if (channel_count == 8)
+                    begin
+                        next_i_image8[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image8[x_axis][y_axis] = i_data[15:8];
+                    end
+                end 
+                else
+                begin
+                    for (i = 0; i < 2; i = i + 1) 
+                    begin
+                        for (j = 0; j < 4; j = j + 1)
+                        begin
+                            next_i_image1[i][j] = i_image1[i+2][j];
+                            next_i_image2[i][j] = i_image2[i+2][j];
+                            next_i_image3[i][j] = i_image3[i+2][j];
+                            next_i_image4[i][j] = i_image4[i+2][j];
+                            next_i_image5[i][j] = i_image5[i+2][j];
+                            next_i_image6[i][j] = i_image6[i+2][j];
+                            next_i_image7[i][j] = i_image7[i+2][j];
+                            next_i_image8[i][j] = i_image8[i+2][j];
+                        end
+                    end
+                    if (channel_count == 1)
+                    begin
+                        next_i_image1[x_axis+2][y_axis] = i_data;
+                    end
+                    else if (channel_count == 2)
+                    begin
+                        next_i_image2[x_axis+2][y_axis] = i_data;
+                    end
+                    else if (channel_count == 3)
+                    begin
+                        next_i_image3[x_axis+2][y_axis] = i_data;
+                    end
+                    else if (channel_count == 4)
+                    begin
+                        next_i_image4[x_axis+2][y_axis] = i_data;
+                    end
+                    else if (channel_count == 5)
+                    begin
+                        next_i_image5[x_axis+2][y_axis] = i_data;
+                    end
+                    else if (channel_count == 6)
+                    begin
+                        next_i_image6[x_axis+2][y_axis] = i_data;
+                    end
+                    else if (channel_count == 7)
+                    begin
+                        next_i_image7[x_axis+2][y_axis] = i_data;
+                    end
+                    else if (channel_count == 8)
+                    begin
+                        next_i_image8[x_axis+2][y_axis] = i_data;
+                    end
+                end 
+        end
+        mul_plse:
+        begin
+            next_max      = max_out;
+            conv_out      = pe_result1[7:0]+pe_result1[15:8]+pe_result2[7:0]+pe_result2[15:8]+pe_result3[7:0]+pe_result3[15:8]+pe_result4[7:0]+pe_result4[15:8];
+            if (conv_out > max_out ) next_max = conv_out;
+            if ((x_axis == 1) && (y_axis == 1))
+            begin
+                o_valid_w = 1;
+                data_o_w   = next_max; 
+            end
+        end
     endcase
 end
 
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n)    state <= IDLE;
-    else            state <= state_nxt;
-end
-
-
-// ---------------------------------------------------------------------------
-// Controller
-// ---------------------------------------------------------------------------
-reg        state, state_nxt;
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n) begin
-        state <= 0;
-    end if else begin
-        state <= state_nxt;
-    end
-end
-
-reg        busy;
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n) begin
-        busy <= 0;
-    end if else(i_trig) begin
-        busy <= 1;
-    end
-end
-
-
-reg [7:0] wd_cnt;
-reg        wd_cnt_en;
-reg        wd_cnt_rst;
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n) begin
-        wd_cnt <= 0;
-    end else if(wd_cnt_en) begin
-        wd_cnt <= wd_cnt + 1;
-    end else if(wd_cnt_rst) begin
-        wd_cnt <= 1;
-    end else begin
-        wd_cnt <= 0;
-    end
-end
-
-
-reg [7:0] ex_cnt;
-reg        ex_cnt_en;
-reg        ex_cnt_rst;
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n) begin
-        ex_cnt <= 0;
-    end else if(ex_cnt_en) begin
-        ex_cnt <= wd_cnt + 1;
-    end else if(ex_cnt_rst) begin
-        ex_cnt <= 1;
-    end else begin
-        ex_cnt <= 0;
-    end
-end
-
-
-reg [10:0] rd_cnt;
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n) begin
-        rd_cnt <= 0;
-    end else begin
-        rd_cnt <= rd_cnt + 1;
-    end
-end
-
-reg [] pix_cnt;
-
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n) begin
-        pix_cnt <= 0;
-    end else begin
-        pix_cnt <= pix_cnt + 1;
-    end
-end
-
-reg [] change_line_cnt;
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n) begin
-        change_line_cnt <= 0;
-    end else begin
-        change_line_cnt <= change_line_cnt + 1;
-    end
-end
-
-
-// ---------------------------------------------------------------------------
-// Input DFF
-// ---------------------------------------------------------------------------
-// Image Data Register
-reg  [`PTR_IMAGE_W-1:0]     image_addr;
-reg  [`REG_IMAGE_W-1:0]     image_reg;
-
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n)            image_reg <= 0;
-    else if(image_wd_en)    image_reg[image_addr+:8] <= i_image; 
-end
-
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n)            image_addr <= 0;
-    else if(image_wd_en)    image_addr <= image_addr + 8;
-end
-
-// Kernal Data Register
-reg  [`PTR_KERNAL_W-1:0]    kernal_addr;
-reg  [`REG_KERNAL_W-1:0]    kernal_reg;
-
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n)            kernal_reg <= 0;
-    else if(kernal_wd_en)   kernal_reg[image_addr+:8] <= i_kernal; 
-end
-
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n)            kernal_addr <= 0;
-    else if(kernal_wd_en)   kernal_addr <= kernal_addr + 8;
-end
-
-// Bias Data Register
-reg  [`PTR_BIAS_W-1:0]      bias_addr;
-reg  [`REG_BIAS_W-1:0]      bias_reg;
-
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n)            bias_reg <= 0;
-    else if(bias_wd_en)     bias_reg[image_addr+:8] <= i_bias; 
-end
-
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n)            bias_addr <= 0;
-    else if(bias_wd_en)     bias_addr <= bias_addr + 8;
-end
-
-// ---------------------------------------------------------------------------
-// Input Buffer
-// ---------------------------------------------------------------------------
-// Image Data Register
-// reg  [`PTR_IMAGE_W-1:0]         image_addr_2;
-reg  [`REG_IMAGE_W-1:0]         image_reg_2;
-
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n)                image_reg_2 <= 0;
-    else if(image_wd_en_2)      image_reg_2 <= image_reg; 
-end
-
-// always@(posedge i_clk or negedge i_rst_n) begin
-//     if(~i_rst_n)                image_addr_2 <= 0;
-//     else if(image_wd_en_2)      image_addr_2 <= image_addr_2 + 8;
-// end
-
-// Kernal Data Register
-// reg  [`PTR_KERNAL_W-1:0]        kernal_addr_2;
-reg  [`REG_KERNAL_W-1:0]        kernal_reg_2;
-
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n)                kernal_reg_2 <= 0;
-    else if(kernal_wd_en_2)     kernal_reg_2 <= kernal_reg; 
-end
-
-// always@(posedge i_clk or negedge i_rst_n) begin
-//     if(~i_rst_n)                kernal_addr_2 <= 0;
-//     else if(kernal_wd_en_2)     kernal_addr_2 <= kernal_addr_2 + 8;
-// end
-
-// Bias Data Register
-// reg  [`PTR_BIAS_W-1:0]          bias_addr_2;
-reg  [`REG_BIAS_W-1:0]          bias_reg_2;
-
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n)                bias_reg_2 <= 0;
-    else if(bias_wd_en_2)       bias_reg_2 <= bias_reg; 
-end
-
-// always@(posedge i_clk or negedge i_rst_n) begin
-//     if(~i_rst_n)                bias_addr_2 <= 0;
-//     else if(bias_wd_en_2)       bias_addr_2 <= bias_addr_2 + 8;
-// end
-
-
-// ---------------------------------------------------------------------------
-// Instuction Decoder
-// ---------------------------------------------------------------------------
-assign kernal_wd_en = (state == 3'd1)? 1: 0;
-assign image_wd_en = (state == 3'd2)? 1: 0;
-assign bias_wd_en = (state == 3'd3)? 1: 0;
-
-always@(*) begin
-    case(i_opcode)
-        `CONV_1x32x32: begin
-            case(state)
-                3'd0: state_nxt = (i_trig)? 3'd1: 3'd0;
-
-                3'd1: begin
-                    state_nxt = (wd_cnt < 9)? 3'd1: 3'd2;
-                    wd_cnt_en =  1;
-                    wd_cnt_rst = (wd_cnt == 9)? 1: 0;
-
-                    image_wd_en = 1;
-
-                    ex_cnt_en = (image_wd_en_2)? 1: 0;
-                end
-
-                3'd2: begin
-                    state_nxt = (  wd_cnt < 72)? 3'd2:
-
-                    wd_cnt_en = 1;
-                    wd_cnt_rst = (wd_cnt == 72)? 1: 0;
-
-                    image_wd_en = 1;
-
-
-                end
-
-                3'd3: begin
-                    state_nxt = (  wd_cnt < 2)? 3'd3;
-                                (line_cnt < 16)? 3'd1:
-                                                 3'd4;
-                    wd_cnt_en = 1;
-                    wd_cnt_rst = (wd_cnt == 2)? 1: 0;
-
-                    image_wd_en_2 = (wd_cnt == 2)? 1: 0;
-                    kernal_wd_en_2 = (wd_cnt == 2)? 1: 0;
-                    bias_wd_en_2 = (wd_cnt == 2)? 1: 0;
-
-                    ex_cnt_rst = (image_wd_en_2)? 1: 0;
-                end
-
-                3'd4: begin
-                    state_nxt = 3'd0;
-                end
-            endcase
-            
-
+/* ====================Control Part================== */
+always@ (*)
+begin
+    next_x_axis        = x_axis;
+    next_y_axis        = y_axis;
+    next_state         = state;
+    next_x_image       = x_image;
+    next_y_image       = y_image;
+    next_channel_count = channel_count;
+    case(state)
+        idle:
+        begin
+            next_state         = kernel_in;
+            next_channel_count = 1;
         end
-
-        `CONV_4x16x16: begin
-
+        kernel_in:      // kernel = 3*3*8, 1 data/cycle, total need 72 cycles 
+        begin
+            if (i_valid) 
+            begin
+                if (channel_count != 8)     // channel = 1~7
+                begin
+                    next_x_axis = x_axis+1;
+                    if (x_axis == 2)        // x_size = 3, bound = 2
+                    begin
+                        next_x_axis = 0;
+                        if (y_axis == 2)    // y_size = 3, bound = 2
+                        begin 
+                            next_y_axis        = 0;
+                            next_channel_count = channel_count+1;
+                        end
+                        else
+                            next_y_axis = y_axis+1;  
+                    end  
+                end
+                else 
+                begin
+                    next_x_axis = x_axis+1;
+                    if (x_axis == 2)        // x_size = 3, bound = 2
+                    begin
+                        next_x_axis = 0;
+                        if (y_axis == 2)    // y_size = 3, bound = 2, last channel
+                        begin 
+                            next_y_axis        = 0;
+                            next_channel_count = 1;
+                            next_state         = image_in;
+                        end
+                        else
+                            next_y_axis = y_axis+1;  
+                    end  
+                end
+            end 
         end
-
-        `CONV_8x8x8: begin
-
+        image_in:       // image  = 4*4*8, 2 data/cycle, total need 64 or 32 cycles 
+        begin
+            if (i_valid)
+            begin 
+                if (x_image == 0)           // in first column
+                begin
+                    if (channel_count != 8)
+                    begin
+                        next_x_axis = x_axis+2;
+                        if (x_axis == 2)    // 2 input
+                        begin
+                            next_x_axis = 0;
+                            if (y_axis == 3)
+                            begin 
+                                next_y_axis        = 0;
+                                next_channel_count = channel_count+1;
+                            end
+                            else
+                                next_y_axis = y_axis+1;  
+                        end  
+                    end
+                    else
+                    begin
+                        next_x_axis = x_axis+2;
+                        if (x_axis == 2)    // 2 input
+                        begin
+                            next_x_axis = 0;
+                            if (y_axis == 3)
+                            begin 
+                                next_y_axis        = 0;
+                                next_channel_count = 1;
+                                next_state         = mul_plse;
+                            end
+                            else
+                                next_y_axis = y_axis+1;  
+                        end
+                    end
+                end 
+                else
+                begin
+                    if (channel_count != 8)
+                    begin
+                        next_x_axis = x_axis+2;
+                        if (x_axis == 2)
+                        begin
+                            next_x_axis = 0;
+                            if (y_axis == 3)
+                            begin 
+                                next_y_axis        = 0;
+                                next_channel_count = channel_count+1;
+                            end
+                            else
+                                next_y_axis = y_axis+1;  
+                        end  
+                    end
+                    else
+                    begin
+                        next_x_axis = x_axis+2;
+                        if (x_axis == 2)
+                        begin
+                            next_x_axis = 0;
+                            if (y_axis == 3)
+                            begin 
+                                next_y_axis        = 0;
+                                next_channel_count = 1;
+                                next_state         = mul_plse;
+                            end
+                            else
+                                next_y_axis = y_axis+1;  
+                        end
+                    end
+                end  
+            end
         end
-
-        `LIEANR: begin
-
+        mul_plse:       // 8 channel (1 output pixel)/cycle, 4 cycles 
+        begin
+            next_x_axis        = x_axis;
+            next_y_axis        = y_axis;
+            next_x_image       = x_image;
+            next_y_image       = y_image;
+            next_state         = mul_plse;
+            if ((x_axis == 0) && (y_axis == 0))
+            begin
+                next_x_axis    = 1;
+                next_y_axis    = 0;
+            end
+            else if ((x_axis == 1) && (y_axis == 0))
+            begin
+                next_x_axis    = 0;
+                next_y_axis    = 1;
+            end
+            else if ((x_axis == 0) && (y_axis == 1))
+            begin
+                next_x_axis    = 1;
+                next_y_axis    = 1;
+            end
+            else if ((x_axis == 1) && (y_axis == 1))
+            begin
+                next_x_axis    = 0;
+                next_y_axis    = 0;
+                next_state     = image_in;
+                next_x_image   = x_image+2;
+                if (x_image == 32)      // output shape
+                begin
+                    next_x_image = 0;
+                    next_y_image = y_image+2;
+                    if (y_image == 32)  // output shape
+                    begin
+                        next_y_image = 0;
+                        next_state   = idle;
+                    end
+                end
+            end
         end
-
-        // `BN_2x48x48: begin
-
-        // end
-
-        // `BN_4x24x24: begin
-
-        // end
-
-        // `BN_1x12x12: begin
-
-        // end
-
-        // `POOL_2x24x24: begin
-
-        // end
-
-        // `POOL_4x12x12: begin
-
-        // end
-
-        // `POOL_1x6x6: begin
-
-        // end
-
-        // `LINEAR: begin
-
-        // end
-
     endcase
 end
 
-
-// ---------------------------------------------------------------------------
-// Execution
-// ---------------------------------------------------------------------------
-
-// Convolution
-assign {pe_image_0, pe_image_1, pe_image_2, pe_image_3, pe_image_4, pe_image_5, pe_image_6, pe_image_7} = image_reg_2;
-assign {pe_kernal_0,  pe_kernal_1,  pe_kernal_2,  pe_kernal_3, pe_kernal_4,  pe_kernal_5,  pe_kernal_6,  pe_kernal_7} = kernal_reg_2;
-assign {pe_bias_0, pe_bias_1, pe_bias_2, pe_bias_3, pe_bias_4, pe_bias_5, pe_bias_6, pe_bias_7} = {bias_reg_2[31:16], bias_reg_2[31:16], bias_reg_2[31:16], bias_reg_2[31:16], bias_reg_2[15:0], bias_reg_2[15:0], bias_reg_2[15:0], bias_reg_2[15:0]} 
-
-// Max Pooling
-
-// ---------------------------------------------------------------------------
-// Write Back
-// ---------------------------------------------------------------------------
-// Output Buffer
-reg  [`PTR_OUT_W-1:0]           out_addr;
-reg  [`REG_OUT_W-1:0]           out_reg;
-
-assign o_data = (out_rd_en_2)? out_reg[out_addr+:8]: 0;
-
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n)                out_reg <= 0;
-    else if(out_wd_en)        out_reg <= {pool_result_0, pool_result_1}; 
+/* ====================Seq Part================== */
+always@(posedge i_clk or negedge i_rst)
+begin
+    if (!i_rst) 
+    begin
+        data_o_r      <= 0;
+        o_valid_r     <= 0;
+        state         <= 1;
+        x_axis        <= 0;
+        y_axis        <= 0;
+        x_image       <= 0;
+        y_image       <= 0;
+        channel_count <= 0;
+        max_out       <= 0;
+    end  
+    else 
+    begin
+        data_o_r      <= data_o_w;
+        o_valid_r     <= o_valid_w;
+        state         <= next_state;
+        x_axis        <= next_x_axis;
+        y_axis        <= next_y_axis;
+        x_image       <= next_x_image;
+        y_image       <= next_y_image;
+        channel_count <= next_channel_count;  
+        max_out       <= next_max;  
+    end
 end
 
-always@(posedge i_clk or negedge i_rst_n) begin
-    if(~i_rst_n)                out_addr <= 0;
-    else if(out_rd_en)        out_addr <= out_addr + 8;
+always@(posedge i_clk or negedge i_rst)     // kernel[i][j] and i_image[i][j]  
+begin
+    if (!i_rst) 
+    begin
+        for (i = 0; i < 3; i = i + 1) 
+        begin
+            for (j = 0; j < 3; j = j + 1)
+            begin
+                kernel1[i][j]  <= 0;
+                kernel2[i][j]  <= 0;
+                kernel3[i][j]  <= 0;
+                kernel4[i][j]  <= 0;
+                kernel5[i][j]  <= 0;
+                kernel6[i][j]  <= 0;
+                kernel7[i][j]  <= 0;
+                kernel8[i][j]  <= 0;
+            end
+        end
+        for (i = 0; i < 4; i = i + 1) 
+        begin
+            for (j = 0; j < 4; j = j + 1)
+            begin           
+                i_image1[i][j] <= 0;
+                i_image2[i][j] <= 0;
+                i_image3[i][j] <= 0;
+                i_image4[i][j] <= 0;
+                i_image5[i][j] <= 0;
+                i_image6[i][j] <= 0;
+                i_image7[i][j] <= 0;
+                i_image8[i][j] <= 0;
+            end
+        end
+    end  
+    else 
+    begin
+        for (i = 0; i < 3; i = i + 1) 
+        begin
+            for (j = 0; j < 3; j = j + 1)
+            begin
+                kernel1[i][j]  <= next_kernel1[i][j];
+                kernel2[i][j]  <= next_kernel2[i][j];
+                kernel3[i][j]  <= next_kernel3[i][j];
+                kernel4[i][j]  <= next_kernel4[i][j];
+                kernel5[i][j]  <= next_kernel5[i][j];
+                kernel6[i][j]  <= next_kernel6[i][j];
+                kernel7[i][j]  <= next_kernel7[i][j];
+                kernel8[i][j]  <= next_kernel8[i][j];
+            end
+        end
+        for (i = 0; i < 4; i = i + 1) 
+        begin
+            for (j = 0; j < 4; j = j + 1)
+            begin           
+                i_image1[i][j] <= next_i_image1[i][j];
+                i_image2[i][j] <= next_i_image2[i][j];
+                i_image3[i][j] <= next_i_image3[i][j];
+                i_image4[i][j] <= next_i_image4[i][j];
+                i_image5[i][j] <= next_i_image5[i][j];
+                i_image6[i][j] <= next_i_image6[i][j];
+                i_image7[i][j] <= next_i_image7[i][j];
+                i_image8[i][j] <= next_i_image8[i][j];
+            end
+        end
+    end
 end
 
 endmodule

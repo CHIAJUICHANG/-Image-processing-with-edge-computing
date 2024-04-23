@@ -289,35 +289,43 @@ begin
                 begin
                     if (channel_count == 1)
                     begin
-                        next_i_image1[x_axis][y_axis] = i_data;
+                        next_i_image1[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image1[x_axis][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 2)
                     begin
-                        next_i_image2[x_axis][y_axis] = i_data;
+                        next_i_image2[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image2[x_axis][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 3)
                     begin
-                        next_i_image3[x_axis][y_axis] = i_data;
+                        next_i_image3[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image3[x_axis][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 4)
                     begin
-                        next_i_image4[x_axis][y_axis] = i_data;
+                        next_i_image4[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image4[x_axis][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 5)
                     begin
-                        next_i_image5[x_axis][y_axis] = i_data;
+                        next_i_image5[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image5[x_axis][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 6)
                     begin
-                        next_i_image6[x_axis][y_axis] = i_data;
+                        next_i_image6[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image6[x_axis][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 7)
                     begin
-                        next_i_image7[x_axis][y_axis] = i_data;
+                        next_i_image7[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image7[x_axis][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 8)
                     begin
-                        next_i_image8[x_axis][y_axis] = i_data;
+                        next_i_image8[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image8[x_axis][y_axis] = i_data[15:8];
                     end
                 end 
                 else
@@ -443,8 +451,8 @@ begin
                 begin
                     if (channel_count != 8)
                     begin
-                        next_x_axis = x_axis+1;
-                        if (x_axis == 3)
+                        next_x_axis = x_axis+2;
+                        if (x_axis == 2)
                         begin
                             next_x_axis = 0;
                             if (y_axis == 3)
@@ -458,8 +466,8 @@ begin
                     end
                     else
                     begin
-                        next_x_axis = x_axis+1;
-                        if (x_axis == 3)
+                        next_x_axis = x_axis+2;
+                        if (x_axis == 2)
                         begin
                             next_x_axis = 0;
                             if (y_axis == 3)

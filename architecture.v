@@ -406,17 +406,17 @@ begin
             next_state         = kernel_in;
             next_channel_count = 1;
         end
-        kernel_in:
+        kernel_in:      // kernel = 3*3*8, 1 data/cycle, total need 72 cycles 
         begin
             if (i_valid) 
             begin
-                if (channel_count != 8)
+                if (channel_count != 8)     // channel = 1~7
                 begin
                     next_x_axis = x_axis+1;
-                    if (x_axis == 2)
+                    if (x_axis == 2)        // x_size = 3, bound = 2
                     begin
                         next_x_axis = 0;
-                        if (y_axis == 2)
+                        if (y_axis == 2)    // y_size = 3, bound = 2
                         begin 
                             next_y_axis        = 0;
                             next_channel_count = channel_count+1;
@@ -428,10 +428,10 @@ begin
                 else 
                 begin
                     next_x_axis = x_axis+1;
-                    if (x_axis == 2)
+                    if (x_axis == 2)        // x_size = 3, bound = 2
                     begin
                         next_x_axis = 0;
-                        if (y_axis == 2)
+                        if (y_axis == 2)    // y_size = 3, bound = 2, last channel
                         begin 
                             next_y_axis        = 0;
                             next_channel_count = 1;
@@ -443,16 +443,16 @@ begin
                 end
             end 
         end
-        image_in:
+        image_in:       // image  = 4*4*8, 2 data/cycle, total need 64 or 32 cycles 
         begin
             if (i_valid)
             begin 
-                if (x_image == 0)
+                if (x_image == 0)           // in first column
                 begin
                     if (channel_count != 8)
                     begin
                         next_x_axis = x_axis+2;
-                        if (x_axis == 2)
+                        if (x_axis == 2)    // 2 input
                         begin
                             next_x_axis = 0;
                             if (y_axis == 3)
@@ -467,7 +467,7 @@ begin
                     else
                     begin
                         next_x_axis = x_axis+2;
-                        if (x_axis == 2)
+                        if (x_axis == 2)    // 2 input
                         begin
                             next_x_axis = 0;
                             if (y_axis == 3)
@@ -486,8 +486,8 @@ begin
                 begin
                     if (channel_count != 8)
                     begin
-                        next_x_axis = x_axis+1;
-                        if (x_axis == 1)
+                        next_x_axis = x_axis+2;
+                        if (x_axis == 2)
                         begin
                             next_x_axis = 0;
                             if (y_axis == 3)
@@ -501,8 +501,8 @@ begin
                     end
                     else
                     begin
-                        next_x_axis = x_axis+1;
-                        if (x_axis == 1)
+                        next_x_axis = x_axis+2;
+                        if (x_axis == 2)
                         begin
                             next_x_axis = 0;
                             if (y_axis == 3)
@@ -519,7 +519,7 @@ begin
                 end  
             end
         end
-        mul_plse:
+        mul_plse:       // 8 channel (1 output pixel)/cycle, 4 cycles 
         begin
             next_x_axis        = x_axis;
             next_y_axis        = y_axis;
@@ -563,7 +563,7 @@ begin
 end
 
 /* ====================Seq Part================== */
-always@(posedge i_clk or negedge i_rst) 
+always@(posedge i_clk or negedge i_rst)
 begin
     if (!i_rst) 
     begin

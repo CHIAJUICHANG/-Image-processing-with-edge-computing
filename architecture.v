@@ -338,35 +338,35 @@ begin
                     end
                     if (channel_count == 1)
                     begin
-                        next_i_image1[x_axis+2][y_axis+2] = i_data;
+                        next_i_image1[x_axis+2][y_axis] = i_data;
                     end
                     else if (channel_count == 2)
                     begin
-                        next_i_image2[x_axis+2][y_axis+2] = i_data;
+                        next_i_image2[x_axis+2][y_axis] = i_data;
                     end
                     else if (channel_count == 3)
                     begin
-                        next_i_image3[x_axis+2][y_axis+2] = i_data;
+                        next_i_image3[x_axis+2][y_axis] = i_data;
                     end
                     else if (channel_count == 4)
                     begin
-                        next_i_image4[x_axis+2][y_axis+2] = i_data;
+                        next_i_image4[x_axis+2][y_axis] = i_data;
                     end
                     else if (channel_count == 5)
                     begin
-                        next_i_image5[x_axis+2][y_axis+2] = i_data;
+                        next_i_image5[x_axis+2][y_axis] = i_data;
                     end
                     else if (channel_count == 6)
                     begin
-                        next_i_image6[x_axis+2][y_axis+2] = i_data;
+                        next_i_image6[x_axis+2][y_axis] = i_data;
                     end
                     else if (channel_count == 7)
                     begin
-                        next_i_image7[x_axis+2][y_axis+2] = i_data;
+                        next_i_image7[x_axis+2][y_axis] = i_data;
                     end
                     else if (channel_count == 8)
                     begin
-                        next_i_image8[x_axis+2][y_axis+2] = i_data;
+                        next_i_image8[x_axis+2][y_axis] = i_data;
                     end
                 end 
         end
@@ -389,6 +389,8 @@ begin
     next_x_axis        = x_axis;
     next_y_axis        = y_axis;
     next_state         = state;
+    next_x_image       = x_image;
+    next_y_image       = y_image;
     next_channel_count = channel_count;
     case(state)
         idle:
@@ -398,10 +400,6 @@ begin
         end
         kernel_in:
         begin
-            next_x_axis        = x_axis;
-            next_y_axis        = y_axis;
-            next_state         = kernel_in;
-            next_channel_count = channel_count;
             if (i_valid) 
             begin
                 if (channel_count != 8)
@@ -439,17 +437,11 @@ begin
         end
         image_in:
         begin
-            next_x_axis        = x_axis;
-            next_y_axis        = y_axis;
-            next_x_image       = x_image;
-            next_y_image       = y_image;
-            next_state         = kernel_in;
-            next_channel_count = channel_count;
             if (i_valid)
             begin 
                 if (x_image == 0)
                 begin
-                    if (channel_count != 1)
+                    if (channel_count != 8)
                     begin
                         next_x_axis = x_axis+1;
                         if (x_axis == 3)
@@ -484,13 +476,13 @@ begin
                 end 
                 else
                 begin
-                    if (channel_count != 1)
+                    if (channel_count != 8)
                     begin
                         next_x_axis = x_axis+1;
                         if (x_axis == 1)
                         begin
                             next_x_axis = 0;
-                            if (y_axis == 1)
+                            if (y_axis == 3)
                             begin 
                                 next_y_axis        = 0;
                                 next_channel_count = channel_count+1;
@@ -505,7 +497,7 @@ begin
                         if (x_axis == 1)
                         begin
                             next_x_axis = 0;
-                            if (y_axis == 1)
+                            if (y_axis == 3)
                             begin 
                                 next_y_axis        = 0;
                                 next_channel_count = 1;
@@ -546,12 +538,12 @@ begin
                 next_x_axis    = 0;
                 next_y_axis    = 0;
                 next_state     = image_in;
-                next_x_image   = x_image+1;
-                if (x_image == 31)      // output shape
+                next_x_image   = x_image+2;
+                if (x_image == 32)      // output shape
                 begin
                     next_x_image = 0;
-                    next_y_image = y_image+1;
-                    if (y_image == 31)  // output shape
+                    next_y_image = y_image+2;
+                    if (y_image == 32)  // output shape
                     begin
                         next_y_image = 0;
                         next_state   = idle;
@@ -591,7 +583,7 @@ begin
     end
 end
 
-always@(posedge i_clk or negedge i_rst) 
+always@(posedge i_clk or negedge i_rst)     // kernel[i][j] and i_image[i][j]  
 begin
     if (!i_rst) 
     begin

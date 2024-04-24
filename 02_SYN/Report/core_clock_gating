@@ -1,0 +1,221 @@
+ 
+****************************************
+Report : clock_gating
+        -gating_elements
+Design : core
+Version: U-2022.12
+Date   : Tue Sep 26 14:04:59 2023
+****************************************
+
+Information: Identification of clock-gating cells has not been performed. Pre-existing clock-gating cells will not be reported. (PWR-947)
+--------------------------------------------------------------------------------
+                             Clock Gating Cell Report
+--------------------------------------------------------------------------------
+
+ Clock Gating Bank : clk_gate_origin_rrrr_r_reg
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_origin_rrrr_r_reg/CLK = i_clk 
+         clk_gate_origin_rrrr_r_reg/EN = n1172 
+         clk_gate_origin_rrrr_r_reg/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_origin_rrrr_r_reg/ENCLK = net3941 
+
+ Clock Gating Bank : clk_gate_c8_reg
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_c8_reg/CLK = i_clk 
+         clk_gate_c8_reg/EN = n1171 
+         clk_gate_c8_reg/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_c8_reg/ENCLK = net3947 
+
+ Clock Gating Bank : clk_gate_med_reg
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_med_reg/CLK = i_clk 
+         clk_gate_med_reg/EN = N2842 
+         clk_gate_med_reg/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_med_reg/ENCLK = net3952 
+
+ Clock Gating Bank : clk_gate_count_out_reg
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_count_out_reg/CLK = i_clk 
+         clk_gate_count_out_reg/EN = N2953 
+         clk_gate_count_out_reg/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_count_out_reg/ENCLK = net3957 
+
+ Clock Gating Bank : clk_gate_insert_array_reg[4]
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_insert_array_reg[4]/CLK = i_clk 
+         clk_gate_insert_array_reg[4]/EN = N2794 
+         clk_gate_insert_array_reg[4]/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_insert_array_reg[4]/ENCLK = net3962 
+
+ Clock Gating Bank : clk_gate_count_reg
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_count_reg/CLK = i_clk 
+         clk_gate_count_reg/EN = n1151 
+         clk_gate_count_reg/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_count_reg/ENCLK = net3967 
+
+ Clock Gating Bank : clk_gate_origin_reg
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_origin_reg/CLK = i_clk 
+         clk_gate_origin_reg/EN = n1169 
+         clk_gate_origin_reg/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_origin_reg/ENCLK = net3972 
+
+ Clock Gating Bank : clk_gate_depth_reg
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_depth_reg/CLK = i_clk 
+         clk_gate_depth_reg/EN = n1168 
+         clk_gate_depth_reg/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_depth_reg/ENCLK = net3982 
+
+ Clock Gating Bank : clk_gate_a_r_reg
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_a_r_reg/CLK = i_clk 
+         clk_gate_a_r_reg/EN = n1154 
+         clk_gate_a_r_reg/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_a_r_reg/ENCLK = net3987 
+
+ Clock Gating Bank : clk_gate_c_r_reg
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_c_r_reg/CLK = i_clk 
+         clk_gate_c_r_reg/EN = n1152 
+         clk_gate_c_r_reg/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_c_r_reg/ENCLK = net3997 
+
+ Clock Gating Bank : clk_gate_conv_reg
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_conv_reg/CLK = i_clk 
+         clk_gate_conv_reg/EN = n1170 
+         clk_gate_conv_reg/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_conv_reg/ENCLK = net4002 
+
+ Clock Gating Bank : clk_gate_insert_array_reg[4]_0
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_insert_array_reg[4]_0/CLK = i_clk 
+         clk_gate_insert_array_reg[4]_0/EN = N2794 
+         clk_gate_insert_array_reg[4]_0/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_insert_array_reg[4]_0/ENCLK = n3519 
+
+ Clock Gating Bank : clk_gate_c8_reg_0
+-------------------
+
+     STYLE = latch, MIN = 3, MAX = unlimited, OBS_DEPTH = 5 
+
+     INPUTS :
+         clk_gate_c8_reg_0/CLK = i_clk 
+         clk_gate_c8_reg_0/EN = n1171 
+         clk_gate_c8_reg_0/TE = conv8[12] 
+
+     OUTPUTS :
+         clk_gate_c8_reg_0/ENCLK = n3518 
+--------------------------------------------------------------------------------
+
+
+                             Clock Gating Summary
+          ------------------------------------------------------------
+          |    Number of Clock gating elements    |       13         |
+          |                                       |                  |
+          |    Number of Gated registers          |   166 (78.67%)   |
+          |                                       |                  |
+          |    Number of Ungated registers        |    45 (21.33%)   |
+          |                                       |                  |
+          |    Total number of registers          |      211         |
+          ------------------------------------------------------------
+
+
+
+                             Clock Gating Report by Origin
+          +-------------------------------------------------+------------------+
+          |                                                 |    Actual (%)    |
+          |                                                 |    Count         |
+          +-------------------------------------------------+------------------+
+          |  Number of tool-inserted clock gating elements  |    13 (100.00%)  |
+          |                                                 |                  |
+          |  Number of pre-existing clock gating elements   |     0 (0.00%)    |
+          |                                                 |                  |
+          |  Number of gated registers                      |   166 (78.67%)   |
+          |                                                 |                  |
+          |  Number of tool-inserted gated registers        |   166 (78.67%)   |
+          |                                                 |                  |
+          |  Number of pre-existing gated registers         |     0 (0.00%)    |
+          |                                                 |                  |
+          |  Number of ungated registers                    |    45 (21.33%)   |
+          |                                                 |                  |
+          |  Number of registers                            |      211         |
+          +-------------------------------------------------+------------------+
+
+
+
+1

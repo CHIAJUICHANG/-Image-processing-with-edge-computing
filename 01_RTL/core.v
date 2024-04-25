@@ -23,6 +23,9 @@ parameter  kernel_in = 1;
 parameter  image_in  = 2;
 parameter  mul_plse  = 3;
 
+
+
+
 /* =======================REG & wire================================ */
 reg  signed [data_size-1:0] data_o_w, data_o_r;
 reg  signed [data_size-1:0] i_image1      [0:H-1][0:W-1];
@@ -72,77 +75,81 @@ wire signed [7:0]   pe_result1 , pe_result2 , pe_result3 , pe_result4;
 reg        o_valid_w, o_valid_r;
 integer    i, j;
 
-assign     pe_image1  = {next_i_image1[x_axis][y_axis  ], next_i_image1[x_axis+1][y_axis  ], next_i_image1[x_axis+2][y_axis  ], 
-                next_i_image1  [x_axis][y_axis+1], next_i_image1[x_axis+1][y_axis+1], next_i_image1[x_axis+2][y_axis+1], 
-                next_i_image1  [x_axis][y_axis+2], next_i_image1[x_axis+1][y_axis+2], next_i_image1[x_axis+2][y_axis+2],
-                next_i_image2  [x_axis][y_axis  ], next_i_image2[x_axis+1][y_axis  ], next_i_image2[x_axis+2][y_axis  ], 
-                next_i_image2  [x_axis][y_axis+1], next_i_image2[x_axis+1][y_axis+1], next_i_image2[x_axis+2][y_axis+1], 
-                next_i_image2  [x_axis][y_axis+2], next_i_image2[x_axis+1][y_axis+2], next_i_image2[x_axis+2][y_axis+2]};
-assign     pe_image2  = {next_i_image3[x_axis][y_axis  ], next_i_image3[x_axis+1][y_axis  ], next_i_image3[x_axis+2][y_axis  ], 
-                next_i_image3  [x_axis][y_axis+1], next_i_image3[x_axis+1][y_axis+1], next_i_image3[x_axis+2][y_axis+1], 
-                next_i_image3  [x_axis][y_axis+2], next_i_image3[x_axis+1][y_axis+2], next_i_image3[x_axis+2][y_axis+2],
-                next_i_image4  [x_axis][y_axis  ], next_i_image4[x_axis+1][y_axis  ], next_i_image4[x_axis+2][y_axis  ], 
-                next_i_image4  [x_axis][y_axis+1], next_i_image4[x_axis+1][y_axis+1], next_i_image4[x_axis+2][y_axis+1], 
-                next_i_image4  [x_axis][y_axis+2], next_i_image4[x_axis+1][y_axis+2], next_i_image4[x_axis+2][y_axis+2]};
-assign     pe_image3  = {next_i_image5[x_axis][y_axis  ], next_i_image5[x_axis+1][y_axis  ], next_i_image5[x_axis+2][y_axis  ], 
-                next_i_image5  [x_axis][y_axis+1], next_i_image5[x_axis+1][y_axis+1], next_i_image5[x_axis+2][y_axis+1], 
-                next_i_image5  [x_axis][y_axis+2], next_i_image5[x_axis+1][y_axis+2], next_i_image5[x_axis+2][y_axis+2],
-                next_i_image6  [x_axis][y_axis  ], next_i_image6[x_axis+1][y_axis  ], next_i_image2[x_axis+2][y_axis  ], 
-                next_i_image6  [x_axis][y_axis+1], next_i_image6[x_axis+1][y_axis+1], next_i_image6[x_axis+2][y_axis+1], 
-                next_i_image6  [x_axis][y_axis+2], next_i_image6[x_axis+1][y_axis+2], next_i_image6[x_axis+2][y_axis+2]};
-assign     pe_image4  = {next_i_image7[x_axis][y_axis  ], next_i_image7[x_axis+1][y_axis  ], next_i_image7[x_axis+2][y_axis  ], 
-                next_i_image7  [x_axis][y_axis+1], next_i_image7[x_axis+1][y_axis+1], next_i_image7[x_axis+2][y_axis+1], 
-                next_i_image7  [x_axis][y_axis+2], next_i_image7[x_axis+1][y_axis+2], next_i_image7[x_axis+2][y_axis+2],
-                next_i_image8  [x_axis][y_axis  ], next_i_image8[x_axis+1][y_axis  ], next_i_image8[x_axis+2][y_axis  ], 
-                next_i_image8  [x_axis][y_axis+1], next_i_image8[x_axis+1][y_axis+1], next_i_image8[x_axis+2][y_axis+1], 
-                next_i_image8  [x_axis][y_axis+2], next_i_image8[x_axis+1][y_axis+2], next_i_image8[x_axis+2][y_axis+2]};
-assign     pe_kernel1 = {kernel1 [x_axis][y_axis  ], kernel1 [x_axis+1][y_axis  ], kernel1 [x_axis+2][y_axis  ], 
-                kernel1   [x_axis][y_axis+1], kernel1 [x_axis+1][y_axis+1], kernel1 [x_axis+2][y_axis+1], 
-                kernel1   [x_axis][y_axis+2], kernel1 [x_axis+1][y_axis+2], kernel1 [x_axis+2][y_axis+2],
-                kernel2   [x_axis][y_axis  ], kernel2 [x_axis+1][y_axis  ], kernel2 [x_axis+2][y_axis  ], 
-                kernel2   [x_axis][y_axis+1], kernel2 [x_axis+1][y_axis+1], kernel2 [x_axis+2][y_axis+1], 
-                kernel2   [x_axis][y_axis+2], kernel2 [x_axis+1][y_axis+2], kernel2 [x_axis+2][y_axis+2]};
-assign     pe_kernel2 = {kernel3 [x_axis][y_axis  ], kernel3 [x_axis+1][y_axis  ], kernel3 [x_axis+2][y_axis  ], 
-                kernel3   [x_axis][y_axis+1], kernel3 [x_axis+1][y_axis+1], kernel3 [x_axis+2][y_axis+3], 
-                kernel3   [x_axis][y_axis+2], kernel3 [x_axis+1][y_axis+2], kernel3 [x_axis+2][y_axis+2],
-                kernel4   [x_axis][y_axis  ], kernel4 [x_axis+1][y_axis  ], kernel4 [x_axis+2][y_axis  ], 
-                kernel4   [x_axis][y_axis+1], kernel4 [x_axis+1][y_axis+1], kernel4 [x_axis+2][y_axis+1], 
-                kernel4   [x_axis][y_axis+2], kernel4 [x_axis+1][y_axis+2], kernel4 [x_axis+2][y_axis+2]};
-assign     pe_kernel3 = {kernel5 [x_axis][y_axis  ], kernel5 [x_axis+1][y_axis  ], kernel5 [x_axis+2][y_axis  ], 
-                kernel5   [x_axis][y_axis+1], kernel5 [x_axis+1][y_axis+1], kernel5 [x_axis+2][y_axis+1], 
-                kernel5   [x_axis][y_axis+2], kernel5 [x_axis+1][y_axis+2], kernel5 [x_axis+2][y_axis+2],
-                kernel6   [x_axis][y_axis  ], kernel6 [x_axis+1][y_axis  ], kernel6 [x_axis+2][y_axis  ], 
-                kernel6   [x_axis][y_axis+1], kernel6 [x_axis+1][y_axis+1], kernel6 [x_axis+2][y_axis+1], 
-                kernel6   [x_axis][y_axis+2], kernel6 [x_axis+1][y_axis+2], kernel6 [x_axis+2][y_axis+2]};
-assign     pe_kernel4 = {kernel7 [x_axis][y_axis  ], kernel7 [x_axis+1][y_axis  ], kernel7 [x_axis+2][y_axis  ], 
-                kernel7   [x_axis][y_axis+1], kernel7 [x_axis+1][y_axis+1], kernel7 [x_axis+2][y_axis+1], 
-                kernel7   [x_axis][y_axis+2], kernel7 [x_axis+1][y_axis+2], kernel7 [x_axis+2][y_axis+2],
-                kernel8   [x_axis][y_axis  ], kernel8 [x_axis+1][y_axis  ], kernel8 [x_axis+2][y_axis  ], 
-                kernel8   [x_axis][y_axis+1], kernel8 [x_axis+1][y_axis+1], kernel8 [x_axis+2][y_axis+1], 
-                kernel8   [x_axis][y_axis+2], kernel8 [x_axis+1][y_axis+2], kernel8 [x_axis+2][y_axis+2]};
-pe pu1(
+
+pe PE_U1(
     .pe_image (pe_image1 ),
     .pe_kernel(pe_kernel1),
     .pe_result(pe_result1)
 );
-pe u2(
+pe PE_U2(
     .pe_image (pe_image2 ),
     .pe_kernel(pe_kernel2),
     // i_bias,
     .pe_result(pe_result2)
 );
-pe u3(
+pe PE_U3(
     .pe_image (pe_image3 ),
     .pe_kernel(pe_kernel3),
     // i_bias,
     .pe_result(pe_result3)
 );
-pe u4(
+pe PE_U4(
     .pe_image (pe_image4 ),
     .pe_kernel(pe_kernel4),
     // i_bias,
     .pe_result(pe_result4)
 );
+
+assign     pe_image1  = {i_image1[x_axis][y_axis  ], i_image1[x_axis+1][y_axis  ], i_image1[x_axis+2][y_axis  ], 
+                         i_image1[x_axis][y_axis+1], i_image1[x_axis+1][y_axis+1], i_image1[x_axis+2][y_axis+1], 
+                         i_image1[x_axis][y_axis+2], i_image1[x_axis+1][y_axis+2], i_image1[x_axis+2][y_axis+2],
+                         i_image2[x_axis][y_axis  ], i_image2[x_axis+1][y_axis  ], i_image2[x_axis+2][y_axis  ], 
+                         i_image2[x_axis][y_axis+1], i_image2[x_axis+1][y_axis+1], i_image2[x_axis+2][y_axis+1], 
+                         i_image2[x_axis][y_axis+2], i_image2[x_axis+1][y_axis+2], i_image2[x_axis+2][y_axis+2]};
+assign     pe_image2  = {i_image3[x_axis][y_axis  ], i_image3[x_axis+1][y_axis  ], i_image3[x_axis+2][y_axis  ], 
+                         i_image3[x_axis][y_axis+1], i_image3[x_axis+1][y_axis+1], i_image3[x_axis+2][y_axis+1], 
+                         i_image3[x_axis][y_axis+2], i_image3[x_axis+1][y_axis+2], i_image3[x_axis+2][y_axis+2],
+                         i_image4[x_axis][y_axis  ], i_image4[x_axis+1][y_axis  ], i_image4[x_axis+2][y_axis  ], 
+                         i_image4[x_axis][y_axis+1], i_image4[x_axis+1][y_axis+1], i_image4[x_axis+2][y_axis+1], 
+                         i_image4[x_axis][y_axis+2], i_image4[x_axis+1][y_axis+2], i_image4[x_axis+2][y_axis+2]};
+assign     pe_image3  = {i_image5[x_axis][y_axis  ], i_image5[x_axis+1][y_axis  ], i_image5[x_axis+2][y_axis  ], 
+                         i_image5[x_axis][y_axis+1], i_image5[x_axis+1][y_axis+1], i_image5[x_axis+2][y_axis+1], 
+                         i_image5[x_axis][y_axis+2], i_image5[x_axis+1][y_axis+2], i_image5[x_axis+2][y_axis+2],
+                         i_image6[x_axis][y_axis  ], i_image6[x_axis+1][y_axis  ], i_image2[x_axis+2][y_axis  ], 
+                         i_image6[x_axis][y_axis+1], i_image6[x_axis+1][y_axis+1], i_image6[x_axis+2][y_axis+1], 
+                         i_image6[x_axis][y_axis+2], i_image6[x_axis+1][y_axis+2], i_image6[x_axis+2][y_axis+2]};
+assign     pe_image4  = {i_image7[x_axis][y_axis  ], i_image7[x_axis+1][y_axis  ], i_image7[x_axis+2][y_axis  ], 
+                         i_image7[x_axis][y_axis+1], i_image7[x_axis+1][y_axis+1], i_image7[x_axis+2][y_axis+1], 
+                         i_image7[x_axis][y_axis+2], i_image7[x_axis+1][y_axis+2], i_image7[x_axis+2][y_axis+2],
+                         i_image8[x_axis][y_axis  ], i_image8[x_axis+1][y_axis  ], i_image8[x_axis+2][y_axis  ], 
+                         i_image8[x_axis][y_axis+1], i_image8[x_axis+1][y_axis+1], i_image8[x_axis+2][y_axis+1], 
+                         i_image8[x_axis][y_axis+2], i_image8[x_axis+1][y_axis+2], i_image8[x_axis+2][y_axis+2]};
+assign     pe_kernel1 = {kernel1 [0][0  ], kernel1 [0+1][0  ], kernel1 [0+2][0  ], 
+                         kernel1 [0][0+1], kernel1 [0+1][0+1], kernel1 [0+2][0+1], 
+                         kernel1 [0][0+2], kernel1 [0+1][0+2], kernel1 [0+2][0+2],
+                         kernel2 [0][0  ], kernel2 [0+1][0  ], kernel2 [0+2][0  ], 
+                         kernel2 [0][0+1], kernel2 [0+1][0+1], kernel2 [0+2][0+1], 
+                         kernel2 [0][0+2], kernel2 [0+1][0+2], kernel2 [0+2][0+2]};
+assign     pe_kernel2 = {kernel3 [0][0  ], kernel3 [0+1][0  ], kernel3 [0+2][0  ], 
+                         kernel3 [0][0+1], kernel3 [0+1][0+1], kernel3 [0+2][0+1], 
+                         kernel3 [0][0+2], kernel3 [0+1][0+2], kernel3 [0+2][0+2],
+                         kernel4 [0][0  ], kernel4 [0+1][0  ], kernel4 [0+2][0  ], 
+                         kernel4 [0][0+1], kernel4 [0+1][0+1], kernel4 [0+2][0+1], 
+                         kernel4 [0][0+2], kernel4 [0+1][0+2], kernel4 [0+2][0+2]};
+assign     pe_kernel3 = {kernel5 [0][0  ], kernel5 [0+1][0  ], kernel5 [0+2][0  ], 
+                         kernel5 [0][0+1], kernel5 [0+1][0+1], kernel5 [0+2][0+1], 
+                         kernel5 [0][0+2], kernel5 [0+1][0+2], kernel5 [0+2][0+2],
+                         kernel6 [0][0  ], kernel6 [0+1][0  ], kernel6 [0+2][0  ], 
+                         kernel6 [0][0+1], kernel6 [0+1][0+1], kernel6 [0+2][0+1], 
+                         kernel6 [0][0+2], kernel6 [0+1][0+2], kernel6 [0+2][0+2]};
+assign     pe_kernel4 = {kernel7 [0][0  ], kernel7 [0+1][0  ], kernel7 [0+2][0  ], 
+                         kernel7 [0][0+1], kernel7 [0+1][0+1], kernel7 [0+2][0+1], 
+                         kernel7 [0][0+2], kernel7 [0+1][0+2], kernel7 [0+2][0+2],
+                         kernel8 [0][0  ], kernel8 [0+1][0  ], kernel8 [0+2][0  ], 
+                         kernel8 [0][0+1], kernel8 [0+1][0+1], kernel8 [0+2][0+1], 
+                         kernel8 [0][0+2], kernel8 [0+1][0+2], kernel8 [0+2][0+2]};
+
+
 
 assign     o_data     = data_o_r;
 assign     o_valid    = o_valid_r;
@@ -232,42 +239,42 @@ begin
                     if (channel_count == 1)
                     begin
                         next_i_image1[x_axis][y_axis] = i_data[ 7:0];
-                        next_i_image1[x_axis][y_axis] = i_data[15:8];
+                        next_i_image1[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 2)
                     begin
                         next_i_image2[x_axis][y_axis] = i_data[ 7:0];
-                        next_i_image2[x_axis][y_axis] = i_data[15:8];
+                        next_i_image2[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 3)
                     begin
                         next_i_image3[x_axis][y_axis] = i_data[ 7:0];
-                        next_i_image3[x_axis][y_axis] = i_data[15:8];
+                        next_i_image3[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 4)
                     begin
                         next_i_image4[x_axis][y_axis] = i_data[ 7:0];
-                        next_i_image4[x_axis][y_axis] = i_data[15:8];
+                        next_i_image4[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 5)
                     begin
                         next_i_image5[x_axis][y_axis] = i_data[ 7:0];
-                        next_i_image5[x_axis][y_axis] = i_data[15:8];
+                        next_i_image5[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 6)
                     begin
                         next_i_image6[x_axis][y_axis] = i_data[ 7:0];
-                        next_i_image6[x_axis][y_axis] = i_data[15:8];
+                        next_i_image6[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 7)
                     begin
                         next_i_image7[x_axis][y_axis] = i_data[ 7:0];
-                        next_i_image7[x_axis][y_axis] = i_data[15:8];
+                        next_i_image7[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 8)
                     begin
                         next_i_image8[x_axis][y_axis] = i_data[ 7:0];
-                        next_i_image8[x_axis][y_axis] = i_data[15:8];
+                        next_i_image8[x_axis+1][y_axis] = i_data[15:8];
                     end
                 end 
                 else
@@ -517,7 +524,7 @@ begin
         y_axis        <= 0;
         x_image       <= 0;
         y_image       <= 0;
-        channel_count <= 0;
+        channel_count <= 1;
         max_out       <= 0; 
         for (i = 0; i < 3; i = i + 1) 
         begin

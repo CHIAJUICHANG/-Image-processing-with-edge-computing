@@ -3,7 +3,7 @@
 `define PE_kernel_W         144     // 8*9*2
 `define PE_BIAS_W           13      // 8+5
 `define EXTEN_W             16      // 8*2
-`define PE_OUT_W            16      // 8+8
+`define PE_OUT_W            8      // 8+8
 
 module pe (
     input  [`PE_IMAGE_W-1:0]    pe_image,

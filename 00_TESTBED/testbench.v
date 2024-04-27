@@ -3,105 +3,208 @@
 `define CYCLE 			  20
 `define RST_DEL     	2
 `define IN_DEL			  1
-`define MAX_CYCLE   	100000
+`define MAX_CYCLE   	1000000
 `define SDFFILE    		"../02_SYN/sdf/core.sdf"
 
 `define BIT_WIDTH           8
-`define KERNAL_NUM 		      9
-`define PIXEL_NUM 		      576   // (32*32)/2
-`define X_AXIS_NUM          32
-`define Y_AXIS_NUM          32
-`define CHANNEL_NUM         8
-`define OUT_NUM 		        256   // 16*16
+`define BIT2_WIDTH          16
+
+`define IN_IMAGE_NUM        1024  // 32*32
+`define COVNV0_IMAGE_NUM 		1156  // 34*34
+`define COVNV1_IMAGE_NUM 		324   // 18*18
+`define COVNV2_IMAGE_NUM 		100   // 10*10
+`define LINEAR_WEIGHT_NUM   1920  // 64*10*3
+
+`define IN_CHANNEL_NUM      1
+`define PE_KERNEL_NUM       72
+
+`define CONV0_CHANNEL_NUM   4
+`define CONV0_KERNEL_NUM    288   // 72*4
+`define CONV0_X_AXIS_NUM    32
+`define CONV0_Y_AXIS_NUM    32
+
+`define CONV1_CHANNEL_NUM   8
+`define CONV1_KERNEL_NUM    576   // 72*8
+`define CONV1_X_AXIS_NUM    16
+`define CONV1_Y_AXIS_NUM    16
+
+`define CONV2_CHANNEL_NUM   4
+`define CONV2_KERNEL_NUM    288   // 72*4  
+`define CONV2_X_AXIS_NUM    8
+`define CONV2_Y_AXIS_NUM    8
+
+`define OUT_NUM             3
+
 
 `ifdef p1
-  `define IN_DATA 	"../../00_TESTBED/IN_DATA.dat"
-  `define GOLDEN 		"../../00_TESTBED/GOLDEN.dat"
+  `define IN_IMAGE0 	    "../../00_TESTBED/PATTERN/IN_IMAGE0.dat"
+  `define CONV0_KERNEL 	  "../../00_TESTBED/PATTERN/CONV0_KERNEL.dat"
+  `define CONV1_KERNEL 	  "../../00_TESTBED/PATTERN/CONV1_KERNEL.dat"
+  `define CONV2_KERNEL 	  "../../00_TESTBED/PATTERN/CONV2_KERNEL.dat"
+  `define LINEAR_WEIGHT 	"../../00_TESTBED/PATTERN/LINEAR_WEIGHT.dat"
+  `define GOLDEN 		      "../../00_TESTBED/PATTERN/GOLDEN.dat"
 `endif
 
 module testbench;
 
-// Inputs
-reg 				 i_clk;
-reg 				 i_rst;
-reg 				 i_valid;
-reg  [`BIT_WIDTH-1:0] data;
-// Outputs
-wire				   i_valid;
-wire 				   done;
+// Declaration //
+// I/O
+reg 				          i_clk;
+reg 				          i_rst;
+reg 				          i_valid;
+reg  [`BIT2_WIDTH-1:0] i_data;
+wire				          o_valid;
 wire [`BIT_WIDTH-1:0] o_data;
-// Self-define
+// Self-Define 
 reg  [`BIT_WIDTH-1:0] golden;
-
-// MEM
-reg  [`BIT_WIDTH-1:0] in_kernal0_mem [0:`KERNAL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_kernal1_mem [0:`KERNAL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_kernal2_mem [0:`KERNAL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_kernal3_mem [0:`KERNAL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_kernal4_mem [0:`KERNAL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_kernal5_mem [0:`KERNAL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_kernal6_mem [0:`KERNAL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_kernal7_mem [0:`KERNAL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_image0_mem [0:`PIXEL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_image1_mem [0:`PIXEL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_image2_mem [0:`PIXEL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_image3_mem [0:`PIXEL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_image4_mem [0:`PIXEL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_image5_mem [0:`PIXEL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_image6_mem [0:`PIXEL_NUM-1];
-reg  [`BIT_WIDTH-1:0] in_image7_mem [0:`PIXEL_NUM-1];
-reg  [`BIT_WIDTH-1:0] golden_mem [0:`OUTL_NUM-1];
-
-reg over1, over2, over;
-integer i, j, k, l, m, n;
+reg  [`BIT_WIDTH-1:0] output_tmp;
+// Memory
+reg  [`BIT_WIDTH-1:0]      in_image_mem [0:`IN_IMAGE_NUM-1];
+reg  [`BIT_WIDTH-1:0]  conv0_kernel_mem [0:`CONV0_KERNEL_NUM-1];
+reg  [`BIT_WIDTH-1:0]  conv1_kernel_mem [0:`CONV1_KERNEL_NUM-1];
+reg  [`BIT_WIDTH-1:0]  conv2_kernel_mem [0:`CONV2_KERNEL_NUM-1];
+reg  [`BIT_WIDTH-1:0] linear_weight_mem [0:`LINEAR_WEIGHT_NUM-1];
+reg  [`BIT_WIDTH-1:0]        golden_mem [0:`OUT_NUM-1];
+// Register File
+reg  [`BIT_WIDTH-1:0]     in_image_reg [0:34-1][0:34-1];
+reg  [`BIT_WIDTH-1:0] conv0_image0_reg [0:18-1][0:18-1];
+reg  [`BIT_WIDTH-1:0] conv0_image1_reg [0:18-1][0:18-1];
+reg  [`BIT_WIDTH-1:0] conv0_image2_reg [0:18-1][0:18-1];
+reg  [`BIT_WIDTH-1:0] conv0_image3_reg [0:18-1][0:18-1];
+reg  [`BIT_WIDTH-1:0] conv0_image4_reg [0:18-1][0:18-1];
+reg  [`BIT_WIDTH-1:0] conv0_image5_reg [0:18-1][0:18-1];
+reg  [`BIT_WIDTH-1:0] conv0_image6_reg [0:18-1][0:18-1];
+reg  [`BIT_WIDTH-1:0] conv0_image7_reg [0:18-1][0:18-1];
+reg  [`BIT_WIDTH-1:0] conv1_image0_reg [0:10-1][0:10-1];
+reg  [`BIT_WIDTH-1:0] conv1_image1_reg [0:10-1][0:10-1];
+reg  [`BIT_WIDTH-1:0] conv1_image2_reg [0:10-1][0:10-1];
+reg  [`BIT_WIDTH-1:0] conv1_image3_reg [0:10-1][0:10-1];
+reg  [`BIT_WIDTH-1:0] conv1_image4_reg [0:10-1][0:10-1];
+reg  [`BIT_WIDTH-1:0] conv1_image5_reg [0:10-1][0:10-1];
+reg  [`BIT_WIDTH-1:0] conv1_image6_reg [0:10-1][0:10-1];
+reg  [`BIT_WIDTH-1:0] conv1_image7_reg [0:10-1][0:10-1];
+reg  [`BIT_WIDTH-1:0] conv2_image0_reg [0:6-1][0:6-1];
+reg  [`BIT_WIDTH-1:0] conv2_image1_reg [0:6-1][0:6-1];
+reg  [`BIT_WIDTH-1:0] conv2_image2_reg [0:6-1][0:6-1];
+reg  [`BIT_WIDTH-1:0] conv2_image3_reg [0:6-1][0:6-1];
+reg  [`BIT_WIDTH-1:0]       output_reg [0:3-1];
+// Flag
+reg     over1, over2, over;
+integer i, j, k, l, m, n, i_mode;
+integer ii, jj, kk, o_mode;
 integer error, correct;
 
 
 
-// Instantiate the Design Under Test (DUT)
-core core (
+// For gate-level simulation only //
+`ifdef SDF
+	initial $sdf_annotate(`SDFFILE, core);
+`endif
+
+
+// Read in test pattern and golden pattern //
+initial begin
+  $readmemh(`IN_IMAGE0, in_image_mem);
+	$readmemh(`CONV0_KERNEL, conv0_kernel_mem);
+	$readmemh(`CONV1_KERNEL, conv1_kernel_mem);
+  $readmemh(`CONV2_KERNEL, conv2_kernel_mem);
+  $readmemh(`LINEAR_WEIGHT, linear_weight_mem);
+	$readmemh(`GOLDEN, golden_mem);
+end
+
+
+// Write out waveform file //
+initial begin
+ 	$fsdbDumpfile("core.fsdb");
+ 	$fsdbDumpvars;
+end
+
+
+// Instantiate the Design Under Test (DUT) //
+core CORE_U0 (
   .i_clk		  (i_clk),
 	.i_rst  	  (i_rst),
-	.i_data_0   (i_data),
+	.i_data     (i_data),
 	.i_valid	  (i_valid),
 	.o_data		  (o_data),
   .o_valid	  (o_valid)
 );	
 
-
-`ifdef SDF
-	initial $sdf_annotate(`SDFFILE, core);
-`endif
-
+// Initialization //
 initial begin
-	$readmemh(`IN_DATA, in_data_mem);
-	$readmemh(`GOLDEN, golden_mem);
+  for(i=0;i<34;i=i+1) begin
+    for(j=0;j<34;j=j+1) begin
+      in_image_reg[j][i] = 0;
+    end
+  end
+  for(i=0;i<32;i=i+1) begin
+    for(j=0;j<32;j=j+1) begin
+      in_image_reg[j+1][i+1] = in_image_mem[i*32+j];
+    end
+  end
+
+  for(i=0;i<18;i=i+1) begin
+    for(j=0;j<18;j=j+1) begin
+      conv0_image0_reg[j][i] = 0;
+      conv0_image1_reg[j][i] = 0;
+      conv0_image2_reg[j][i] = 0;
+      conv0_image3_reg[j][i] = 0;
+      conv0_image4_reg[j][i] = 0;
+      conv0_image5_reg[j][i] = 0;
+      conv0_image6_reg[j][i] = 0;
+      conv0_image7_reg[j][i] = 0;
+    end
+  end
+
+  for(i=0;i<10;i=i+1) begin
+    for(j=0;j<10;j=j+1) begin
+      conv1_image0_reg[j][i] = 0;
+      conv1_image1_reg[j][i] = 0;
+      conv1_image2_reg[j][i] = 0;
+      conv1_image3_reg[j][i] = 0;
+      conv1_image4_reg[j][i] = 0;
+      conv1_image5_reg[j][i] = 0;
+      conv1_image6_reg[j][i] = 0;
+      conv1_image7_reg[j][i] = 0;
+    end
+  end
+
+  for(i=0;i<6;i=i+1) begin
+    for(j=0;j<6;j=j+1) begin
+      conv2_image0_reg[j][i] = 0;
+      conv2_image1_reg[j][i] = 0;
+      conv2_image2_reg[j][i] = 0;
+      conv2_image3_reg[j][i] = 0;
+    end
+  end
+
+  i_clk			  = 1'b0;   
+ 	i_rst		    = 1'b1;
+	i_valid		  = 1'b0;
+  i_data      = 16'b0;
+  output_tmp  = 8'b0;
+	golden		  = 8'b0;
+	over		    = 0;
+	over1		    = 0;
+	over2		    = 0;
+	error		    = 0;
+	correct		  = 0;
+  i_mode      = 0;
+  i           = 0;
+  j           = 0;
+  k           = 0;
+  l           = 0;
+  m           = 0;
+  n           = 0;
+  o_mode      = 0;
+  ii          = 0;
+  jj          = 0;
+  kk          = 0;
 end
 
-initial begin
- 	$fsdbDumpfile("architechture.fsdb");
- 	$fsdbDumpvars;
-end
 
-
-initial begin
- 	i_clk			= 1'b0;   
- 	i_rst		  = 1'b1;
-	i_valid		= 1'b0;
-	golden		= 0;
-	over		  = 0;
-	over1		  = 0;
-	over2		  = 0;
-	error		  = 0;
-	correct		= 0;
-  i         = 0;
-  j         = 0;
-  k         = 0;
-  l         = 0;
-end
-
+// Clock & Reset Generation //
 always begin #(`CYCLE/2)  i_clk = ~i_clk; end
-
 initial begin
  		i_rst = 1; # (             0.25 * `CYCLE);
  		i_rst = 0; # ((`RST_DEL - 0.25) * `CYCLE);
@@ -110,151 +213,398 @@ initial begin
  		$finish;
 end
 
+// Input Data Control //
 initial begin
-
-	@(posedge i_clk);
+  @(posedge i_clk);
 	#(`CYCLE * 3);
-  i_valid = 1'b1;
-
-
-  while(i < `CHANNEL_NUM) begin
-      while(j < 9) begin
-
+  for(i_mode=0;i_mode<3;i_mode=i_mode+1) begin
+    case(i_mode)
+    0: begin
+      for(i=0;i<`CONV0_CHANNEL_NUM;i=i+1) begin
+        for(j=0;j<`PE_KERNEL_NUM;j=j+1) begin
           @(posedge i_clk);
-          if(i == 1)      i_data[7:0] = in_kernal0_mem[j];
-          else if(i == 2) i_data[7:0] = in_kernal1_mem[j];
-          else if(i == 3) i_data[7:0] = in_kernal2_mem[j];
-          else if(i == 4) i_data[7:0] = in_kernal3_mem[j];
-          else if(i == 5) i_data[7:0] = in_kernal4_mem[j];
-          else if(i == 6) i_data[7:0] = in_kernal5_mem[j];
-          else if(i == 7) i_data[7:0] = in_kernal6_mem[j];
-          else if(i == 8) i_data[7:0] = in_kernal7_mem[j];
-          else            i_data[7:0] = 0;
-
-        j = j+1;
-      end
-    j = 0;
-    i = i+1;
-  end
-
-  i = 0;
-  j = 0;
-  k = 0;
-  l = 0;
-  for(i = 0; i < `Y_AXIS_NUM; i=i+2) begin
-    for(j = 0; j < `X_AXIS_NUM; j=j+2) begin
-      for(k = 0; k < `CHANNEL_NUM; k=k+1) begin
-        for(l = 0; l < 4; l=l+1) begin
-          if(j == 0) begin
-
-            @(posedge i_clk);
-            if(k == 0)      i_data = {in_image0_mem[((i+l)*34)+j], in_image0_mem[(i+l*34)+j+1]};
-            else if(k == 1) i_data = {in_image1_mem[((i+l)*34)+j], in_image1_mem[(i+l*34)+j+1]};
-            else if(k == 2) i_data = {in_image2_mem[((i+l)*34)+j], in_image2_mem[(i+l*34)+j+1]};
-            else if(k == 3) i_data = {in_image3_mem[((i+l)*34)+j], in_image3_mem[(i+l*34)+j+1]};
-            else if(k == 4) i_data = {in_image4_mem[((i+l)*34)+j], in_image4_mem[(i+l*34)+j+1]};
-            else if(k == 5) i_data = {in_image5_mem[((i+l)*34)+j], in_image5_mem[(i+l*34)+j+1]};
-            else if(k == 6) i_data = {in_image6_mem[((i+l)*34)+j], in_image6_mem[(i+l*34)+j+1]};
-            else if(k == 7) i_data = {in_image7_mem[((i+l)*34)+j], in_image7_mem[(i+l*34)+j+1]};
-            else            i_data = 0;
-          end else begin
-
-            @(posedge i_clk);
-            if(k == 0)      i_data = {in_image0_mem[((i+l)*34)+j+2], in_image0_mem[(i+l*34)+j+1+2]};
-            else if(k == 1) i_data = {in_image1_mem[((i+l)*34)+j+2], in_image1_mem[(i+l*34)+j+1+2]};
-            else if(k == 2) i_data = {in_image2_mem[((i+l)*34)+j+2], in_image2_mem[(i+l*34)+j+1+2]};
-            else if(k == 3) i_data = {in_image3_mem[((i+l)*34)+j+2], in_image3_mem[(i+l*34)+j+1+2]};
-            else if(k == 4) i_data = {in_image4_mem[((i+l)*34)+j+2], in_image4_mem[(i+l*34)+j+1+2]};
-            else if(k == 5) i_data = {in_image5_mem[((i+l)*34)+j+2], in_image5_mem[(i+l*34)+j+1+2]};
-            else if(k == 6) i_data = {in_image6_mem[((i+l)*34)+j+2], in_image6_mem[(i+l*34)+j+1+2]};
-            else if(k == 7) i_data = {in_image7_mem[((i+l)*34)+j+2], in_image7_mem[(i+l*34)+j+1+2]};
-            else            i_data = 0;
-          end
+          i_valid = 1'b1;
+          i_data = {8'b0, conv0_kernel_mem[i*72+j]};
         end
-      end
+        for(k=0;k<`CONV0_Y_AXIS_NUM;k=k+2) begin
+          for(l=0;l<`CONV0_X_AXIS_NUM;l=l+2) begin
+            for(m=0;m<8;m=m+1) begin
+              if(l == 0) begin
+                for(n=0;n<4;n=n+1) begin
+                    @(posedge i_clk);
+                    i_valid = 1'b1;
+                    if(m == 0)      i_data = {in_image_reg[k+n][l], in_image_reg[k+n][l+1]};
+                    else if(m == 1) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 2) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 3) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 4) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 5) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 6) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 7) i_data = {16'b0000_0000_0000_0000};
+                    else            i_data = 0;
+                    @(posedge i_clk);
+                    i_valid = 1'b1;
+                    if(m == 0)      i_data = {in_image_reg[k+n][l+2], in_image_reg[k+n][l+3]};
+                    else if(m == 1) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 2) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 3) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 4) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 5) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 6) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 7) i_data = {16'b0000_0000_0000_0000};
+                    else            i_data = 0;
+                end 
+              end else begin
+                for(n=0;n<4;n=n+1) begin 
+                    @(posedge i_clk);
+                    i_valid = 1'b1;
+                    if(m == 0)      i_data = {in_image_reg[k+n][l+2], in_image_reg[k+n][l+3]};
+                    else if(m == 1) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 2) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 3) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 4) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 5) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 6) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 7) i_data = {16'b0000_0000_0000_0000};
+                    else            i_data = 0;
+                end
+              end
+            end
+            @(posedge i_clk);
+            i_valid = 1'b0;
+            i_data = 0;
+            #(`CYCLE*4);
+	        end
+        end
 
-      if(j != 0) begin
         @(posedge i_clk);
         #(`CYCLE);
       end
-	  end
+    end
+
+    1: begin
+      for(i=0;i<`CONV1_CHANNEL_NUM;i=i+1) begin
+        for(j=0;j<`PE_KERNEL_NUM;j=j+1) begin
+          @(posedge i_clk);
+          i_valid = 1'b1;
+          i_data = {8'b0, conv1_kernel_mem[i*72+j]};
+        end
+        for(k=0;k<`CONV1_Y_AXIS_NUM;k=k+2) begin
+          for(l=0;l<`CONV1_X_AXIS_NUM;l=l+2) begin
+            for(m=0;m<8;m=m+1) begin
+              if(l == 0) begin
+                for(n=0;n<4;n=n+1) begin
+                    @(posedge i_clk);
+                    i_valid = 1'b1;
+                    if(m == 0)      i_data = {conv0_image0_reg[k+n][l], conv0_image0_reg[k+n][l+1]};
+                    else if(m == 1) i_data = {conv0_image1_reg[k+n][l], conv0_image1_reg[k+n][l+1]};
+                    else if(m == 2) i_data = {conv0_image2_reg[k+n][l], conv0_image2_reg[k+n][l+1]};
+                    else if(m == 3) i_data = {conv0_image3_reg[k+n][l], conv0_image3_reg[k+n][l+1]};
+                    else if(m == 4) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 5) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 6) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 7) i_data = {16'b0000_0000_0000_0000};
+                    else            i_data = 0;
+                    @(posedge i_clk);
+                    i_valid = 1'b1;
+                    if(m == 0)      i_data = {conv0_image0_reg[k+n][l+2], conv0_image0_reg[k+n][l+3]};
+                    else if(m == 1) i_data = {conv0_image1_reg[k+n][l+2], conv0_image1_reg[k+n][l+3]};
+                    else if(m == 2) i_data = {conv0_image2_reg[k+n][l+2], conv0_image2_reg[k+n][l+3]};
+                    else if(m == 3) i_data = {conv0_image3_reg[k+n][l+2], conv0_image3_reg[k+n][l+3]};
+                    else if(m == 4) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 5) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 6) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 7) i_data = {16'b0000_0000_0000_0000};
+                    else            i_data = 0;
+                end 
+              end else begin
+                for(n=0;n<4;n=n+1) begin 
+                    @(posedge i_clk);
+                    i_valid = 1'b1;
+                    if(m == 0)      i_data = {conv0_image0_reg[k+n][l+2], conv0_image0_reg[k+n][l+3]};
+                    else if(m == 1) i_data = {conv0_image1_reg[k+n][l+2], conv0_image1_reg[k+n][l+3]};
+                    else if(m == 2) i_data = {conv0_image2_reg[k+n][l+2], conv0_image2_reg[k+n][l+3]};
+                    else if(m == 3) i_data = {conv0_image3_reg[k+n][l+2], conv0_image3_reg[k+n][l+3]};
+                    else if(m == 4) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 5) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 6) i_data = {16'b0000_0000_0000_0000};
+                    else if(m == 7) i_data = {16'b0000_0000_0000_0000};
+                    else            i_data = 0;
+                end
+              end
+            end
+            @(posedge i_clk);
+            i_valid = 1'b0;
+            i_data = 0;
+            #(`CYCLE*4);
+	        end
+        end
+        @(posedge i_clk);
+        #(`CYCLE);
+      end
+    end
+
+    2: begin
+      for(i=0;i<`CONV2_CHANNEL_NUM;i=i+1) begin
+        for(j=0;j<`PE_KERNEL_NUM;j=j+1) begin
+          @(posedge i_clk);
+          i_valid = 1'b1;
+          i_data = {8'b0, conv2_kernel_mem[i*72+j]};
+        end
+        for(k=0;k<`CONV2_Y_AXIS_NUM;k=k+2) begin
+          for(l=0;l<`CONV2_X_AXIS_NUM;l=l+2) begin
+            for(m=0;m<8;m=m+1) begin
+              if(l == 0) begin
+                for(n=0;n<4;n=n+1) begin
+                    @(posedge i_clk);
+                    i_valid = 1'b1;
+                    if(m == 0)      i_data = {conv1_image0_reg[k+n][l], conv1_image0_reg[k+n][l+1]};
+                    else if(m == 1) i_data = {conv1_image1_reg[k+n][l], conv1_image1_reg[k+n][l+1]};
+                    else if(m == 2) i_data = {conv1_image2_reg[k+n][l], conv1_image2_reg[k+n][l+1]};
+                    else if(m == 3) i_data = {conv1_image3_reg[k+n][l], conv1_image3_reg[k+n][l+1]};
+                    else if(m == 4) i_data = {conv1_image4_reg[k+n][l], conv1_image4_reg[k+n][l+1]};
+                    else if(m == 5) i_data = {conv1_image5_reg[k+n][l], conv1_image5_reg[k+n][l+1]};
+                    else if(m == 6) i_data = {conv1_image6_reg[k+n][l], conv1_image6_reg[k+n][l+1]};
+                    else if(m == 7) i_data = {conv1_image7_reg[k+n][l], conv1_image7_reg[k+n][l+1]};
+                    else            i_data = 0;
+                    @(posedge i_clk);
+                    i_valid = 1'b1;
+                    if(m == 0)      i_data = {conv1_image0_reg[k+n][l+2], conv1_image0_reg[k+n][l+3]};
+                    else if(m == 1) i_data = {conv1_image1_reg[k+n][l+2], conv1_image1_reg[k+n][l+3]};
+                    else if(m == 2) i_data = {conv1_image2_reg[k+n][l+2], conv1_image2_reg[k+n][l+3]};
+                    else if(m == 3) i_data = {conv1_image3_reg[k+n][l+2], conv1_image3_reg[k+n][l+3]};
+                    else if(m == 4) i_data = {conv1_image4_reg[k+n][l+2], conv1_image4_reg[k+n][l+3]};
+                    else if(m == 5) i_data = {conv1_image5_reg[k+n][l+2], conv1_image5_reg[k+n][l+3]};
+                    else if(m == 6) i_data = {conv1_image6_reg[k+n][l+2], conv1_image6_reg[k+n][l+3]};
+                    else if(m == 7) i_data = {conv1_image7_reg[k+n][l+2], conv1_image7_reg[k+n][l+3]};
+                    else            i_data = 0;
+                end 
+              end else begin
+                for(n=0;n<4;n=n+1) begin 
+                    @(posedge i_clk);
+                    i_valid = 1'b1;
+                    if(m == 0)      i_data = {conv1_image0_reg[k+n][l+2], conv1_image0_reg[k+n][l+3]};
+                    else if(m == 1) i_data = {conv1_image1_reg[k+n][l+2], conv1_image1_reg[k+n][l+3]};
+                    else if(m == 2) i_data = {conv1_image2_reg[k+n][l+2], conv1_image2_reg[k+n][l+3]};
+                    else if(m == 3) i_data = {conv1_image3_reg[k+n][l+2], conv1_image3_reg[k+n][l+3]};
+                    else if(m == 4) i_data = {conv1_image4_reg[k+n][l+2], conv1_image4_reg[k+n][l+3]};
+                    else if(m == 5) i_data = {conv1_image5_reg[k+n][l+2], conv1_image5_reg[k+n][l+3]};
+                    else if(m == 6) i_data = {conv1_image6_reg[k+n][l+2], conv1_image6_reg[k+n][l+3]};
+                    else if(m == 7) i_data = {conv1_image7_reg[k+n][l+2], conv1_image7_reg[k+n][l+3]};
+                    else            i_data = 0;
+                end
+              end
+            end
+            @(posedge i_clk);
+            i_valid = 1'b0;
+            i_data = 0;
+            #(`CYCLE*4);
+	        end
+        end
+        @(posedge i_clk);
+        #(`CYCLE);
+      end
+    end
+
+    3: begin
+      for(i=0;i<3;i=i+1) begin
+        for(j=0;j<10;j=j+1) begin
+          for(k=0;k<64;k=k+1) begin
+            @(posedge i_clk);
+            i_valid = 1'b1;
+            i_data = linear_weight_mem[i*640+j*64+k];
+          end
+          for(l=0;l<4;l=l+1) begin
+            for(m=0;m<4;m=m+1) begin
+              for(n=0;n<4;n=n+1) begin
+                @(posedge i_clk);
+                i_valid = 1'b1;
+                if(l == 0)       i_data = {8'b0, conv2_image0_reg[m+1][n+1]};
+                else if(l == 1)  i_data = {8'b0, conv2_image1_reg[m+1][n+1]};
+                else if(l == 2)  i_data = {8'b0, conv2_image2_reg[m+1][n+1]};
+                else if(l == 3)  i_data = {8'b0, conv2_image3_reg[m+1][n+1]};
+              end
+            end
+          end
+        end
+      end
+    end
+    endcase
   end
 
-  @(posedge i_clk);
-  i_valid = 1'b0;
-
-	over1 = 1;
+  over1 = 1;
 end
 
+
+
+// Output Data Control //
 initial begin
-  m = 0;
-  n = 0;
-	
-	while(m < `OUT_NUM) begin
-		@(posedge i_clk);
-		if(i_valid) begin
-			golden = golden_mem[m];
-			@(negedge i_clk);
-			if(o_data !== golden) begin
-				$display("P%02d: Error:  yours=%h != expect=%h", m, o_data, golden); 
-				error = error + 1;
-			end else begin
-				$display("P%02d: Correct!! %h", m, o_data);
-				correct = correct + 1;
-			end
-			@(posedge i_clk);
-			golden = 0;
-			#(`CYCLE * 1);
-			m = m+1;
-		end
-	end
-	over2 = 1;
+  while(o_mode<3) begin
+    case(o_mode)
+    0: begin
+      while(ii<`CONV0_CHANNEL_NUM) begin
+        while(jj<16) begin
+          while(kk<16) begin
+            @(posedge i_clk);
+            if(o_valid) begin
+              if(ii == 0)       conv0_image0_reg[jj+1][kk+1] = o_data;
+              else if(ii == 1)  conv0_image1_reg[jj+1][kk+1] = o_data;
+              else if(ii == 2)  conv0_image2_reg[jj+1][kk+1] = o_data;
+              else if(ii == 3)  conv0_image3_reg[jj+1][kk+1] = o_data;
+              // else if(ii == 4)  conv0_image4_reg[jj+1][kk+1] = o_data;
+              // else if(ii == 5)  conv0_image5_reg[jj+1][kk+1] = o_data;
+              // else if(ii == 6)  conv0_image6_reg[jj+1][kk+1] = o_data;
+              // else if(ii == 7)  conv0_image7_reg[jj+1][kk+1] = o_data;
+              output_tmp = o_data;
+              @(negedge i_clk);
+              if(ii == 0)       $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*16+kk, conv0_image0_reg[jj+1][kk+1]);
+              else if(ii == 1)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*16+kk, conv0_image1_reg[jj+1][kk+1]);
+              else if(ii == 2)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*16+kk, conv0_image2_reg[jj+1][kk+1]);
+              else if(ii == 3)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*16+kk, conv0_image3_reg[jj+1][kk+1]);
+              // else if(ii == 4)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*16+kk, conv0_image4_reg[jj+1][kk+1]);
+              // else if(ii == 5)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*16+kk, conv0_image5_reg[jj+1][kk+1]);
+              // else if(ii == 6)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*16+kk, conv0_image6_reg[jj+1][kk+1]);
+              // else if(ii == 7)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*16+kk, conv0_image7_reg[jj+1][kk+1]);
+              @(posedge i_clk);
+              output_tmp = 0;
+	  		      golden = 0;
+              kk = kk+1;
+            end
+          end
+
+          kk = 0;
+          jj = jj+1;
+        end
+
+        jj = 0;
+        ii = ii+1;
+      end
+
+      ii = 0;
+      o_mode = o_mode+1;
+    end
+    1: begin
+      while(ii<`CONV1_CHANNEL_NUM) begin
+        while(jj<8) begin
+          while(kk<8) begin
+            @(posedge i_clk);
+            if(o_valid) begin
+              if(ii == 0)       conv1_image0_reg[jj+1][kk+1] = o_data;
+              else if(ii == 1)  conv1_image1_reg[jj+1][kk+1] = o_data;
+              else if(ii == 2)  conv1_image2_reg[jj+1][kk+1] = o_data;
+              else if(ii == 3)  conv1_image3_reg[jj+1][kk+1] = o_data;
+              else if(ii == 4)  conv1_image4_reg[jj+1][kk+1] = o_data;
+              else if(ii == 5)  conv1_image5_reg[jj+1][kk+1] = o_data;
+              else if(ii == 6)  conv1_image6_reg[jj+1][kk+1] = o_data;
+              else if(ii == 7)  conv1_image7_reg[jj+1][kk+1] = o_data;
+              output_tmp = o_data;
+              @(negedge i_clk);
+              if(ii == 0)       $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*8+kk, conv1_image0_reg[jj+1][kk+1]);
+              else if(ii == 1)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*8+kk, conv1_image1_reg[jj+1][kk+1]);
+              else if(ii == 2)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*8+kk, conv1_image2_reg[jj+1][kk+1]);
+              else if(ii == 3)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*8+kk, conv1_image3_reg[jj+1][kk+1]);
+              else if(ii == 4)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*8+kk, conv1_image4_reg[jj+1][kk+1]);
+              else if(ii == 5)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*8+kk, conv1_image5_reg[jj+1][kk+1]);
+              else if(ii == 6)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*8+kk, conv1_image6_reg[jj+1][kk+1]);
+              else if(ii == 7)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*8+kk, conv1_image7_reg[jj+1][kk+1]);
+              @(posedge i_clk);
+              output_tmp = 0;
+	  		      golden = 0;
+              kk = kk+1;
+            end
+          end
+
+          kk = 0;
+          jj = jj+1;
+        end
+
+        jj = 0;
+        ii = ii+1;
+      end
+
+      ii = 0;
+      o_mode = o_mode+1;
+    end
+    2: begin
+      while(ii<`CONV2_CHANNEL_NUM) begin
+        while(jj<4) begin
+          while(kk<4) begin
+            @(posedge i_clk);
+            if(o_valid) begin
+              if(ii == 0)       conv2_image0_reg[jj+1][kk+1] = o_data;
+              else if(ii == 1)  conv2_image1_reg[jj+1][kk+1] = o_data;
+              else if(ii == 2)  conv2_image2_reg[jj+1][kk+1] = o_data;
+              else if(ii == 3)  conv2_image3_reg[jj+1][kk+1] = o_data;
+              output_tmp = o_data;
+              @(negedge i_clk);
+              if(ii == 0)       $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*4+kk, conv2_image0_reg[jj+1][kk+1]);
+              else if(ii == 1)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*4+kk, conv2_image1_reg[jj+1][kk+1]);
+              else if(ii == 2)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*4+kk, conv2_image2_reg[jj+1][kk+1]);
+              else if(ii == 3)  $display("Mode%1d [Channel%01d][P%03d]: yours=%h", o_mode, ii, jj*4+kk, conv2_image3_reg[jj+1][kk+1]);
+              @(posedge i_clk);
+              output_tmp = 0;
+	  		      golden = 0;
+              kk = kk+1;
+            end
+          end
+
+          kk = 0;
+          jj = jj+1;
+        end
+
+        jj = 0;
+        ii = ii+1;
+      end
+
+      ii = 0;
+      o_mode = o_mode+1;
+    end
+    3: begin
+      while(ii<3) begin
+        @(posedge i_clk);
+        if(o_valid) begin
+          output_reg[ii] = o_data;
+          output_tmp = o_data;
+          @(negedge i_clk);
+	  		    if(output_tmp !== golden) begin
+	  		    	$display("[P%01d]: Error:  yours=%b != expect=%b", ii, output_reg[ii], golden); 
+	  		    	error = error + 1;
+	  		    end else begin
+	  		    	$display("[P%01d]: Correct!! yours=%b == expect=%b", ii, output_reg[ii], golden);
+	  		    	correct = correct + 1;
+	  		    end
+            @(posedge i_clk);
+            output_tmp = 0;
+	  		    golden = 0;
+            ii = ii+1;
+        end
+      end
+    end
+    endcase
+  end
+
+  over2 = 1;
 end
+
 
 always @(*) begin over = over1 && over2; end
-
 initial begin
  		@(posedge over)      
  		if(over) begin
- 		   $display("\l-----------------------------------------------------\l");
- 		   if ((error == 0) && (correct == `Y_AXIS_NUM    )) begin
- 		      $display("Congratulations! All data have been generated successfully!\l");
- 		      $display("-------------------------PASS------------------------\l");
+ 		   $display("-----------------------------------------------------");
+ 		   if ((error == 0)) begin
+ 		      $display("Congratulations! All data have been generated successfully!");
+ 		      $display("-------------------------PASS------------------------");
  		   end else begin
- 		      $display("Final Simulation Result as below: \l");
- 		      $display("-----------------------------------------------------\l");
- 		      $display("Error:  %3d \l", error);
- 		      $display("-----------------------------------------------------\l");
+ 		      $display("Final Simulation Result as below: ");
+ 		      $display("-----------------------------------------------------");
+ 		      $display("Error:  %3d ", error);
+ 		      $display("-----------------------------------------------------");
  		   end
  		end
  		#(`CYCLE/2); $finish;
 end
-// initial begin
-// 	@(posedge i_clk);
- 	// 	#(`CYCLE * 2);
-// 	i_valid = 1;
-// 	i_data = 64'b10000001_00000110_00000100_10000101_00000010_00000100_00001001_00000001;
-// 	data_1 = 64'b00000010_00000111_00001000_00000011_00000110_00001000_00000111_00000011;
-// end
-// initial begin
-// 	@(posedge i_clk);
-// 	#(`CYCLE * 6);
-// 	golden = 32'b00000111_00001000_00001000_00001001;
-// 	@(negedge i_clk);
-// 	if(done) begin
-// 		if(o_data !== golden) begin
-  //             $display("o_hard_bit=%16b  != expect %16b", o_data, golden);
-// 			$finish;
-// 		end else begin
-  //             $display("Correct!!");
-// 			$finish;
-// 		end
-// 	end
-	
-// end
 
 
-
-      
 endmodule
 

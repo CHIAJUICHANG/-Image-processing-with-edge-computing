@@ -22,9 +22,7 @@ parameter  idle      = 0;
 parameter  kernel_in = 1;
 parameter  image_in  = 2;
 parameter  mul_plse  = 3;
-
-
-
+parameter  linear    = 4;
 
 /* =======================REG & wire================================ */
 reg  signed [data_size-1:0] data_o_w, data_o_r;
@@ -60,21 +58,21 @@ reg  signed [data_size-1:0] next_kernel5  [0:2][0:2];
 reg  signed [data_size-1:0] next_kernel6  [0:2][0:2];
 reg  signed [data_size-1:0] next_kernel7  [0:2][0:2];
 reg  signed [data_size-1:0] next_kernel8  [0:2][0:2];
-reg         [3:0] channel_count, next_channel_count;
-reg  signed [3:0] x_axis       , next_x_axis;
-reg  signed [3:0] y_axis       , next_y_axis;
-reg  signed [6:0] x_image      , next_x_image;
-reg  signed [6:0] y_image      , next_y_image;
-reg         [3:0] state        , next_state;
-reg  signed [7:0] max_out      , next_max;
-reg  signed [9:0] conv_out;
-wire signed [143:0] pe_image1  , pe_image2  , pe_image3  , pe_image4 ;
-wire signed [143:0] pe_kernel1 , pe_kernel2 , pe_kernel3 , pe_kernel4;
-wire signed [7:0]   pe_result1 , pe_result2 , pe_result3 , pe_result4; 
-
-reg        o_valid_w, o_valid_r;
-integer    i, j;
-
+reg         [  3:0] channel_count, next_channel_count;
+reg  signed [  3:0] x_axis       , next_x_axis;
+reg  signed [  3:0] y_axis       , next_y_axis;
+reg  signed [  6:0] x_image      , next_x_image;
+reg  signed [  6:0] y_image      , next_y_image;
+reg         [  3:0] state        , next_state;
+reg  signed [  7:0] max_out      , next_max;
+reg  signed [  9:0] conv_out;
+reg  signed [  9:0] linear_count , next_linear_count;
+reg  signed [ 10:0] layer        , next_layer;
+wire signed [143:0] pe_image1    , pe_image2  , pe_image3  , pe_image4 ;
+wire signed [143:0] pe_kernel1   , pe_kernel2 , pe_kernel3 , pe_kernel4;
+wire signed [  7:0] pe_result1   , pe_result2 , pe_result3 , pe_result4; 
+reg         o_valid_w, o_valid_r;
+integer     i, j;
 
 pe PE_U1(
     .pe_image (pe_image1 ),
@@ -148,16 +146,13 @@ assign     pe_kernel4 = {kernel7 [0][0  ], kernel7 [0+1][0  ], kernel7 [0+2][0  
                          kernel8 [0][0  ], kernel8 [0+1][0  ], kernel8 [0+2][0  ], 
                          kernel8 [0][0+1], kernel8 [0+1][0+1], kernel8 [0+2][0+1], 
                          kernel8 [0][0+2], kernel8 [0+1][0+2], kernel8 [0+2][0+2]};
-
-
-
 assign     o_data     = data_o_r;
 assign     o_valid    = o_valid_r;
 
 /* ====================Combinational Part================== */
 always@ (*)
 begin
-    next_max   = 0;
+    next_max   = max_out;
     o_valid_w  = 0;
     data_o_w   = 0;
     for (i = 0; i < 4; i = i + 1) 
@@ -234,46 +229,46 @@ begin
         begin
             if (i_valid)
             begin
-                if (x_image == 0)
+                if (x_image   == 0)
                 begin
                     if (channel_count == 1)
                     begin
-                        next_i_image1[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image1[x_axis  ][y_axis] = i_data[ 7:0];
                         next_i_image1[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 2)
                     begin
-                        next_i_image2[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image2[x_axis  ][y_axis] = i_data[ 7:0];
                         next_i_image2[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 3)
                     begin
-                        next_i_image3[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image3[x_axis  ][y_axis] = i_data[ 7:0];
                         next_i_image3[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 4)
                     begin
-                        next_i_image4[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image4[x_axis  ][y_axis] = i_data[ 7:0];
                         next_i_image4[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 5)
                     begin
-                        next_i_image5[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image5[x_axis  ][y_axis] = i_data[ 7:0];
                         next_i_image5[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 6)
                     begin
-                        next_i_image6[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image6[x_axis  ][y_axis] = i_data[ 7:0];
                         next_i_image6[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 7)
                     begin
-                        next_i_image7[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image7[x_axis  ][y_axis] = i_data[ 7:0];
                         next_i_image7[x_axis+1][y_axis] = i_data[15:8];
                     end
                     else if (channel_count == 8)
                     begin
-                        next_i_image8[x_axis][y_axis] = i_data[ 7:0];
+                        next_i_image8[x_axis  ][y_axis] = i_data[ 7:0];
                         next_i_image8[x_axis+1][y_axis] = i_data[15:8];
                     end
                 end 
@@ -326,18 +321,41 @@ begin
                         next_i_image8[x_axis+2][y_axis] = i_data;
                     end
                 end 
+                if (next_state == mul_plse ) next_max = 0;
+                if (next_linear_count ==  1) next_max = 0;
+                if (next_linear_count == 10) next_max = 0;
+                if (next_linear_count == 20) next_max = 0;
+                // if (next_linear_count == 30) next_max = 0;
             end
         end
         mul_plse:
         begin
-            next_max      = max_out;
             conv_out      = pe_result1 + pe_result2 + pe_result3 + pe_result4;
-            // conv_out      = kernel1[1][0] + i_image1[1][0];
             if (conv_out > max_out ) next_max = conv_out[9:2];
             if ((x_axis == 1) && (y_axis == 1))
             begin
                 o_valid_w = 1;
                 data_o_w   = next_max; 
+            end
+        end
+        linear:
+        begin
+            conv_out      = pe_result1 + pe_result2 + pe_result3 + pe_result4;
+            if (conv_out > max_out ) next_max = conv_out[9:2];
+            if (linear_count ==  10)
+            begin
+                o_valid_w = 1;
+                data_o_w  = next_max;
+            end
+            if (linear_count == 20)
+            begin
+                o_valid_w = 1;
+                data_o_w  = next_max;
+            end
+            if (linear_count == 30)
+            begin
+                o_valid_w = 1;
+                data_o_w  = next_max;
             end
         end
     endcase
@@ -352,11 +370,21 @@ begin
     next_x_image       = x_image;
     next_y_image       = y_image;
     next_channel_count = channel_count;
+    next_layer         = layer;
+    next_linear_count  = linear_coun;
     case(state)
         idle:
         begin
             next_state         = kernel_in;
+            next_x_axis        = 0;
+            next_y_axis        = 0;
+            next_x_image       = 0;
+            next_y_image       = 0;
             next_channel_count = 1;
+            if (layer ==  0) next_layer = 34;
+            if (layer == 34) next_layer = 18;
+            if (layer == 18) next_layer = 10;
+            if (layer == 10) next_layer =  0;
         end
         kernel_in:      // kernel = 3*3*8, 1 data/cycle, total need 72 cycles 
         begin
@@ -403,17 +431,17 @@ begin
                 begin
                     if (channel_count != 8)
                     begin
-                        next_x_axis = x_axis+2;
-                        if (x_axis == 2)    // 2 input
+                        next_y_axis = y_axis+1;
+                        if (y_axis == 3)    // 2 input
                         begin
-                            next_x_axis = 0;
-                            if (y_axis == 3)
+                            next_y_axis = 0;
+                            if (x_axis == 2)
                             begin 
-                                next_y_axis        = 0;
+                                next_x_axis        = 0;
                                 next_channel_count = channel_count+1;
                             end
                             else
-                                next_y_axis = y_axis+1;  
+                                next_x_axis = x_axis+2;  
                         end  
                     end
                     else
@@ -437,36 +465,31 @@ begin
                 begin
                     if (channel_count != 8)
                     begin
-                        next_x_axis = x_axis+2;
-                        if (x_axis == 2)
+                        next_y_axis = y_axis+1;
+                        if (y_axis == 3)
                         begin
-                            next_x_axis = 0;
-                            if (y_axis == 3)
-                            begin 
-                                next_y_axis        = 0;
-                                next_channel_count = channel_count+1;
-                            end
-                            else
-                                next_y_axis = y_axis+1;  
+                            next_y_axis       = 0;
+                            next_x_axis       = 0;
+                            ext_channel_count = channel_count+1;
                         end  
                     end
                     else
                     begin
-                        next_x_axis = x_axis+2;
-                        if (x_axis == 2)
+                        next_y_axis = y_axis+1;
+                        if (y_axis == 3)
                         begin
-                            next_x_axis = 0;
-                            if (y_axis == 3)
-                            begin 
-                                next_y_axis        = 0;
-                                next_channel_count = 1;
-                                next_state         = mul_plse;
+                            next_y_axis           = 0;
+                            next_x_axis           = 0;
+                            next_channel_count    = 1;
+                            next_state            = mul_plse;
+                            if (layer   == 0) 
+                            begin
+                                next_linear_count = 1;
+                                next_state        = linear;
                             end
-                            else
-                                next_y_axis = y_axis+1;  
                         end
                     end
-                end  
+                end
             end
         end
         mul_plse:       // 8 channel (1 output pixel)/cycle, 4 cycles 
@@ -497,16 +520,26 @@ begin
                 next_y_axis    = 0;
                 next_state     = image_in;
                 next_x_image   = x_image+2;
-                if (x_image == 32)      // output shape
+                if (x_image == layer)      // output shape
                 begin
                     next_x_image = 0;
                     next_y_image = y_image+2;
-                    if (y_image == 32)  // output shape
+                    if (y_image == layer)  // output shape
                     begin
                         next_y_image = 0;
                         next_state   = idle;
                     end
                 end
+            end
+        end
+        linear:
+        begin
+            next_state            = image_in;
+            next_linear_count     = linear_count+1;
+            if (linear_count == 30) 
+            begin
+                next_state        = idle;
+                next_linear_count = 0;
             end
         end
     endcase
@@ -526,6 +559,8 @@ begin
         y_image       <= 0;
         channel_count <= 1;
         max_out       <= 0; 
+        layer         <= 0;
+        linear_count  <= 0;
         for (i = 0; i < 3; i = i + 1) 
         begin
             for (j = 0; j < 3; j = j + 1)
@@ -566,6 +601,8 @@ begin
         y_image       <= next_y_image;
         channel_count <= next_channel_count;  
         max_out       <= next_max; 
+        layer         <= next_layer;
+        linear_count  <= next_linear_count;
         for (i = 0; i < 3; i = i + 1) 
         begin
             for (j = 0; j < 3; j = j + 1)

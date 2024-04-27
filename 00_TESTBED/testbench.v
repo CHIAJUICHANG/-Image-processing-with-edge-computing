@@ -13,7 +13,7 @@
 `define COVNV0_IMAGE_NUM 		1156  // 34*34
 `define COVNV1_IMAGE_NUM 		324   // 18*18
 `define COVNV2_IMAGE_NUM 		100   // 10*10
-`define LINEAR_WEIGHT_NUM   1920   // 64*10*3
+`define LINEAR_WEIGHT_NUM   1920  // 64*10*3
 
 `define IN_CHANNEL_NUM      1
 `define PE_KERNEL_NUM       72
@@ -89,7 +89,7 @@ reg  [`BIT_WIDTH-1:0] conv2_image2_reg [0:6-1][0:6-1];
 reg  [`BIT_WIDTH-1:0] conv2_image3_reg [0:6-1][0:6-1];
 reg  [`BIT_WIDTH-1:0]       output_reg [0:3-1];
 // Flag
-reg over1, over2, over;
+reg     over1, over2, over;
 integer i, j, k, l, m, n, i_mode;
 integer ii, jj, kk, o_mode;
 integer error, correct;

@@ -67,6 +67,7 @@ reg         [  3:0] state        , next_state;
 reg  signed [  7:0] max_out      , next_max;
 reg  signed [  9:0] conv_out;
 reg  signed [  9:0] linear_count , next_linear_count;
+reg  signed [  9:0] outcha_count , next_outcha_count;
 reg  signed [ 10:0] layer        , next_layer;
 wire signed [143:0] pe_image1    , pe_image2  , pe_image3  , pe_image4 ;
 wire signed [143:0] pe_kernel1   , pe_kernel2 , pe_kernel3 , pe_kernel4;
@@ -371,19 +372,33 @@ begin
     next_y_image       = y_image;
     next_channel_count = channel_count;
     next_layer         = layer;
-    next_linear_count  = linear_coun;
+    next_linear_count  = linear_count;
+    next_outcha_count  = outcha_count;
     case(state)
         idle:
         begin
-            next_state         = kernel_in;
-            next_x_axis        = 0;
-            next_y_axis        = 0;
-            next_x_image       = 0;
-            next_y_image       = 0;
-            next_channel_count = 1;
-            if (layer ==  0) next_layer = 34;
-            if (layer == 34) next_layer = 18;
-            if (layer == 18) next_layer = 10;
+            next_state            = kernel_in;
+            next_x_axis           = 0;
+            next_y_axis           = 0;
+            next_x_image          = 0;
+            next_y_image          = 0;
+            next_channel_count    = 1;
+            next_outcha_count     = outcha_count+1;
+            if (layer == 0 && outcha_count == 3)
+            begin 
+                next_layer        = 34;
+                next_outcha_count = 0;
+            end
+            if (layer == 34 && outcha_count == 7)
+            begin 
+                next_layer        = 18;
+                next_outcha_count = 0;
+            end
+            if (layer == 18 && outcha_count == 3)
+            begin 
+                next_layer        = 10;
+                next_outcha_count = 0;
+            end
             if (layer == 10) next_layer =  0;
         end
         kernel_in:      // kernel = 3*3*8, 1 data/cycle, total need 72 cycles 
@@ -470,7 +485,7 @@ begin
                         begin
                             next_y_axis       = 0;
                             next_x_axis       = 0;
-                            ext_channel_count = channel_count+1;
+                            next_channel_count = channel_count+1;
                         end  
                     end
                     else
@@ -561,6 +576,7 @@ begin
         max_out       <= 0; 
         layer         <= 0;
         linear_count  <= 0;
+        outcha_count  <= 0;
         for (i = 0; i < 3; i = i + 1) 
         begin
             for (j = 0; j < 3; j = j + 1)
@@ -603,6 +619,7 @@ begin
         max_out       <= next_max; 
         layer         <= next_layer;
         linear_count  <= next_linear_count;
+        outcha_count  <= next_outcha_count;
         for (i = 0; i < 3; i = i + 1) 
         begin
             for (j = 0; j < 3; j = j + 1)

@@ -1,10 +1,10 @@
 `timescale 1ns / 1ps
 
-`define CYCLE 			  20
-`define RST_DEL     	2
-`define IN_DEL			  1
-`define MAX_CYCLE   	1000000
-`define SDFFILE    		"../02_SYN/sdf/core.sdf"
+`define CYCLE 			        20
+`define RST_DEL     	      2
+`define IN_DEL			        1
+`define MAX_CYCLE   	      1000000
+`define SDFFILE    		      "../02_SYN/sdf/core.sdf"
 
 `define BIT_WIDTH           8
 `define BIT2_WIDTH          16
@@ -13,7 +13,7 @@
 `define COVNV0_IMAGE_NUM 		1156  // 34*34
 `define COVNV1_IMAGE_NUM 		324   // 18*18
 `define COVNV2_IMAGE_NUM 		100   // 10*10
-`define LINEAR_WEIGHT_NUM   1920  // 64*10*3
+`define LINEAR_WEIGHT_NUM   1920   // 64*10*3
 
 `define IN_CHANNEL_NUM      1
 `define PE_KERNEL_NUM       72
@@ -37,7 +37,7 @@
 
 
 `ifdef p1
-  `define IN_IMAGE0 	    "../../00_TESTBED/PATTERN/IN_IMAGE0.dat"
+  `define IN_IMAGE 	      "../../00_TESTBED/PATTERN/IN_IMAGE.dat"
   `define CONV0_KERNEL 	  "../../00_TESTBED/PATTERN/CONV0_KERNEL.dat"
   `define CONV1_KERNEL 	  "../../00_TESTBED/PATTERN/CONV1_KERNEL.dat"
   `define CONV2_KERNEL 	  "../../00_TESTBED/PATTERN/CONV2_KERNEL.dat"
@@ -89,8 +89,8 @@ reg  [`BIT_WIDTH-1:0] conv2_image2_reg [0:6-1][0:6-1];
 reg  [`BIT_WIDTH-1:0] conv2_image3_reg [0:6-1][0:6-1];
 reg  [`BIT_WIDTH-1:0]       output_reg [0:3-1];
 // Flag
-reg     over1, over2, over;
-integer i, j, k, l, m, n, i_mode;
+reg over1, over2, over;
+integer i, j, k, l, m, n, o, p, q, i_mode, pad;
 integer ii, jj, kk, o_mode;
 integer error, correct;
 
@@ -104,7 +104,7 @@ integer error, correct;
 
 // Read in test pattern and golden pattern //
 initial begin
-  $readmemh(`IN_IMAGE0, in_image_mem);
+  $readmemh(`IN_IMAGE, in_image_mem);
 	$readmemh(`CONV0_KERNEL, conv0_kernel_mem);
 	$readmemh(`CONV1_KERNEL, conv1_kernel_mem);
   $readmemh(`CONV2_KERNEL, conv2_kernel_mem);
@@ -196,6 +196,10 @@ initial begin
   l           = 0;
   m           = 0;
   n           = 0;
+  o           = 0;
+  p           = 0;
+  q           = 0;
+  pad         = 0;
   o_mode      = 0;
   ii          = 0;
   jj          = 0;
@@ -224,7 +228,7 @@ initial begin
         for(j=0;j<`PE_KERNEL_NUM;j=j+1) begin
           @(posedge i_clk);
           i_valid = 1'b1;
-          i_data = {8'b0, conv0_kernel_mem[i*72+j]};
+          i_data = {8'b0000_0000, conv0_kernel_mem[i*72+j]};
         end
         for(k=0;k<`CONV0_Y_AXIS_NUM;k=k+2) begin
           for(l=0;l<`CONV0_X_AXIS_NUM;l=l+2) begin
@@ -287,7 +291,7 @@ initial begin
         for(j=0;j<`PE_KERNEL_NUM;j=j+1) begin
           @(posedge i_clk);
           i_valid = 1'b1;
-          i_data = {8'b0, conv1_kernel_mem[i*72+j]};
+          i_data = {8'b0000_0000, conv1_kernel_mem[i*72+j]};
         end
         for(k=0;k<`CONV1_Y_AXIS_NUM;k=k+2) begin
           for(l=0;l<`CONV1_X_AXIS_NUM;l=l+2) begin
@@ -349,7 +353,7 @@ initial begin
         for(j=0;j<`PE_KERNEL_NUM;j=j+1) begin
           @(posedge i_clk);
           i_valid = 1'b1;
-          i_data = {8'b0, conv2_kernel_mem[i*72+j]};
+          i_data = {8'b0000_0000, conv2_kernel_mem[i*72+j]};
         end
         for(k=0;k<`CONV2_Y_AXIS_NUM;k=k+2) begin
           for(l=0;l<`CONV2_X_AXIS_NUM;l=l+2) begin
@@ -406,29 +410,49 @@ initial begin
       end
     end
 
+
     3: begin
-      for(i=0;i<3;i=i+1) begin
-        for(j=0;j<10;j=j+1) begin
-          for(k=0;k<64;k=k+1) begin
+      for(i=0;i<4;i=i+1)begin
+        for(j=0;j<4;j=j+1) begin
+          for(k=0;k<4;k=k+1) begin
             @(posedge i_clk);
             i_valid = 1'b1;
-            i_data = linear_weight_mem[i*640+j*64+k];
+            if(i == 0)      i_data = {8'b0000_0000, conv2_image0_reg[j+1][k+1]};
+            else if(i == 1) i_data = {8'b0000_0000, conv2_image1_reg[j+1][k+1]};
+            else if(i == 2) i_data = {8'b0000_0000, conv2_image2_reg[j+1][k+1]};
+            else if(i == 3) i_data = {8'b0000_0000, conv2_image3_reg[j+1][k+1]};
           end
-          for(l=0;l<4;l=l+1) begin
-            for(m=0;m<4;m=m+1) begin
-              for(n=0;n<4;n=n+1) begin
+        end
+      end
+      for(pad=0;pad<8;pad=pad+1) begin
+        @(posedge i_clk);
+        i_valid = 1'b1;
+        i_data = 8'b0;
+      end
+      for(l=0;l<3;l=l+1) begin
+        for(m=0;m<10;m=m+1) begin
+          for(n=0;n<8;n=n+1) begin
+            for(o=0;o<4;o=o+2) begin
+              for(p=0;p<4;p=p+1) begin
                 @(posedge i_clk);
                 i_valid = 1'b1;
-                if(l == 0)       i_data = {8'b0, conv2_image0_reg[m+1][n+1]};
-                else if(l == 1)  i_data = {8'b0, conv2_image1_reg[m+1][n+1]};
-                else if(l == 2)  i_data = {8'b0, conv2_image2_reg[m+1][n+1]};
-                else if(l == 3)  i_data = {8'b0, conv2_image3_reg[m+1][n+1]};
+                if((n < 7)&&(o == 0)&&(p < 3))        i_data = {linear_weight_mem[l*640+m*64+n*9+o*6+p*2+q], linear_weight_mem[l*640+m*64+n*9+o*6+p*2+q+1]};
+                else if((n < 7)&&(o == 2)&&(p < 3))   i_data = {linear_weight_mem[l*640+m*64+n*9+o*6+p+q], 8'b0000_0000};
+                else if((n < 7)&&(p == 3))            i_data = {16'b0000_0000_0000_0000};
+                else if((n == 7)&&(o == 0)&&(p == 0)) i_data = {linear_weight_mem[l*640+m*64+63], 8'b0000_0000};
+
+                if(n == 7) q = q+1;
+
+                @(posedge i_clk);
+                i_valid = 1'b0;
+                #(`CYCLE);
               end
             end
           end
         end
       end
     end
+
     endcase
   end
 

@@ -25,7 +25,7 @@ parameter  mul_plse  = 3;
 parameter  linear    = 4;
 
 /* =======================REG & wire================================ */
-reg  signed [data_size-1:0] data_o_w, data_o_r;
+reg         [data_size-1:0] data_o_w, data_o_r;
 reg  signed [data_size-1:0] i_image1      [0:H-1][0:W-1];
 reg  signed [data_size-1:0] i_image2      [0:H-1][0:W-1];
 reg  signed [data_size-1:0] i_image3      [0:H-1][0:W-1];
@@ -59,16 +59,16 @@ reg  signed [data_size-1:0] next_kernel6  [0:2][0:2];
 reg  signed [data_size-1:0] next_kernel7  [0:2][0:2];
 reg  signed [data_size-1:0] next_kernel8  [0:2][0:2];
 reg         [  3:0] channel_count, next_channel_count;
-reg  signed [  3:0] x_axis       , next_x_axis;
-reg  signed [  3:0] y_axis       , next_y_axis;
-reg  signed [  6:0] x_image      , next_x_image;
-reg  signed [  6:0] y_image      , next_y_image;
-reg         [  3:0] state        , next_state;
+reg         [  1:0] x_axis       , next_x_axis;
+reg         [  1:0] y_axis       , next_y_axis;
+reg         [  5:0] x_image      , next_x_image;
+reg         [  5:0] y_image      , next_y_image;
+reg         [  2:0] state        , next_state;
 reg  signed [  7:0] max_out      , next_max;
 reg  signed [  9:0] conv_out;
-reg  signed [  9:0] linear_count , next_linear_count;
-reg  signed [  9:0] outcha_count , next_outcha_count;
-reg  signed [ 10:0] layer        , next_layer;
+reg         [  4:0] linear_count , next_linear_count;
+reg         [  3:0] outcha_count , next_outcha_count;
+reg         [  5:0] layer        , next_layer;
 wire signed [143:0] pe_image1    , pe_image2  , pe_image3  , pe_image4 ;
 wire signed [143:0] pe_kernel1   , pe_kernel2 , pe_kernel3 , pe_kernel4;
 wire signed [  7:0] pe_result1   , pe_result2 , pe_result3 , pe_result4; 
@@ -332,11 +332,11 @@ begin
         mul_plse:
         begin
             conv_out      = pe_result1 + pe_result2 + pe_result3 + pe_result4;
-            if (conv_out > max_out ) next_max = conv_out[9:2];
+            if ((conv_out > max_out) && (conv_out[9] != 1)) next_max = conv_out[9:2];
             if ((x_axis == 1) && (y_axis == 1))
             begin
                 o_valid_w = 1;
-                data_o_w   = next_max; 
+                data_o_w  = next_max; 
             end
         end
         linear:

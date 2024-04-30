@@ -61,24 +61,24 @@ assign multi_ext_122 = image_122 * kernel_122;
 
 
 // Rounding
-assign multi_000 = multi_ext_000[11:4];
-assign multi_001 = multi_ext_001[11:4];
-assign multi_002 = multi_ext_002[11:4];
-assign multi_010 = multi_ext_010[11:4];
-assign multi_011 = multi_ext_011[11:4];
-assign multi_012 = multi_ext_012[11:4];
-assign multi_020 = multi_ext_020[11:4];
-assign multi_021 = multi_ext_021[11:4];
-assign multi_022 = multi_ext_022[11:4];
-assign multi_100 = multi_ext_100[11:4];
-assign multi_101 = multi_ext_101[11:4];
-assign multi_102 = multi_ext_102[11:4];
-assign multi_110 = multi_ext_110[11:4];
-assign multi_111 = multi_ext_111[11:4];
-assign multi_112 = multi_ext_112[11:4];
-assign multi_120 = multi_ext_120[11:4];
-assign multi_121 = multi_ext_121[11:4];
-assign multi_122 = multi_ext_122[11:4];
+assign multi_000 = {multi_ext_000[11],multi_ext_000[11:3]};
+assign multi_001 = {multi_ext_001[11],multi_ext_001[11:3]};
+assign multi_002 = {multi_ext_002[11],multi_ext_002[11:3]};
+assign multi_010 = {multi_ext_010[11],multi_ext_010[11:3]};
+assign multi_011 = {multi_ext_011[11],multi_ext_011[11:3]};
+assign multi_012 = {multi_ext_012[11],multi_ext_012[11:3]};
+assign multi_020 = {multi_ext_020[11],multi_ext_020[11:3]};
+assign multi_021 = {multi_ext_021[11],multi_ext_021[11:3]};
+assign multi_022 = {multi_ext_022[11],multi_ext_022[11:3]};
+assign multi_100 = {multi_ext_100[11],multi_ext_100[11:3]};
+assign multi_101 = {multi_ext_101[11],multi_ext_101[11:3]};
+assign multi_102 = {multi_ext_102[11],multi_ext_102[11:3]};
+assign multi_110 = {multi_ext_110[11],multi_ext_110[11:3]};
+assign multi_111 = {multi_ext_111[11],multi_ext_111[11:3]};
+assign multi_112 = {multi_ext_112[11],multi_ext_112[11:3]};
+assign multi_120 = {multi_ext_120[11],multi_ext_120[11:3]};
+assign multi_121 = {multi_ext_121[11],multi_ext_121[11:3]};
+assign multi_122 = {multi_ext_122[11],multi_ext_122[11:3]};
 
 // Addition
 assign pe_result_ext = (((multi_000 + multi_001) + (multi_002 + multi_010)) + ((multi_011 + multi_012) + (multi_020 + multi_021))) + (((multi_022 + multi_100) + (multi_101 + multi_102)) + ((multi_110 + multi_111) + (multi_112 + multi_120)))

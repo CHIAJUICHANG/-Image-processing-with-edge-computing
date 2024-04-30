@@ -1,13 +1,14 @@
 # Read Design
 read_file -format verilog ../01_RTL/core.v
 current_design core
+uniquify
 link
 
 #source -echo -verbose ./your_design.sdc
 
 ############in sdc file
 # Set the Optimization Constraints 
-create_clock -period 30 -name "i_clk" -waveform {0 20} "i_clk"
+create_clock -period 20 -name "i_clk" -waveform {0 10} "i_clk"
 set_dont_touch_network [get_ports i_clk]
 set_fix_hold [get_clocks i_clk]
 
@@ -20,11 +21,14 @@ set_output_delay -min 0.5 -clock i_clk [all_outputs]
 set_drive 1  [all_inputs]
 set_load  10 [all_outputs]
 
+
+set_fix_multiple_port_nets -all -buffer_constants
+
 set_operating_conditions -min_library fsa0m_a_generic_core_ff1p98vm40c -min BCCOM -max_library fsa0m_a_generic_core_ss1p62v125c -max WCCOM
 set_wire_load_model -name G200K -library fsa0m_a_generic_core_tt1p8v25c
 
 set_max_area 0
-set_max_fanout 6 core
+# set_max_fanout 6 core
 set_boundary_optimization {"*"}
 #############in sdc file
 

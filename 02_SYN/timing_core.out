@@ -6,7 +6,7 @@ Report : timing
         -max_paths 1
 Design : core
 Version: U-2022.12
-Date   : Mon Apr 29 14:13:40 2024
+Date   : Tue Apr 30 16:13:30 2024
 ****************************************
 
  # A fanout number of 1000 was used for high fanout net computations.
@@ -14,9 +14,9 @@ Date   : Mon Apr 29 14:13:40 2024
 Operating Conditions: WCCOM   Library: fsa0m_a_generic_core_ss1p62v125c
 Wire Load Model Mode: enclosed
 
-  Startpoint: x_axis_reg[0]
+  Startpoint: x_axis_reg[1]
               (rising edge-triggered flip-flop clocked by i_clk)
-  Endpoint: max_out_reg[0]
+  Endpoint: data_o_r_reg[6]
             (rising edge-triggered flip-flop clocked by i_clk)
   Path Group: i_clk
   Path Type: max
@@ -29,85 +29,78 @@ Wire Load Model Mode: enclosed
   -----------------------------------------------------------
   clock i_clk (rise edge)                  0.00       0.00
   clock network delay (ideal)              0.50       0.50
-  x_axis_reg[0]/CK (QDFFRBN)               0.00 #     0.50 r
-  x_axis_reg[0]/Q (QDFFRBN)                0.37       0.87 r
-  U10732/O (INV1S)                         0.26       1.13 f
-  U10733/O (NR2)                           0.29       1.42 r
-  U10734/O (INV1S)                         0.35       1.77 f
-  U10063/O (BUF1)                          0.34       2.10 f
-  U10029/O (BUF1)                          0.28       2.39 f
-  U9998/O (BUF1)                           0.29       2.68 f
-  U9993/O (BUF1)                           0.29       2.97 f
-  U13799/O (INV1S)                         0.47       3.44 r
-  U13800/O (AOI22S)                        0.15       3.59 f
-  U9329/O (ND2S)                           0.32       3.91 r
-  U13805/O (AOI22S)                        0.17       4.08 f
-  U8863/O (ND2S)                           0.52       4.60 r
-  U10284/O (INV1S)                         0.33       4.93 f
-  U13827/O (MOAI1S)                        1.30       6.23 r
-  U10434/O (INV1S)                         0.12       6.35 f
-  U10435/O (INV1S)                         0.52       6.87 r
-  U18185/O (NR2)                           0.45       7.32 f
-  U18190/O (MOAI1S)                        0.48       7.80 f
-  U18193/O (MOAI1S)                        0.41       8.21 r
-  U18194/S (FA1S)                          0.45       8.65 f
-  intadd_60/U7/CO (FA1S)                   0.46       9.11 f
-  intadd_60/U6/CO (FA1S)                   0.41       9.52 f
-  intadd_60/U5/S (FA1S)                    0.52      10.05 r
-  U19307/O (INV1S)                         0.12      10.17 f
-  intadd_102/U3/CO (FA1S)                  0.45      10.61 f
-  intadd_102/U2/CO (FA1S)                  0.43      11.05 f
-  intadd_62/U3/CO (FA1S)                   0.46      11.51 f
-  intadd_62/U2/S (FA1S)                    0.52      12.03 r
-  U23166/O (INV1S)                         0.12      12.14 f
-  U24571/S (FA1S)                          0.53      12.67 r
-  U23168/O (INV1S)                         0.12      12.79 f
-  intadd_90/U2/CO (FA1S)                   0.44      13.23 f
-  U24651/O (MOAI1S)                        0.31      13.54 f
-  U24652/O (MOAI1S)                        0.37      13.92 f
-  U24653/O (MOAI1S)                        0.37      14.29 f
-  U24654/O (MOAI1S)                        0.37      14.66 f
-  U24655/O (MOAI1S)                        0.37      15.03 f
-  U24656/O (MOAI1S)                        0.37      15.40 f
-  U24657/O (MOAI1S)                        0.37      15.77 f
-  U24658/O (MOAI1S)                        0.37      16.14 f
-  U10699/O (MOAI1S)                        0.37      16.51 f
-  U10701/O (MOAI1S)                        0.37      16.89 f
-  U8328/O (MOAI1S)                         0.37      17.26 f
-  U10703/O (MOAI1S)                        0.37      17.63 f
-  U10705/O (MOAI1S)                        0.35      17.97 f
-  U10707/O (MOAI1S)                        0.36      18.34 f
-  U8327/O (MOAI1S)                         0.37      18.71 f
-  U10710/O (MOAI1S)                        0.37      19.08 f
-  U10712/O (MOAI1S)                        0.37      19.45 f
-  U8321/O (MOAI1S)                         0.37      19.82 f
-  U8325/O (MOAI1S)                         0.41      20.23 r
-  U25108/S (FA1S)                          0.45      20.69 f
-  U25106/S (FA1S)                          0.54      21.22 r
-  U25103/O (INV1S)                         0.12      21.34 f
-  intadd_4/U3/CO (FA1S)                    0.42      21.77 f
-  intadd_4/U2/S (FA1S)                     0.69      22.46 r
-  U25122/O (NR2)                           0.10      22.55 f
-  U25123/O (AN2)                           0.21      22.77 f
-  U8324/O (OR2)                            0.30      23.07 f
-  U8323/O (INV1S)                          0.29      23.36 r
-  U28223/O (OAI22S)                        0.14      23.50 f
-  U28224/O (NR3)                           0.98      24.48 r
-  U28225/O (OAI222S)                       0.25      24.73 f
-  max_out_reg[0]/D (QDFFRBN)               0.00      24.73 f
-  data arrival time                                  24.73
+  x_axis_reg[1]/CK (QDFFRBT)               0.00 #     0.50 r
+  x_axis_reg[1]/Q (QDFFRBT)                0.41       0.91 f
+  U9552/O (INV2)                           0.17       1.08 r
+  U7923/O (ND2P)                           0.24       1.32 f
+  U7661/O (INV2)                           0.33       1.65 r
+  U7580/O (BUF3)                           0.61       2.26 r
+  U7672/O (ND2T)                           0.52       2.78 f
+  U7559/O (INV2)                           0.82       3.60 r
+  U11652/O (AOI22S)                        0.17       3.77 f
+  U7756/O (ND3)                            0.70       4.46 r
+  U8733/O (INV1)                           0.36       4.83 f
+  U12047/O (MOAI1S)                        0.56       5.39 r
+  U12048/O (ND2)                           0.45       5.84 f
+  U18363/O (OA22)                          0.37       6.20 f
+  intadd_52/U8/S (FA1S)                    0.66       6.87 r
+  U18367/O (NR2)                           0.09       6.95 f
+  U18368/O (NR2)                           0.18       7.14 r
+  intadd_52/U7/CO (FA1S)                   0.27       7.40 r
+  intadd_52/U6/S (FA1S)                    0.44       7.84 f
+  intadd_131/U4/S (FA1S)                   0.54       8.38 r
+  U19120/O (INV1S)                         0.12       8.50 f
+  intadd_48/U6/CO (FA1S)                   0.45       8.95 f
+  intadd_48/U5/S (FA1S)                    0.52       9.47 r
+  U19126/O (INV1S)                         0.12       9.59 f
+  U7967/CO (FA1S)                          0.42      10.01 f
+  intadd_95/U4/S (FA1S)                    0.52      10.53 r
+  U16886/O (INV1S)                         0.12      10.65 f
+  U7962/CO (FA1S)                          0.46      11.11 f
+  U7958/CO (FA1S)                          0.46      11.58 f
+  U7956/S (FA1S)                           0.54      12.12 r
+  U16883/O (INV1S)                         0.12      12.24 f
+  U7707/CO (FA1S)                          0.44      12.68 f
+  U12420/O (MOAI1S)                        0.31      12.99 f
+  U7594/O (MOAI1S)                         0.35      13.33 f
+  U7706/O (MOAI1)                          0.31      13.64 f
+  U7702/O (MOAI1S)                         0.41      14.05 r
+  U12704/O (MOAI1S)                        0.24      14.29 r
+  U12705/O (XOR3)                          0.32      14.61 f
+  U12706/O (MOAI1S)                        0.29      14.90 r
+  U12707/O (XOR3)                          0.33      15.23 f
+  U7799/O (MOAI1)                          0.26      15.49 f
+  U7936/O (MOAI1)                          0.24      15.73 f
+  U12731/O (MOAI1S)                        0.31      16.04 r
+  U12732/O (XOR3)                          0.33      16.36 f
+  U7797/O (MOAI1)                          0.25      16.61 f
+  U7795/O (MOAI1)                          0.27      16.89 f
+  U20606/S (FA1S)                          0.43      17.32 f
+  U7794/S (FA1S)                           0.54      17.85 r
+  U7700/O (INV1S)                          0.12      17.97 f
+  U24529/CO (FA1)                          0.34      18.31 f
+  U24471/S (FA1)                           0.30      18.61 f
+  U21722/O (NR2)                           0.16      18.76 r
+  U21733/O (ND2)                           0.12      18.88 f
+  U21734/O (INV1S)                         0.14      19.02 r
+  U9599/O (NR2P)                           0.20      19.22 f
+  U21736/O (INV4)                          0.21      19.43 r
+  U9863/O (ND2)                            0.39      19.82 f
+  U21759/O (OAI222S)                       0.45      20.27 r
+  data_o_r_reg[6]/D (QDFFRBN)              0.00      20.27 r
+  data arrival time                                  20.27
 
-  clock i_clk (rise edge)                 30.00      30.00
-  clock network delay (ideal)              0.50      30.50
-  clock uncertainty                       -0.10      30.40
-  max_out_reg[0]/CK (QDFFRBN)              0.00      30.40 r
-  library setup time                      -0.10      30.30
-  data required time                                 30.30
+  clock i_clk (rise edge)                 20.00      20.00
+  clock network delay (ideal)              0.50      20.50
+  clock uncertainty                       -0.10      20.40
+  data_o_r_reg[6]/CK (QDFFRBN)             0.00      20.40 r
+  library setup time                      -0.12      20.28
+  data required time                                 20.28
   -----------------------------------------------------------
-  data required time                                 30.30
-  data arrival time                                 -24.73
+  data required time                                 20.28
+  data arrival time                                 -20.27
   -----------------------------------------------------------
-  slack (MET)                                         5.57
+  slack (MET)                                         0.01
 
 
 1

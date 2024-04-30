@@ -60,7 +60,6 @@ Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:126: unsigned to
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:132: unsigned to signed assignment occurs. (VER-318)
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:138: unsigned to signed assignment occurs. (VER-318)
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:144: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:150: signed to unsigned assignment occurs. (VER-318)
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:197: unsigned to signed assignment occurs. (VER-318)
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:201: unsigned to signed assignment occurs. (VER-318)
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:205: unsigned to signed assignment occurs. (VER-318)
@@ -94,7 +93,11 @@ Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:314: unsigned to
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:318: unsigned to signed assignment occurs. (VER-318)
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:322: unsigned to signed assignment occurs. (VER-318)
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:335: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:339: signed to unsigned assignment occurs. (VER-318)
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:345: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:349: signed to unsigned assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:354: signed to unsigned assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:359: signed to unsigned assignment occurs. (VER-318)
 
 Statistics for case statements in always block at line 154 in file
 	'/home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v'
@@ -122,18 +125,18 @@ Inferred memory devices in process
 |    i_image2_reg     | Flip-flop |  128  |  Y  | N  | Y  | N  | N  | N  | N  |
 |    data_o_r_reg     | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
 |    o_valid_r_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
-|      state_reg      | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      state_reg      | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
 |      state_reg      | Flip-flop |   1   |  N  | N  | N  | Y  | N  | N  | N  |
-|     x_axis_reg      | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
-|     y_axis_reg      | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
-|     x_image_reg     | Flip-flop |   7   |  Y  | N  | Y  | N  | N  | N  | N  |
-|     y_image_reg     | Flip-flop |   7   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     x_axis_reg      | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     y_axis_reg      | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     x_image_reg     | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     y_image_reg     | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
 |  channel_count_reg  | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
 |  channel_count_reg  | Flip-flop |   1   |  N  | N  | N  | Y  | N  | N  | N  |
 |     max_out_reg     | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
-|      layer_reg      | Flip-flop |  11   |  Y  | N  | Y  | N  | N  | N  | N  |
-|  linear_count_reg   | Flip-flop |  10   |  Y  | N  | Y  | N  | N  | N  | N  |
-|  outcha_count_reg   | Flip-flop |  10   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      layer_reg      | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
+|  linear_count_reg   | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+|  outcha_count_reg   | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
 |     kernel3_reg     | Flip-flop |  72   |  Y  | N  | Y  | N  | N  | N  | N  |
 |    i_image7_reg     | Flip-flop |  128  |  Y  | N  | Y  | N  | N  | N  | N  |
 |     kernel5_reg     | Flip-flop |  72   |  Y  | N  | Y  | N  | N  | N  | N  |
@@ -157,11 +160,9 @@ Statistics for MUX_OPs
 |     core/102     |   4    |   192   |      2       |
 |     core/102     |   4    |   32    |      2       |
 |     core/102     |   4    |   32    |      2       |
-|     core/102     |   4    |    8    |      2       |
 |     core/102     |   4    |   32    |      2       |
 |     core/102     |   4    |    8    |      2       |
 |     core/102     |   4    |   32    |      2       |
-|     core/102     |   4    |    8    |      2       |
 |     core/102     |   4    |    8    |      2       |
 |     core/102     |   4    |   32    |      2       |
 |     core/102     |   4    |    8    |      2       |
@@ -169,16 +170,15 @@ Statistics for MUX_OPs
 |     core/102     |   4    |    8    |      2       |
 |     core/102     |   4    |   32    |      2       |
 |     core/102     |   4    |   32    |      2       |
+|     core/102     |   4    |   32    |      2       |
+|     core/102     |   4    |    8    |      2       |
+|     core/102     |   4    |   32    |      2       |
 |     core/102     |   4    |    8    |      2       |
 |     core/102     |   4    |   32    |      2       |
 |     core/102     |   4    |    8    |      2       |
 |     core/102     |   4    |   32    |      2       |
 |     core/102     |   4    |    8    |      2       |
-|     core/102     |   4    |    8    |      2       |
-|     core/102     |   4    |   32    |      2       |
-|     core/102     |   4    |    8    |      2       |
-|     core/102     |   4    |   32    |      2       |
-|     core/102     |   4    |    8    |      2       |
+|     core/108     |   4    |   32    |      2       |
 |     core/108     |   4    |   32    |      2       |
 |     core/108     |   4    |   32    |      2       |
 |     core/108     |   4    |    8    |      2       |
@@ -186,11 +186,9 @@ Statistics for MUX_OPs
 |     core/108     |   4    |    8    |      2       |
 |     core/108     |   4    |   32    |      2       |
 |     core/108     |   4    |    8    |      2       |
-|     core/108     |   4    |    8    |      2       |
 |     core/108     |   4    |   32    |      2       |
 |     core/108     |   4    |    8    |      2       |
 |     core/108     |   4    |   32    |      2       |
-|     core/108     |   4    |    8    |      2       |
 |     core/108     |   4    |   32    |      2       |
 |     core/108     |   4    |   32    |      2       |
 |     core/108     |   4    |    8    |      2       |
@@ -198,18 +196,13 @@ Statistics for MUX_OPs
 |     core/108     |   4    |    8    |      2       |
 |     core/108     |   4    |   32    |      2       |
 |     core/108     |   4    |    8    |      2       |
-|     core/108     |   4    |    8    |      2       |
-|     core/108     |   4    |   32    |      2       |
-|     core/108     |   4    |    8    |      2       |
 |     core/108     |   4    |   32    |      2       |
 |     core/108     |   4    |    8    |      2       |
 |     core/114     |   4    |   32    |      2       |
 |     core/114     |   4    |   32    |      2       |
-|     core/114     |   4    |    8    |      2       |
 |     core/114     |   4    |   32    |      2       |
 |     core/114     |   4    |    8    |      2       |
 |     core/114     |   4    |   32    |      2       |
-|     core/114     |   4    |    8    |      2       |
 |     core/114     |   4    |    8    |      2       |
 |     core/114     |   4    |   32    |      2       |
 |     core/114     |   4    |    8    |      2       |
@@ -217,16 +210,15 @@ Statistics for MUX_OPs
 |     core/114     |   4    |    8    |      2       |
 |     core/114     |   4    |   32    |      2       |
 |     core/114     |   4    |   32    |      2       |
+|     core/114     |   4    |   32    |      2       |
+|     core/114     |   4    |    8    |      2       |
+|     core/114     |   4    |   32    |      2       |
 |     core/114     |   4    |    8    |      2       |
 |     core/114     |   4    |   32    |      2       |
 |     core/114     |   4    |    8    |      2       |
 |     core/114     |   4    |   32    |      2       |
 |     core/114     |   4    |    8    |      2       |
-|     core/114     |   4    |    8    |      2       |
-|     core/114     |   4    |   32    |      2       |
-|     core/114     |   4    |    8    |      2       |
-|     core/114     |   4    |   32    |      2       |
-|     core/114     |   4    |    8    |      2       |
+|     core/120     |   4    |   32    |      2       |
 |     core/120     |   4    |   32    |      2       |
 |     core/120     |   4    |   32    |      2       |
 |     core/120     |   4    |    8    |      2       |
@@ -234,18 +226,13 @@ Statistics for MUX_OPs
 |     core/120     |   4    |    8    |      2       |
 |     core/120     |   4    |   32    |      2       |
 |     core/120     |   4    |    8    |      2       |
-|     core/120     |   4    |    8    |      2       |
 |     core/120     |   4    |   32    |      2       |
 |     core/120     |   4    |    8    |      2       |
 |     core/120     |   4    |   32    |      2       |
-|     core/120     |   4    |    8    |      2       |
 |     core/120     |   4    |   32    |      2       |
 |     core/120     |   4    |   32    |      2       |
 |     core/120     |   4    |    8    |      2       |
 |     core/120     |   4    |   32    |      2       |
-|     core/120     |   4    |    8    |      2       |
-|     core/120     |   4    |   32    |      2       |
-|     core/120     |   4    |    8    |      2       |
 |     core/120     |   4    |    8    |      2       |
 |     core/120     |   4    |   32    |      2       |
 |     core/120     |   4    |    8    |      2       |
@@ -260,19 +247,7 @@ core
 current_design core
 Current design is 'core'.
 {core}
-link
-
-  Linking design 'core'
-  Using the following designs and libraries:
-  --------------------------------------------------------------------------
-  dw_foundation.sldb (library) /usr/cad/synopsys/synthesis/cur/libraries/syn/dw_foundation.sldb
-  fsa0m_a_generic_core_tt1p8v25c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_tt1p8v25c.db
-  fsa0m_a_generic_core_ss1p62v125c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_ss1p62v125c.db
-  fsa0m_a_generic_core_ff1p98vm40c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_ff1p98vm40c.db
-  fsa0m_a_t33_generic_io_tt1p8v25c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_tt1p8v25c.db
-  fsa0m_a_t33_generic_io_ss1p62v125c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_ss1p62v125c.db
-  fsa0m_a_t33_generic_io_ff1p98vm40c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_ff1p98vm40c.db
-
+uniquify
 Information: Building the design 'pe'. (HDL-193)
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/pe.v:64: signed to unsigned part selection occurs. (VER-318)
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/pe.v:65: signed to unsigned part selection occurs. (VER-318)
@@ -294,11 +269,30 @@ Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/pe.v:80: signed to unsi
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/pe.v:81: signed to unsigned part selection occurs. (VER-318)
 Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/pe.v:98: signed to unsigned part selection occurs. (VER-318)
 Presto compilation completed successfully. (pe)
+Information: Uniquified 4 instances of design 'pe'. (OPT-1056)
 1
+link
+
+  Linking design 'core'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  dw_foundation.sldb (library) /usr/cad/synopsys/synthesis/cur/libraries/syn/dw_foundation.sldb
+  fsa0m_a_generic_core_tt1p8v25c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_tt1p8v25c.db
+  fsa0m_a_generic_core_ss1p62v125c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_ss1p62v125c.db
+  fsa0m_a_generic_core_ff1p98vm40c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_ff1p98vm40c.db
+  fsa0m_a_t33_generic_io_tt1p8v25c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_tt1p8v25c.db
+  fsa0m_a_t33_generic_io_ss1p62v125c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_ss1p62v125c.db
+  fsa0m_a_t33_generic_io_ff1p98vm40c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_ff1p98vm40c.db
+
+Warning: Unable to resolve reference 'pe_3' in 'core'. (LINK-5)
+Warning: Unable to resolve reference 'pe_2' in 'core'. (LINK-5)
+Warning: Unable to resolve reference 'pe_1' in 'core'. (LINK-5)
+Warning: Unable to resolve reference 'pe_0' in 'core'. (LINK-5)
+0
 #source -echo -verbose ./your_design.sdc
 ############in sdc file
 # Set the Optimization Constraints 
-create_clock -period 30 -name "i_clk" -waveform {0 15} "i_clk"
+create_clock -period 20 -name "i_clk" -waveform {0 10} "i_clk"
 1
 set_dont_touch_network [get_ports i_clk]
 1
@@ -317,6 +311,8 @@ set_drive 1  [all_inputs]
 1
 set_load  10 [all_outputs]
 1
+set_fix_multiple_port_nets -all -buffer_constants
+1
 set_operating_conditions -min_library fsa0m_a_generic_core_ff1p98vm40c -min BCCOM -max_library fsa0m_a_generic_core_ss1p62v125c -max WCCOM
 Using operating conditions 'WCCOM' found in library 'fsa0m_a_generic_core_ss1p62v125c'.
 Using operating conditions 'BCCOM' found in library 'fsa0m_a_generic_core_ff1p98vm40c'.
@@ -325,8 +321,7 @@ set_wire_load_model -name G200K -library fsa0m_a_generic_core_tt1p8v25c
 1
 set_max_area 0
 1
-set_max_fanout 6 core
-1
+# set_max_fanout 6 core
 set_boundary_optimization {"*"}
 1
 #############in sdc file
@@ -335,37 +330,36 @@ check_design
 ****************************************
 check_design summary:
 Version:     U-2022.12
-Date:        Mon Apr 29 14:06:40 2024
+Date:        Tue Apr 30 16:06:26 2024
 ****************************************
 
                    Name                                            Total
 --------------------------------------------------------------------------------
-Cells                                                              15
-    Cells do not drive (LINT-1)                                    15
+Cells                                                              14
+    Cells do not drive (LINT-1)                                    14
 --------------------------------------------------------------------------------
 
-Warning: In design 'core', cell 'C47394' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47400' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47435' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47459' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47460' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47467' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47483' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47484' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47491' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47495' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47496' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47517' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47520' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47531' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C47540' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'B_695' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'B_696' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'B_697' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C31239' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C31240' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C31247' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C31263' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C31264' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C31271' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C31275' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C31276' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C31297' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'B_701' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C31310' does not drive any nets. (LINT-1)
 1
 # remove_attribute [find -hierarchy design {"*"}] dont_touch
 # Map and Optimize the Design
 compile_ultra
 Information: Performing power optimization. (PWR-850)
 Alib files are up-to-date.
-Warning: Setting attribute 'fix_multiple_port_nets' on design 'core'. (UIO-59)
+Warning: Ignoring compile_fix_multiple_port_nets = TRUE. (UIO-60)
 Information: Evaluating DesignWare library utilization. (UISN-27)
 
 ============================================================================
@@ -384,24 +378,27 @@ Information: Evaluating DesignWare library utilization. (UISN-27)
 | Design Information                                      | Value                                  |
 ====================================================================================================
 | Number of Scenarios                                     | 0                                      |
-| Leaf Cell Count                                         | 6198                                   |
+| Leaf Cell Count                                         | 4929                                   |
 | Number of User Hierarchies                              | 4                                      |
-| Sequential Cell Count                                   | 1678                                   |
+| Sequential Cell Count                                   | 1655                                   |
 | Macro Count                                             | 0                                      |
 | Number of Power Domains                                 | 0                                      |
 | Number of Path Groups                                   | 2                                      |
 | Number of VT Class                                      | 0                                      |
 | Number of Clocks                                        | 1                                      |
-| Number of Dont Touch Cells                              | 1816                                   |
+| Number of Dont Touch Cells                              | 1222                                   |
 | Number of Dont Touch Nets                               | 1                                      |
 | Number of Size Only Cells                               | 0                                      |
 | Design with UPF Data                                    | false                                  |
+----------------------------------------------------------------------------------------------------
+| Variables                                               | Value                                  |
+----------------------------------------------------------------------------------------------------
+| set_fix_multiple_port_nets                              | -all -buffer_constants                 |
 ====================================================================================================
 Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
 
-Information: There are 15 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+Information: There are 14 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
 
-Information: Uniquified 4 instances of design 'pe'. (OPT-1056)
   Simplifying Design 'core'
 
   Loading target library 'fsa0m_a_generic_core_ss1p62v125c'
@@ -420,9 +417,9 @@ voltage and temperatures parameters than the parameters at which target library
 fsa0m_a_generic_core_tt1p8v25c is characterized. Delays may be inaccurate as a result. (OPT-998)
   Building model 'DW01_NAND2'
 Information: Ungrouping hierarchy PE_U1 before Pass 1 (OPT-776)
-Information: Ungrouping hierarchy PE_U4 before Pass 1 (OPT-776)
-Information: Ungrouping hierarchy PE_U3 before Pass 1 (OPT-776)
 Information: Ungrouping hierarchy PE_U2 before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy PE_U3 before Pass 1 (OPT-776)
+Information: Ungrouping hierarchy PE_U4 before Pass 1 (OPT-776)
 Information: Ungrouping 4 of 5 hierarchies before Pass 1 (OPT-775)
 Information: State dependent leakage is now switched from on to off.
 
@@ -430,12 +427,6 @@ Information: State dependent leakage is now switched from on to off.
   ------------------------
   Processing 'core'
 Information: Added key list 'DesignWare' to design 'core'. (DDB-72)
-Information: The register 'state_reg[3]' is a constant and will be removed. (OPT-1206)
-Information: The register 'layer_reg[10]' is a constant and will be removed. (OPT-1206)
-Information: The register 'layer_reg[9]' is a constant and will be removed. (OPT-1206)
-Information: The register 'layer_reg[8]' is a constant and will be removed. (OPT-1206)
-Information: The register 'layer_reg[7]' is a constant and will be removed. (OPT-1206)
-Information: The register 'layer_reg[6]' is a constant and will be removed. (OPT-1206)
 Information: The register 'layer_reg[2]' is a constant and will be removed. (OPT-1206)
 Information: The register 'layer_reg[0]' is a constant and will be removed. (OPT-1206)
  Implement Synthetic for 'core'.
@@ -451,7 +442,6 @@ Information: The register 'y_image_reg[0]' is a constant and will be removed. (O
 
   Beginning Mapping Optimizations  (Ultra High effort)
   -------------------------------
-Information: Updating design information... (UID-85)
   Mapping Optimization (Phase 1)
 Information: The register 'max_out_reg[7]' is a constant and will be removed. (OPT-1206)
 Information: The register 'data_o_r_reg[7]' is a constant and will be removed. (OPT-1206)
@@ -460,13 +450,13 @@ Information: The register 'data_o_r_reg[7]' is a constant and will be removed. (
    ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE   MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER      COST    
   --------- --------- --------- --------- --------- ------------------------- --------- -----------
-    0:04:49  550539.8      0.00       0.0   54219.7                           1995256.6250      0.00  
-    0:04:52  550233.5      0.00       0.0   54217.7                           1994380.2500      0.00  
+    0:04:49  527956.8      0.00       0.0   46905.7                           1907929.8750      0.00  
+    0:04:51  527850.6      0.00       0.0   46905.7                           1907695.5000      0.00  
 
   Beginning Constant Register Removal
   -----------------------------------
-    0:04:54  550233.5      0.00       0.0   54217.7                           1994380.2500      0.00  
-    0:04:56  550233.5      0.00       0.0   54217.7                           1994380.2500      0.00  
+    0:04:53  527850.6      0.00       0.0   46905.7                           1907695.5000      0.00  
+    0:04:55  527850.6      0.00       0.0   46905.7                           1907695.5000      0.00  
 
   Beginning Global Optimizations
   ------------------------------
@@ -508,54 +498,53 @@ Information: The register 'data_o_r_reg[7]' is a constant and will be removed. (
 
   Beginning Delay Optimization
   ----------------------------
-    0:05:23  472419.8      0.00       0.0   51826.4                           1558401.8750      0.00  
-    0:05:23  472419.8      0.00       0.0   51826.4                           1558401.8750      0.00  
-    0:05:23  472419.8      0.00       0.0   51826.4                           1558401.8750      0.00  
-    0:05:23  472419.8      0.00       0.0   51826.4                           1558401.8750      0.00  
-    0:05:29  471922.9      0.00       0.0   51782.4                           1558125.7500      0.00  
-    0:05:32  471904.2      0.00       0.0   51782.4                           1558078.6250      0.00  
+    0:05:22  466629.5      2.20      29.8   46378.3                           1540595.1250      0.00  
+    0:05:24  467270.1      0.00       0.0   46342.1                           1546094.3750      0.00  
+    0:05:24  467270.1      0.00       0.0   46342.1                           1546094.3750      0.00  
+    0:05:25  467270.1      0.00       0.0   46342.1                           1546094.3750      0.00  
+    0:05:30  466813.9      0.00       0.0   46342.1                           1545968.0000      0.00  
+    0:05:32  466813.9      0.00       0.0   46342.1                           1545968.0000      0.00  
 
   Beginning WLM Backend Optimization
   --------------------------------------
-    0:05:47  471719.8      0.00       0.0   51782.4                           1557461.0000      0.00  
-    0:05:48  471219.8      0.00       0.0   51782.4                           1555104.7500      0.00  
-    0:05:48  471219.8      0.00       0.0   51782.4                           1555104.7500      0.00  
-    0:05:48  471219.8      0.00       0.0   51782.4                           1555104.7500      0.00  
-    0:05:51  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
+    0:05:59  458476.9      0.00       0.0   46329.0                           1505118.7500      0.00  
+    0:06:03  457983.2      0.00       0.0   46329.0                           1502773.2500      0.00  
+    0:06:03  457983.2      0.00       0.0   46329.0                           1502773.2500      0.00  
+    0:06:03  457983.2      0.00       0.0   46329.0                           1502773.2500      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
 
 
-  Beginning Design Rule Fixing  (max_transition)  (max_fanout)  (max_capacitance)
+  Beginning Design Rule Fixing  (max_transition)  (max_capacitance)
   ----------------------------
 
                                   TOTAL                                                            
    ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE   MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER      COST    
   --------- --------- --------- --------- --------- ------------------------- --------- -----------
-    0:05:52  471201.1      0.00       0.0   51782.4                           1555057.3750      0.00  
+    0:06:06  457948.8      0.00       0.0   46329.0                           1502619.6250      0.00  
   Global Optimization (Phase 31)
   Global Optimization (Phase 32)
   Global Optimization (Phase 33)
-    0:06:08  478088.2      0.00       0.0   25949.9 net53428                  1582999.2500      0.00  
-    0:06:12  478531.9      0.00       0.0   25733.9                           1585565.7500      0.00  
-    0:06:12  478531.9      0.00       0.0   25733.9                           1585565.7500      0.00  
+    0:06:09  458964.4      0.00       0.0   22628.9                           1508202.3750      0.00  
+    0:06:09  458964.4      0.00       0.0   22628.9                           1508202.3750      0.00  
 
 
   Beginning Leakage Power Optimization  (max_leakage_power 0)
@@ -565,49 +554,47 @@ Information: The register 'data_o_r_reg[7]' is a constant and will be removed. (
    ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE   MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER      COST    
   --------- --------- --------- --------- --------- ------------------------- --------- -----------
-    0:06:12  478531.9      0.00       0.0   25733.9                           1585565.7500      0.00  
-    0:06:12  478531.9      0.00       0.0   25733.9                           1585565.7500      0.00  
-    0:06:12  478531.9      0.00       0.0   25733.9                           1585565.7500      0.00  
-    0:06:12  478531.9      0.00       0.0   25733.9                           1585565.7500      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:20  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
+    0:06:09  458964.4      0.00       0.0   22628.9                           1508202.3750      0.00  
+    0:06:09  462357.9      0.00       0.0   22628.9                           1524222.6250      0.00  
+    0:06:09  462357.9      0.00       0.0   22628.9                           1524222.6250      0.00  
+    0:06:09  462357.9      0.00       0.0   22628.9                           1524222.6250      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460161.2      0.00       0.0   22628.8                           1512735.0000      0.00  
+    0:06:14  460211.2      0.00       0.0   25444.8                           1513057.5000      0.00  
 
                                   TOTAL                                                            
    ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE   MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER      COST    
   --------- --------- --------- --------- --------- ------------------------- --------- -----------
-    0:06:22  478306.9      0.00       0.0   25733.8                           1581095.8750      0.00  
-    0:06:26  477925.7      0.00       0.0   25733.8                           1578219.1250      0.00  
-    0:06:27  477925.7      0.00       0.0   25733.8                           1578219.1250      0.00  
-    0:06:27  477925.7      0.00       0.0   25733.8                           1578219.1250      0.00  
-    0:06:30  477925.7      0.00       0.0   25733.8                           1578219.1250      0.00  
-    0:06:39  477666.3      0.00       0.0   25730.8                           1577034.5000      0.00  
-    0:06:42  478135.0      0.00       0.0   25538.8 net56902                  1579233.5000      0.00  
-    0:06:44  479266.2      0.00       0.0   25182.8 pe_kernel3[64]            1584456.2500      0.00  
-    0:06:44  479291.2      0.00       0.0   25170.8                           1584571.6250      0.00  
-    0:06:44  479291.2      0.00       0.0   25170.8                           1584571.6250      0.00  
-    0:06:44  479291.2      0.00       0.0   25170.8                           1584571.6250      0.00  
-    0:06:44  479291.2      0.00       0.0   25170.8                           1584571.6250      0.00  
-    0:06:45  479291.2      0.00       0.0   25170.8                           1584571.6250      0.00  
-    0:06:45  479291.2      0.00       0.0   25170.8                           1584571.6250      0.00  
-    0:06:46  479216.2      0.00       0.0   25170.8                           1584670.8750      0.00  
+    0:06:15  460211.2      0.00       0.0   25444.8                           1513057.5000      0.00  
+    0:06:23  453546.0      0.00       0.0   25444.9                           1479639.1250      0.00  
+    0:06:24  453546.0      0.00       0.0   25444.9                           1479639.1250      0.00  
+    0:06:24  453546.0      0.00       0.0   25444.9                           1479639.1250      0.00  
+    0:06:27  453411.6      0.00       0.0   25444.9                           1478981.7500      0.00  
+    0:06:42  450955.5      0.00       0.0   25432.9                           1468557.2500      0.00  
+    0:06:42  450955.5      0.00       0.0   25432.9                           1468557.2500      0.00  
+    0:06:42  450955.5      0.00       0.0   25432.9                           1468557.2500      0.00  
+    0:06:42  450955.5      0.00       0.0   25432.9                           1468557.2500      0.00  
+    0:06:43  450955.5      0.00       0.0   25432.9                           1468557.2500      0.00  
+    0:06:43  450955.5      0.00       0.0   25432.9                           1468557.2500      0.00  
+    0:06:53  450083.7      0.00       0.0   25433.3                           1465455.1250      0.00  
 Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_tt1p8v25c.db'
 Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_ss1p62v125c.db'
 Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_ff1p98vm40c.db'
@@ -622,7 +609,7 @@ Note: Symbol # after min delay cost means estimated hold TNS across all active s
   Optimization Complete
   ---------------------
 Warning: Design 'core' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
-     Net 'i_clk': 1666 load(s), 1 driver(s)
+     Net 'i_clk': 1649 load(s), 1 driver(s)
   Loading target library 'fsa0m_a_generic_core_ss1p62v125c'
   Loading target library 'fsa0m_a_generic_core_ff1p98vm40c'
   Loading target library 'fsa0m_a_t33_generic_io_tt1p8v25c'
@@ -649,9 +636,9 @@ write_sdc core.sdc
 1
 exit
 
-Memory usage for this session 601 Mbytes.
-Memory usage for this session including child processes 609 Mbytes.
-CPU usage for this session 417 seconds ( 0.12 hours ).
+Memory usage for this session 599 Mbytes.
+Memory usage for this session including child processes 599 Mbytes.
+CPU usage for this session 426 seconds ( 0.12 hours ).
 Elapsed time for this session 441 seconds ( 0.12 hours ).
 
 Thank you...

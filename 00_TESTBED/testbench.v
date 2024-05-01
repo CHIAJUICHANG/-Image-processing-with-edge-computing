@@ -93,7 +93,7 @@ reg  [`BIT_WIDTH-1:0] linear_weight2_reg [0:10-1][0:64-1];
 reg  [4-1:0]       output_reg [0:3-1];
 // Flag
 reg over1, over2, over;
-integer i, j, k, l, m, n, o, p, q, r, s, i_mode, pad;
+integer i, j, k, l, m, n, o, p, q, r, s, t, i_mode, pad;
 integer ii, jj, kk, o_mode;
 integer error, correct;
 
@@ -220,6 +220,7 @@ initial begin
   o           = 0;
   p           = 0;
   q           = 0;
+  t           = 0;
   pad         = 0;
   o_mode      = 0;
   ii          = 0;
@@ -468,8 +469,8 @@ initial begin
 
                   @(posedge i_clk);
                   i_valid = 1'b1;
-                  if((n < 7)&&(o == 0)&&(p < 3))        i_data = {linear_weight_mem[l*640+m*64+n*9+p+q], linear_weight_mem[l*640+m*64+n*9+p+q+3]};
-                  else if((n < 7)&&(o == 2)&&(p < 3))   i_data = {linear_weight_mem[l*640+m*64+n*9+o*3+p+q], 8'b0000_0000};
+                  if((n < 7)&&(o == 0)&&(p < 3))        i_data = {linear_weight_mem[l*640+m*64+n*9+p+q-t], linear_weight_mem[l*640+m*64+n*9+p+q+3-t]};
+                  else if((n < 7)&&(o == 2)&&(p < 3))   i_data = {linear_weight_mem[l*640+m*64+n*9+o*3+p+q-t], 8'b0000_0000};
                   else if((n < 7)&&(p == 3))            i_data = {16'b0000_0000_0000_0000};
                   else if((n == 7)&&(o == 0)&&(p == 0)) i_data = {linear_weight_mem[l*640+m*64+63], 8'b0000_0000};
                   else                                  i_data = {16'b0000_0000_0000_0000};
@@ -507,13 +508,13 @@ initial begin
                 //   if(n == 7) q = q+1;
                 // end
 
-
-                @(posedge i_clk);
-                i_valid = 1'b0;
-                #(`CYCLE);
               end
             end
           end
+          t = 1;
+          @(posedge i_clk);
+            i_valid = 1'b0;
+            #(`CYCLE);
         end
       end
     end

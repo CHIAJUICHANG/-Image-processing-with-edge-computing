@@ -1,5 +1,5 @@
 # Read Design
-read_file -format verilog ../01_RTL/core.v
+read_file -format verilog {../01_RTL/core.v, ../01_RTL/pe.v}
 current_design core
 uniquify
 link
@@ -8,7 +8,7 @@ link
 
 ############in sdc file
 # Set the Optimization Constraints 
-create_clock -period 20 -name "i_clk" -waveform {0 10} "i_clk"
+create_clock -period 40 -name "i_clk" -waveform {0 20} "i_clk"
 set_dont_touch_network [get_ports i_clk]
 set_fix_hold [get_clocks i_clk]
 

@@ -145,6 +145,8 @@ class Linear:
         """
         # Perform matrix multiplication between inputs and weights
         y = np.dot(x, self.weights.T)
+        print(x)
+        print(self.weights.T)
         if self.bias is not None:
             # Add bias to each output (broadcasting the bias across the batch)
             y += self.bias

@@ -56,7 +56,7 @@ print(np.max(out))
 out = conv2(out)
 out = Maxpool2d(out)
 
-out = out // 32
+out = out // 128
 # print(np.max(out))
 
 print("=========================layear2========================")
@@ -68,7 +68,7 @@ print(np.max(out))
 out = conv3(out)
 out = Maxpool2d(out)
 
-out = out // 64
+out = out // 128
 
 print("=========================layear3========================")
 for i in range(0, len(out)):
@@ -77,15 +77,16 @@ for i in range(0, len(out)):
 print(np.max(out))
 
 out = out.flatten()
-
 out1 = digit1(out)
-out2 = digit2(out)
-out3 = digit3(out)
+print(out1)
 
-# Obtain Answer
-print(f"Detection: {np.argmax(out1)}{np.argmax(out2)}{np.argmax(out3)}")
-print(f"Golden: {golden}")
-print("\n\n==================================")
+# out2 = digit2(out)
+# out3 = digit3(out)
+
+# # Obtain Answer
+# print(f"Detection: {np.argmax(out1)}{np.argmax(out2)}{np.argmax(out3)}")
+# print(f"Golden: {golden}")
+# print("\n\n==================================")
 #==============================================================================
 # Iterate through entire folder
 # folder_path = './numpy_datasets'

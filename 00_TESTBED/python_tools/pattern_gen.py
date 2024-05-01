@@ -21,7 +21,7 @@ def signed_int2bin(num, bits=8):
 
 def conv_kernal_write(conv_weight, file):
     '''hex version'''
-    file.write(f"//\t\t   out_channel,\t in_channel, \trow,\tcol,\t\tint8 \n")
+    file.write(f"//\t\t   out_channel,\t in_channel, \tcol,\trow,\t\tint8 \n")
     for out_channel in range(conv_weight.shape[0]):
         for in_channel in range(conv_weight.shape[1]):
             #print(conv_weight[out_channel, in_channel])
@@ -64,7 +64,7 @@ if not os.path.exists('./PATTERN'):
 #==============================================================================
 # IN_IMAGE
 with open('./PATTERN/IN_IMAGE.dat', 'w') as file:
-    file.write(f"//\t\t   row,\tcol\n")
+    file.write(f"//\t\t   col,\trow\n")
     for col in range(im.shape[2]):
         for row in range(im.shape[1]):
             file.write(f"0{int(im[:, row, col])}\t\t//({col},\t{row})  \n")
@@ -94,7 +94,7 @@ def linear_write(digit_weight, file, digi_no):
             file.write(f"{signed_int2hex(digit_weight[col, row])}\t\t//{digi_no},\t\t{col},\t\t\t{row}\n")
 
 with open('./PATTERN/LINEAR_WEIGHT.dat', 'w') as file:
-    file.write(f"//\t\tlinear,\t\tcol,\t\trow \n")
+    file.write(f"//\t\tlinear,\t\trow,\t\tcol \n")
     linear_write(digit1_weight, file, 1)
     linear_write(digit2_weight, file, 2)
     linear_write(digit3_weight, file, 3)

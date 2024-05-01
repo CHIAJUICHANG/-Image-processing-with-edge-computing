@@ -64,7 +64,7 @@ reg         [  1:0] y_axis       , next_y_axis;
 reg         [  5:0] x_image      , next_x_image;
 reg         [  5:0] y_image      , next_y_image;
 reg         [  2:0] state        , next_state;
-reg         [  7:0] max_out      , next_max;
+reg         [  6:0] max_out      , next_max;
 reg  signed [ 22:0] conv_out;
 reg         [  4:0] linear_count , next_linear_count;
 reg         [  3:0] outcha_count , next_outcha_count;
@@ -376,11 +376,13 @@ begin
         mul_plse:
         begin
             conv_out      = pe_result1 + pe_result2 + pe_result3 + pe_result4;
-            if ((conv_out[10:3] > max_out) && (conv_out[22] != 1)) next_max = conv_out[10:3];
+            if ((conv_out[ 9:3] > max_out) && (conv_out[22] != 1) && (layer == 30)) next_max = conv_out[ 9:3];
+            if ((conv_out[11:5] > max_out) && (conv_out[22] != 1) && (layer == 14)) next_max = conv_out[11:5];
+            if ((conv_out[12:6] > max_out) && (conv_out[22] != 1) && (layer ==  6)) next_max = conv_out[12:6];
             if ((x_axis == 1) && (y_axis == 1))
             begin
                 o_valid_w = 1;
-                data_o_w  = next_max; 
+                data_o_w  = {0,next_max}; 
             end
         end
         linear:
@@ -448,10 +450,11 @@ begin
                 next_layer        = 6;
                 next_outcha_count = 0;
             end
-            if (layer == 6 && outcha_count == 3) 
+            if (layer ==  6 && outcha_count == 3) 
             begin
-                next_layer        =  1;
-                next_linear_count =  1;
+                next_layer        = 1;
+                next_outcha_count = 0;
+                next_linear_count = 1;
             end
         end
         kernel_in:      // kernel = 3*3*8, 1 data/cycle, total need 72 cycles 

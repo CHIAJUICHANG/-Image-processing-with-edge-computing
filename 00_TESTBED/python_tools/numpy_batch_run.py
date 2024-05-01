@@ -41,28 +41,40 @@ im = npz['img'] # (1, 32, 32) image
 golden = npz['golden'] # answer
 print(f"Image shape {im.shape}")
 
-for i in range(0, len(im)):
-    for j in range(0, len(im[0])): 
-        print(im[i][j])
-
 out = conv1(im)
 out = Maxpool2d(out)
 
 out = out // 8
+# print(np.max(out))
+
+print("=========================layear1========================")
+for i in range(0, len(out)):
+    for j in range(0, len(out[0])): 
+        print(out[i][j])
+print(np.max(out))
 
 out = conv2(out)
 out = Maxpool2d(out)
 
-out = out // 8
+out = out // 32
+# print(np.max(out))
+
+print("=========================layear2========================")
+for i in range(0, len(out)):
+    for j in range(0, len(out[0])): 
+        print(out[i][j])
+print(np.max(out))
 
 out = conv3(out)
 out = Maxpool2d(out)
 
-out = out // 8
+out = out // 64
 
+print("=========================layear3========================")
 for i in range(0, len(out)):
     for j in range(0, len(out[0])): 
         print(out[i][j])
+print(np.max(out))
 
 out = out.flatten()
 
@@ -76,9 +88,9 @@ print(f"Golden: {golden}")
 print("\n\n==================================")
 #==============================================================================
 # Iterate through entire folder
-folder_path = './numpy_datasets'
-successful_detected = 0
-total_num = 0
+# folder_path = './numpy_datasets'
+# successful_detected = 0
+# total_num = 0
 
 # for filename in os.listdir(folder_path):
 #     if filename.endswith(('.npz')):  # Add any other file extensions as needed
@@ -101,11 +113,11 @@ total_num = 0
 
 #             out = conv2(out)
 #             out = Maxpool2d(out)
-#             out = out // 8
+#             out = out // 16
 
 #             out = conv3(out)
 #             out = Maxpool2d(out)
-#             out = out // 8
+#             out = out // 128
 
 #             out = out.flatten()
 

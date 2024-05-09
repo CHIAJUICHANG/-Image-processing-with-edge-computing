@@ -552,7 +552,6 @@ initial begin
         while(jj<16) begin
           while(kk<16) begin
             @(posedge i_clk);
-            #(`OUT_DEL);
             if(o_valid) begin
               if(ii == 0)       conv0_image0_reg[jj+1][kk+1] = o_data;
               else if(ii == 1)  conv0_image1_reg[jj+1][kk+1] = o_data;
@@ -560,7 +559,6 @@ initial begin
               else if(ii == 3)  conv0_image3_reg[jj+1][kk+1] = o_data;
               output_tmp = o_data;
               @(negedge i_clk);
-              #(`OUT_DEL);
               if(ii == 0)       $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*16+kk, output_tmp);
               else if(ii == 1)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*16+kk, output_tmp);
               else if(ii == 2)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*16+kk, output_tmp);
@@ -588,7 +586,6 @@ initial begin
         while(jj<8) begin
           while(kk<8) begin
             @(posedge i_clk);
-            #(`OUT_DEL);
             if(o_valid) begin
               if(ii == 0)       conv1_image0_reg[jj+1][kk+1] = o_data;
               else if(ii == 1)  conv1_image1_reg[jj+1][kk+1] = o_data;
@@ -600,7 +597,6 @@ initial begin
               else if(ii == 7)  conv1_image7_reg[jj+1][kk+1] = o_data;
               output_tmp = o_data;
               @(negedge i_clk);
-              #(`OUT_DEL);
               if(ii == 0)       $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*8+kk, output_tmp);
               else if(ii == 1)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*8+kk, output_tmp);
               else if(ii == 2)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*8+kk, output_tmp);
@@ -632,7 +628,6 @@ initial begin
         while(jj<4) begin
           while(kk<4) begin
             @(posedge i_clk);
-            #(`OUT_DEL);
             if(o_valid) begin
               if(ii == 0)       conv2_image0_reg[jj+1][kk+1] = o_data;
               else if(ii == 1)  conv2_image1_reg[jj+1][kk+1] = o_data;
@@ -640,7 +635,6 @@ initial begin
               else if(ii == 3)  conv2_image3_reg[jj+1][kk+1] = o_data;
               output_tmp = o_data;
               @(negedge i_clk);
-              #(`OUT_DEL);
               if(ii == 0)       $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*4+kk, output_tmp);
               else if(ii == 1)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*4+kk, output_tmp);
               else if(ii == 2)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*4+kk, output_tmp);
@@ -666,13 +660,11 @@ initial begin
     3: begin
       while(ii<3) begin
         @(posedge i_clk);
-        #(`OUT_DEL);
         if(o_valid) begin
           output_reg[ii] = o_data;
           output_tmp = o_data;
           golden = golden_mem[ii];
           @(negedge i_clk);
-          #(`OUT_DEL);
 	  		    if(output_tmp !== golden) begin
 	  		    	$display("P[%01d]: Error:  yours=%d != expect=%d", ii, output_reg[ii], golden); 
 	  		    	error = error + 1;

@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-`define CYCLE 			        40
+`define CYCLE 			        20
 `define RST_DEL     	      2
 `define IN_DEL			        1
 `define OUT_DEL			        0.5
@@ -305,8 +305,6 @@ initial begin
               end
             end
             @(posedge i_clk);
-            i_valid = 1'b0;
-            i_data = 0;
             #(`CYCLE*4);
 	        end
         end
@@ -375,8 +373,6 @@ initial begin
               end
             end
             @(posedge i_clk);
-            i_valid = 1'b0;
-            i_data = 0;
             #(`CYCLE*4);
 	        end
         end
@@ -446,8 +442,6 @@ initial begin
               end
             end
             @(posedge i_clk);
-            i_valid = 1'b0;
-            i_data = 0;
             #(`CYCLE*4);
 	        end
         end
@@ -529,8 +523,7 @@ initial begin
           end
           t = 1;
           @(posedge i_clk);
-            i_valid = 1'b0;
-            #(`CYCLE);
+          #(`CYCLE);
         end
       end
     end
@@ -564,8 +557,6 @@ initial begin
               else if(ii == 2)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*16+kk, output_tmp);
               else if(ii == 3)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*16+kk, output_tmp);
               @(posedge i_clk);
-              output_tmp = 0;
-	  		      golden = 0;
               kk = kk+1;
             end
           end
@@ -606,8 +597,6 @@ initial begin
               else if(ii == 6)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*8+kk, output_tmp);
               else if(ii == 7)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*8+kk, output_tmp);
               @(posedge i_clk);
-              output_tmp = 0;
-	  		      golden = 0;
               kk = kk+1;
             end
           end
@@ -640,8 +629,6 @@ initial begin
               else if(ii == 2)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*4+kk, output_tmp);
               else if(ii == 3)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*4+kk, output_tmp);
               @(posedge i_clk);
-              output_tmp = 0;
-	  		      golden = 0;
               kk = kk+1;
             end
           end
@@ -673,8 +660,6 @@ initial begin
 	  		    	correct = correct + 1;
 	  		    end
             @(posedge i_clk);
-            output_tmp = 0;
-	  		    golden = 0;
             ii = ii+1;
         end
       end

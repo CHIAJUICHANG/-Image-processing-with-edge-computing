@@ -3,8 +3,9 @@
 `define CYCLE 			        20
 `define RST_DEL     	      2
 `define IN_DEL			        1
+`define OUT_DEL			        0.5
 `define MAX_CYCLE   	      1000000
-`define SDFFILE    		      "../02_SYN/sdf/core.sdf"
+`define SDFFILE    		      "../02_SYN/core.sdf"
 
 `define BIT_WIDTH           8
 `define BIT2_WIDTH          16
@@ -101,7 +102,7 @@ integer error, correct;
 
 // For gate-level simulation only //
 `ifdef SDF
-	initial $sdf_annotate(`SDFFILE, core);
+	initial $sdf_annotate(`SDFFILE, CORE_U0);
 `endif
 
 
@@ -249,6 +250,7 @@ initial begin
       for(i=0;i<`CONV0_CHANNEL_NUM;i=i+1) begin
         for(j=0;j<72;j=j+1) begin
           @(posedge i_clk);
+          #(`IN_DEL);
           i_valid = 1'b1;
           if((j >= 0) && (j< 9)) i_data = {8'b0000_0000, conv0_kernel_mem[i*9+j]};
           else                   i_data = {16'b0000_0000_0000_0000};
@@ -259,6 +261,7 @@ initial begin
               if(l == 0) begin
                 for(n=0;n<4;n=n+1) begin
                     @(posedge i_clk);
+                    #(`IN_DEL);
                     i_valid = 1'b1;
                     if(m == 0)      i_data = {in_image_reg[k+n][l], in_image_reg[k+n][l+1]};
                     else if(m == 1) i_data = {16'b0000_0000_0000_0000};
@@ -272,6 +275,7 @@ initial begin
                 end
                 for(o=0;o<4;o=o+1) begin
                     @(posedge i_clk);
+                    #(`IN_DEL);
                     i_valid = 1'b1;
                     if(m == 0)      i_data = {in_image_reg[k+o][l+2], in_image_reg[k+o][l+3]};
                     else if(m == 1) i_data = {16'b0000_0000_0000_0000};
@@ -286,6 +290,7 @@ initial begin
               end else begin
                 for(n=0;n<4;n=n+1) begin 
                     @(posedge i_clk);
+                    #(`IN_DEL);
                     i_valid = 1'b1;
                     if(m == 0)      i_data = {in_image_reg[k+n][l+2], in_image_reg[k+n][l+3]};
                     else if(m == 1) i_data = {16'b0000_0000_0000_0000};
@@ -300,8 +305,6 @@ initial begin
               end
             end
             @(posedge i_clk);
-            i_valid = 1'b0;
-            i_data = 0;
             #(`CYCLE*4);
 	        end
         end
@@ -315,6 +318,7 @@ initial begin
       for(i=0;i<`CONV1_CHANNEL_NUM;i=i+1) begin
         for(j=0;j<72;j=j+1) begin
           @(posedge i_clk);
+          #(`IN_DEL);
           i_valid = 1'b1;
           if((j >= 0) && (j< 36)) i_data = {8'b0000_0000, conv1_kernel_mem[i*36+j]};
           else                    i_data = {16'b0000_0000_0000_0000};
@@ -325,6 +329,7 @@ initial begin
               if(l == 0) begin
                 for(n=0;n<4;n=n+1) begin
                     @(posedge i_clk);
+                    #(`IN_DEL);
                     i_valid = 1'b1;
                     if(m == 0)      i_data = {conv0_image0_reg[k+n][l], conv0_image0_reg[k+n][l+1]};
                     else if(m == 1) i_data = {conv0_image1_reg[k+n][l], conv0_image1_reg[k+n][l+1]};
@@ -338,6 +343,7 @@ initial begin
                 end
                 for(o=0;o<4;o=o+1) begin
                     @(posedge i_clk);
+                    #(`IN_DEL);
                     i_valid = 1'b1;
                     if(m == 0)      i_data = {conv0_image0_reg[k+o][l+2], conv0_image0_reg[k+o][l+3]};
                     else if(m == 1) i_data = {conv0_image1_reg[k+o][l+2], conv0_image1_reg[k+o][l+3]};
@@ -352,6 +358,7 @@ initial begin
               end else begin
                 for(n=0;n<4;n=n+1) begin 
                     @(posedge i_clk);
+                    #(`IN_DEL);
                     i_valid = 1'b1;
                     if(m == 0)      i_data = {conv0_image0_reg[k+n][l+2], conv0_image0_reg[k+n][l+3]};
                     else if(m == 1) i_data = {conv0_image1_reg[k+n][l+2], conv0_image1_reg[k+n][l+3]};
@@ -366,8 +373,6 @@ initial begin
               end
             end
             @(posedge i_clk);
-            i_valid = 1'b0;
-            i_data = 0;
             #(`CYCLE*4);
 	        end
         end
@@ -380,6 +385,7 @@ initial begin
       for(i=0;i<`CONV2_CHANNEL_NUM;i=i+1) begin
         for(j=0;j<`PE_KERNEL_NUM;j=j+1) begin
           @(posedge i_clk);
+          #(`IN_DEL);
           i_valid = 1'b1;
           i_data = {8'b0000_0000, conv2_kernel_mem[i*72+j]};
         end
@@ -389,6 +395,7 @@ initial begin
               if(l == 0) begin
                 for(n=0;n<4;n=n+1) begin
                     @(posedge i_clk);
+                    #(`IN_DEL);
                     i_valid = 1'b1;
                     if(m == 0)      i_data = {conv1_image0_reg[k+n][l], conv1_image0_reg[k+n][l+1]};
                     else if(m == 1) i_data = {conv1_image1_reg[k+n][l], conv1_image1_reg[k+n][l+1]};
@@ -403,6 +410,7 @@ initial begin
                 end
                 for(o=0;o<4;o=o+1) begin
                     @(posedge i_clk);
+                    #(`IN_DEL);
                     i_valid = 1'b1;
                     if(m == 0)      i_data = {conv1_image0_reg[k+o][l+2], conv1_image0_reg[k+o][l+3]};
                     else if(m == 1) i_data = {conv1_image1_reg[k+o][l+2], conv1_image1_reg[k+o][l+3]};
@@ -419,6 +427,7 @@ initial begin
               end else begin
                 for(n=0;n<4;n=n+1) begin 
                     @(posedge i_clk);
+                    #(`IN_DEL);
                     i_valid = 1'b1;
                     if(m == 0)      i_data = {conv1_image0_reg[k+n][l+2], conv1_image0_reg[k+n][l+3]};
                     else if(m == 1) i_data = {conv1_image1_reg[k+n][l+2], conv1_image1_reg[k+n][l+3]};
@@ -433,8 +442,6 @@ initial begin
               end
             end
             @(posedge i_clk);
-            i_valid = 1'b0;
-            i_data = 0;
             #(`CYCLE*4);
 	        end
         end
@@ -448,6 +455,7 @@ initial begin
         for(j=0;j<4;j=j+1) begin
           for(k=0;k<4;k=k+1) begin
             @(posedge i_clk);
+            #(`IN_DEL);
             i_valid = 1'b1;
             if(i == 0)      i_data = {8'b0000_0000, conv2_image0_reg[j+1][k+1]};
             else if(i == 1) i_data = {8'b0000_0000, conv2_image1_reg[j+1][k+1]};
@@ -458,6 +466,7 @@ initial begin
       end
       for(pad=0;pad<8;pad=pad+1) begin
         @(posedge i_clk);
+        #(`IN_DEL);
         i_valid = 1'b1;
         i_data = 8'b0;
       end
@@ -468,6 +477,7 @@ initial begin
               for(p=0;p<4;p=p+1) begin
 
                   @(posedge i_clk);
+                  #(`IN_DEL);
                   i_valid = 1'b1;
                   if((n < 7)&&(o == 0)&&(p < 3))        i_data = {linear_weight_mem[l*640+m*64+n*9+p+q-t], linear_weight_mem[l*640+m*64+n*9+p+q+3-t]};
                   else if((n < 7)&&(o == 2)&&(p < 3))   i_data = {linear_weight_mem[l*640+m*64+n*9+o*3+p+q-t], 8'b0000_0000};
@@ -513,8 +523,7 @@ initial begin
           end
           t = 1;
           @(posedge i_clk);
-            i_valid = 1'b0;
-            #(`CYCLE);
+          #(`CYCLE);
         end
       end
     end
@@ -548,8 +557,6 @@ initial begin
               else if(ii == 2)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*16+kk, output_tmp);
               else if(ii == 3)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*16+kk, output_tmp);
               @(posedge i_clk);
-              output_tmp = 0;
-	  		      golden = 0;
               kk = kk+1;
             end
           end
@@ -590,8 +597,6 @@ initial begin
               else if(ii == 6)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*8+kk, output_tmp);
               else if(ii == 7)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*8+kk, output_tmp);
               @(posedge i_clk);
-              output_tmp = 0;
-	  		      golden = 0;
               kk = kk+1;
             end
           end
@@ -624,8 +629,6 @@ initial begin
               else if(ii == 2)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*4+kk, output_tmp);
               else if(ii == 3)  $display("Mode%1d Channel[%01d]P[%03d]: yours=%d", o_mode, ii, jj*4+kk, output_tmp);
               @(posedge i_clk);
-              output_tmp = 0;
-	  		      golden = 0;
               kk = kk+1;
             end
           end
@@ -657,8 +660,6 @@ initial begin
 	  		    	correct = correct + 1;
 	  		    end
             @(posedge i_clk);
-            output_tmp = 0;
-	  		    golden = 0;
             ii = ii+1;
         end
       end
@@ -693,4 +694,3 @@ end
 
 
 endmodule
-

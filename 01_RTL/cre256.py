@@ -30,26 +30,10 @@ for i in range(0, 256):
                 if (j > 7999):
                     row = (j-8000)//8
                     packet = '6'
-                writer.writerow([data_y[j//8][0]+'_'+data_r[j//8][0]+'    # packet = '+packet+', row = '+str(row)])
+                writer.writerow([data_y[j//8][0]+'_'+data_r[j//8][0]+'    # packet = '+packet+', row = '+str(row)+', kernel = '+str(i)])
                 clr = 1
                 break
             number = 0
         if j == len(data_h)-1 and clr == 0:
             print(i)
 csvfile.close()
-
-# # ----------------------newton & convert------------------------
-# plt.figure (1)
-# plt.plot   (timee, freq1, label='case1')
-# plt.plot   (timee, freq2, label='case2')
-# # plt.plot   (timee, freq3, label='case3')
-# # plt.plot   (timee, f5997, label='frequency=59.97',color='red')
-# # plt.plot   (timee, gain159, label='constant gain')
-# plt.legend ()
-# plt.xlim   ([0,timee[-1]])
-# plt.xlabel ('Time(s)')
-# # plt.ylabel ('Frequency(Hz)')
-# # plt.ylabel ('Power(MW)')
-# # plt.ylabel ('ITAE')
-# plt.ylabel ('Gain')
-# plt.show   ()

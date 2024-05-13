@@ -81,7 +81,7 @@ reg         o_valid_w, o_valid_r;
 reg         [  2:0] next_kernel_z, kernel_z;
 reg         [  1:0] next_kernel_y, kernel_y;
 reg         [  1:0] next_kernel_x, kernel_x;
-reg         [  3:0] next_kernel_channel = kernel_channel+1;
+reg         [  3:0] next_kernel_channel, kernel_channel;
 wire                o_trig       , o_trig_r   , o_trig_w;
 wire                o_rd_rdy     , o_rd_rdy_r , o_rd_rdy_w;
 wire        [159:0] o_y_hat   ;
@@ -519,7 +519,7 @@ begin
         end
         ml_cal:
         begin
-            if (i_rd_vld):
+            if (i_rd_vld)
             begin
                 if (kernel_channel == 1)
                 begin
@@ -747,7 +747,7 @@ begin
         end
         ml_cal:
         begin
-            if (i_rd_vld):
+            if (i_rd_vld)
             begin
                 next_state    = ml_in;
                 next_kernel_z = kernel_z+1;
@@ -755,11 +755,11 @@ begin
                 begin
                     next_kernel_z = 0;
                     next_kernel_y = kernel_y+1;
-                    if (next_kernel_y = 2)
+                    if (next_kernel_y == 2)
                     begin
                         next_kernel_y = 0;
                         next_kernel_x = kernel_x+1;
-                        if (next_kernel_x = 2)
+                        if (next_kernel_x == 2)
                         begin
                             next_kernel_x = 0;
                             next_kernel_channel = kernel_channel+1;

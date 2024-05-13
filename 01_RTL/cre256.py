@@ -30,7 +30,8 @@ for i in range(0, 256):
                 if (j > 7999):
                     row = (j-8000)//8
                     packet = '6'
-                writer.writerow([data_y[j//8][0]+'_'+data_r[j//8][0]+'    # packet = '+packet+', row = '+str(row)+', kernel = '+str(i)])
+                # writer.writerow([data_y[j//8][0]+data_r[j//8][0]+'    // packet = '+packet+', row = '+str(row)+', kernel = '+str(i)])
+                writer.writerow([data_y[j//8][0]+data_r[j//8][0]])
                 clr = 1
                 break
             number = 0

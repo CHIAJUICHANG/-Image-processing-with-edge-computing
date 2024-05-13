@@ -38,12 +38,13 @@ for i in range(1, len(data_con0)):
         if data_con0[i][0][j] == 'd': number += 13*(16**(1-j))
         if data_con0[i][0][j] == 'e': number += 14*(16**(1-j))
         if data_con0[i][0][j] == 'f': number += 15*(16**(1-j))
-    writer.writerow(data_256[number]+[' SNR15db_y_r = '+str(number+1)])
+    # writer.writerow(data_256[number]+[' SNR15db_y_r = '+str(number+1)])
+    writer.writerow(data_256[number])
 csvfile.close()
 
 csvfile = open(data_ml1, 'wb')
 writer  = csv.writer(csvfile) 
-for i in range(1, len(data_con0)):
+for i in range(1, len(data_con1)):
     number =0
     for j in range(0, 2):
         if data_con1[i][0][j] == '0': number += 0*(16**(1-j))
@@ -62,12 +63,12 @@ for i in range(1, len(data_con0)):
         if data_con1[i][0][j] == 'd': number += 13*(16**(1-j))
         if data_con1[i][0][j] == 'e': number += 14*(16**(1-j))
         if data_con1[i][0][j] == 'f': number += 15*(16**(1-j))
-    writer.writerow(data_256[number]+[' SNR15db_y_r = '+str(number+1)])
+    writer.writerow(data_256[number])
 csvfile.close()
 
 csvfile = open(data_ml2, 'wb')
 writer  = csv.writer(csvfile) 
-for i in range(1, len(data_con0)):
+for i in range(1, len(data_con2)):
     number =0
     for j in range(0, 2):
         if data_con2[i][0][j] == '0': number += 0*(16**(1-j))
@@ -86,5 +87,5 @@ for i in range(1, len(data_con0)):
         if data_con2[i][0][j] == 'd': number += 13*(16**(1-j))
         if data_con2[i][0][j] == 'e': number += 14*(16**(1-j))
         if data_con2[i][0][j] == 'f': number += 15*(16**(1-j))
-    writer.writerow(data_256[number]+[' SNR15db_y_r = '+str(number+1)])
+    writer.writerow(data_256[number])
 csvfile.close()

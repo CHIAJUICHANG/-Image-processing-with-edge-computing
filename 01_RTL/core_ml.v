@@ -82,8 +82,12 @@ reg         [  2:0] next_kernel_z, kernel_z;
 reg         [  1:0] next_kernel_y, kernel_y;
 reg         [  1:0] next_kernel_x, kernel_x;
 reg         [  3:0] next_kernel_channel, kernel_channel;
-wire                o_trig       , o_trig_r   , o_trig_w;
-wire                o_rd_rdy     , o_rd_rdy_r , o_rd_rdy_w;
+reg         [  6:0] next_count34 , count34;
+reg                 next_ml_finish, ml_finish; 
+reg                 o_trig_r     , o_trig_w;
+wire                o_trig;
+reg                 o_rd_rdy_r   , o_rd_rdy_w;
+wire                o_rd_rdy; 
 wire        [159:0] o_y_hat   ;
 wire signed [319:0] o_r       ;
 wire                i_rd_vld  ;
@@ -117,7 +121,7 @@ pe PE_U4(
 );
 ml_demodulator ML_U0(
     .i_clk      (i_clk     ),
-    .i_reset    (i_rst     ),
+    .i_reset    (~i_rst    ),
     .i_trig     (o_trig    ),
     .i_y_hat    (o_y_hat   ),
     .i_r        (o_r       ),
@@ -209,7 +213,7 @@ assign     o_r        = {i_image4[0][0], i_image4[1][0],
                          i_image8[0][2], i_image8[1][2],
                          i_image8[0][3], i_image8[1][3]};
 assign     o_trig     = o_trig_r;
-assign     o_rd_rdy   = 1;
+assign     o_rd_rdy   = o_rd_rdy_r;
 
 /* ====================Combinational Part================== */
 always@ (*)
@@ -571,15 +575,17 @@ begin
     next_linear_count   = linear_count;
     next_outcha_count   = outcha_count;
     o_trig_w            = 0;
-    o_rd_rdy_r          = o_rd_rdy_w;
+    o_rd_rdy_w          = 0;
     next_kernel_x       = kernel_x;
     next_kernel_y       = kernel_y;
     next_kernel_z       = kernel_z;
     next_kernel_channel = kernel_channel;
+    next_count34        = count34;
+    next_ml_finish      = ml_finish;
     case(state)
         idle:
         begin
-            next_state            = ml_in;
+            next_state            = ml_cal;
             next_x_axis           = 0;
             next_y_axis           = 0;
             next_x_image          = 0;
@@ -727,7 +733,7 @@ begin
             if (i_valid)      
             begin
                 next_y_axis = y_axis+1;
-                if ((channel_count == 3) && (y_axis == 2))
+                if ((channel_count == 3) && (y_axis == 1))
                 begin
                     next_y_axis        = 0;
                     next_channel_count = channel_count+1;
@@ -742,34 +748,53 @@ begin
                         next_state         = ml_cal;
                         o_trig_w           = 1;
                     end
+                    if ((kernel_channel == 8) && (kernel_x == 2) && (kernel_y == 2) && (kernel_z == 7)) o_trig_w = 0;
                 end
             end    
         end
         ml_cal:
         begin
-            if (i_rd_vld)
+            next_count34 = count34 + 1;
+            o_rd_rdy_w   = 1;
+            if (count34 >= 33)
             begin
-                next_state    = ml_in;
-                next_kernel_z = kernel_z+1;
-                if (kernel_z == 7)
+                o_rd_rdy_w   = 0;
+                next_count34 = 0;
+                next_state   = ml_in;
+                if (ml_finish) 
                 begin
-                    next_kernel_z = 0;
+                    next_state         = ml_cal;
+                    next_count34       = count34 + 1;
+                    if (count34 >= 63)
+                    begin
+                        next_state     = image_in;
+                        next_count34   = 0;
+                        next_ml_finish = 0;
+                    end
+                end
+            end
+            if (i_rd_vld && ~ml_finish)
+            begin
+                next_kernel_z = kernel_z-1;
+                if (kernel_z == 0)
+                begin
+                    next_kernel_z = 7;
                     next_kernel_y = kernel_y+1;
-                    if (next_kernel_y == 2)
+                    if (kernel_y == 2)
                     begin
                         next_kernel_y = 0;
                         next_kernel_x = kernel_x+1;
-                        if (next_kernel_x == 2)
+                        if (kernel_x == 2)
                         begin
                             next_kernel_x = 0;
                             next_kernel_channel = kernel_channel+1;
                             if (kernel_channel == 8)
                             begin
-                                next_kernel_channel = 0;
+                                next_kernel_channel = 1;
                                 next_y_axis         = 0;
                                 next_x_axis         = 0;
                                 next_channel_count  = 1;
-                                next_state          = image_in;
+                                next_ml_finish      = 1;
                             end
                         end
                     end
@@ -802,8 +827,10 @@ begin
         o_trig_r       <= 0;
         kernel_x       <= 0;
         kernel_y       <= 0;
-        kernel_z       <= 0;
-        kernel_channel <= 0;
+        kernel_z       <= 7;
+        kernel_channel <= 1;
+        count34        <= 0;
+        ml_finish      <= 0;
         for (i = 0; i < 3; i = i + 1) 
         begin
             for (j = 0; j < 3; j = j + 1)
@@ -849,13 +876,14 @@ begin
         outcha_count   <= next_outcha_count;
         max_new        <= next_max_new;
         max_before     <= next_max_before;
-        data_address   <= next_data_add;
         o_rd_rdy_r     <= o_rd_rdy_w;
         o_trig_r       <= o_trig_w;
         kernel_x       <= next_kernel_x;
         kernel_y       <= next_kernel_y;
         kernel_z       <= next_kernel_z;
         kernel_channel <= next_kernel_channel;
+        count34        <= next_count34;
+        ml_finish      <= next_ml_finish;
         for (i = 0; i < 3; i = i + 1) 
         begin
             for (j = 0; j < 3; j = j + 1)

@@ -39,9 +39,6 @@ reg            busy;
 reg            cnt1000;
 reg  [  6-1:0] cycle_cnt;
 
-wire           gclk_in, gclk_out;
-reg            in_en, out_en;
-
 wire signed [ 10-1:0] min_x42, min_x41, min_x32, min_x31, min_x22, min_x21;
 wire signed [ 10-1:0] min_x42_n, min_x41_n, min_x32_n, min_x31_n, min_x22_n, min_x21_n;
 wire signed [ 10-1:0] local_min, cal_min01, cal_min23, cal_min13, cal_min02;
@@ -104,21 +101,6 @@ always@(posedge i_clk or posedge i_reset) begin
     else if ((!i_trig) && cal_done && busy) cnt1000 <= 0;
 end
 
-// ---------------------------------------------------------------------------
-// Gating Clock
-// ---------------------------------------------------------------------------
-assign gclk_in = i_clk & in_en;
-assign gclk_out = i_clk & out_en;
-
-always@(negedge i_clk or posedge i_reset) begin
-   if(i_reset)          in_en <= 0;
-    else                in_en <= i_trig; 
-end
-
-always@(negedge i_clk or posedge i_reset) begin
-   if(i_reset)   out_en <= 0;
-    else         out_en <= cal_done && (!cnt1000); 
-end
 
 // ---------------------------------------------------------------------------
 // Input DFF
@@ -127,13 +109,13 @@ always@(posedge i_clk or posedge i_reset) begin
     if(i_reset)         i_trig_d <= 0;
     else                i_trig_d <= i_trig;
 end
-always@(posedge gclk_in or posedge i_reset) begin
+always@(posedge i_clk or posedge i_reset) begin
     if(i_reset)         i_y_hat_d <= 0;
-    else                i_y_hat_d <= i_y_hat;
+    else if(i_trig)     i_y_hat_d <= i_y_hat;
 end
-always@(posedge gclk_in or posedge i_reset) begin
+always@(posedge i_clk or posedge i_reset) begin
     if(i_reset)         i_r_d <= 0;
-    else                i_r_d <= i_r;
+    else if(i_trig)     i_r_d <= i_r;
 end
 
 // ---------------------------------------------------------------------------
@@ -143,9 +125,9 @@ assign o_rd_vld   = (w_ptr != r_ptr)? 1: 0;
 assign o_llr      = (o_rd_vld)? {buffer[r_ptr], 7'b0000001}: 0;
 assign o_hard_bit = (o_rd_vld)? buffer[r_ptr]: 0;
 
-always@(posedge gclk_out or posedge i_reset) begin
+always@(posedge i_clk or posedge i_reset) begin
     if(i_reset)                       buffer <= 0;
-    else       buffer[w_ptr+: 8] <= {hb_x42, hb_x41, hb_x32, hb_x31, hb_x22, hb_x21, hb_x12, hb_x11};
+    else if(cal_done && (!cnt1000))   buffer[w_ptr+: 8] <= {hb_x42, hb_x41, hb_x32, hb_x31, hb_x22, hb_x21, hb_x12, hb_x11};
 end
 
 always@(posedge i_clk or posedge i_reset) begin

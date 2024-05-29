@@ -1,9 +1,8 @@
 `define BIT_W               8
 `define PE_IMAGE_W          144     // 8*9*2
 `define PE_kernel_W         144     // 8*9*2
-`define PE_BIAS_W           13      // 8+5
 `define EXTEN_W             16      // 8*2
-`define PE_OUT_W            21       // 8+8
+`define PE_OUT_W            21      // 8+8
 
 
 
@@ -36,9 +35,6 @@ assign {image_000, image_001, image_002, image_010, image_011, image_012, image_
 
 assign {kernel_000, kernel_001, kernel_002, kernel_010, kernel_011, kernel_012, kernel_020, kernel_021, kernel_022,
         kernel_100, kernel_101, kernel_102, kernel_110, kernel_111, kernel_112, kernel_120, kernel_121, kernel_122} = pe_kernel;
-
-// assign {bias_000, bias_001, bias_002, bias_010, bias_011, bias_012, bias_020, bias_021, bias_022,
-//         bias_100, bias_101, bias_102, bias_110, bias_111, bias_112, bias_120, bias_121, bias_122} = i_bias;
 
 
 // Multiplication
@@ -85,7 +81,7 @@ assign multi_ext_122 = image_122 * kernel_122;
 
 // Addition
 assign pe_result_ext = (((multi_ext_000 + multi_ext_001) + (multi_ext_002 + multi_ext_010)) + ((multi_ext_011 + multi_ext_012) + (multi_ext_020 + multi_ext_021))) + (((multi_ext_022 + multi_ext_100) + (multi_ext_101 + multi_ext_102)) + ((multi_ext_110 + multi_ext_111) + (multi_ext_112 + multi_ext_120)))
-                     + ((multi_ext_121 + multi_ext_122));  // + ((multi_121 + multi_122) + i_bias);
+                     + ((multi_ext_121 + multi_ext_122));
 
 
 // reg [`BIT_W-1:0] o_pe_data_reg;

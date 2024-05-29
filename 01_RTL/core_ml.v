@@ -75,7 +75,8 @@ reg         [  3:0] max_new      , next_max_new;
 reg         [  3:0] max_before   , next_max_before;
 wire signed [143:0] pe_image1    , pe_image2  , pe_image3  , pe_image4 ;
 wire signed [143:0] pe_kernel1   , pe_kernel2 , pe_kernel3 , pe_kernel4;
-wire signed [ 20:0] pe_result1   , pe_result2 , pe_result3 , pe_result4; 
+wire signed [ 20:0] pe_result1   , pe_result2 , pe_result3 , pe_result4;
+reg  signed [ 20:0] pe_result1_reg, pe_result2_reg, pe_result3_reg, pe_result4_reg;
 reg         o_valid_w, o_valid_r;
 
 reg         [  2:0] next_kernel_z, kernel_z;
@@ -88,10 +89,10 @@ reg                 o_trig_r     , o_trig_w;
 wire                o_trig;
 reg                 o_rd_rdy_r   , o_rd_rdy_w;
 wire                o_rd_rdy; 
-wire        [159:0] o_y_hat   ;
-wire signed [319:0] o_r       ;
+wire        [ 63:0] o_y_hat   ;
+wire signed [127:0] o_r       ;
 wire                i_rd_vld  ;
-wire signed [  8:0] i_llr     ;
+wire signed [  7:0] i_llr     ;
 wire                i_hard_bit;
 
 integer     i, j;
@@ -104,24 +105,21 @@ pe PE_U1(
 pe PE_U2(
     .pe_image (pe_image2 ),
     .pe_kernel(pe_kernel2),
-    // i_bias,
     .pe_result(pe_result2)
 );
 pe PE_U3(
     .pe_image (pe_image3 ),
     .pe_kernel(pe_kernel3),
-    // i_bias,
     .pe_result(pe_result3)
 );
 pe PE_U4(
     .pe_image (pe_image4 ),
     .pe_kernel(pe_kernel4),
-    // i_bias,
     .pe_result(pe_result4)
 );
 ml_demodulator ML_U0(
     .i_clk      (i_clk     ),
-    .i_reset    (~i_rst    ),
+    .i_rst      (i_rst     ),
     .i_trig     (o_trig    ),
     .i_y_hat    (o_y_hat   ),
     .i_r        (o_r       ),
@@ -181,37 +179,24 @@ assign     pe_kernel4 = {kernel7 [0][0  ], kernel7 [0+1][0  ], kernel7 [0+2][0  
                          kernel8 [0][0+2], kernel8 [0+1][0+2], kernel8 [0+2][0+2]};
 assign     o_data     = data_o_r;
 assign     o_valid    = o_valid_r;
-
-assign     o_y_hat    = {i_image1[0][0], i_image1[1][0], 
-                         i_image1[0][1], i_image1[1][1],
-                         i_image1[0][2], i_image1[1][2],
-                         i_image1[0][3], i_image1[1][3],
-                         i_image2[0][0], i_image2[1][0],
-                         i_image2[0][1], i_image2[1][1],
-                         i_image2[0][2], i_image2[1][2],
-                         i_image2[0][3], i_image2[1][3],
-                         i_image3[0][0], i_image3[1][0],
-                         i_image3[0][1], i_image3[1][1]};
-assign     o_r        = {i_image4[0][0], i_image4[1][0], 
-                         i_image4[0][1], i_image4[1][1],
-                         i_image4[0][2], i_image4[1][2],
-                         i_image4[0][3], i_image4[1][3],
-                         i_image5[0][0], i_image5[1][0],
-                         i_image5[0][1], i_image5[1][1],
-                         i_image5[0][2], i_image5[1][2],
-                         i_image5[0][3], i_image5[1][3],
-                         i_image6[0][0], i_image6[1][0],
-                         i_image6[0][1], i_image6[1][1],
-                         i_image6[0][2], i_image6[1][2],
-                         i_image6[0][3], i_image6[1][3],
-                         i_image7[0][0], i_image7[1][0],
-                         i_image7[0][1], i_image7[1][1],
-                         i_image7[0][2], i_image7[1][2],
-                         i_image7[0][3], i_image7[1][3],
-                         i_image8[0][0], i_image8[1][0],
-                         i_image8[0][1], i_image8[1][1],
-                         i_image8[0][2], i_image8[1][2],
-                         i_image8[0][3], i_image8[1][3]};
+assign     o_y_hat    = {i_image1[0][0][7:0], i_image1[0][1][3:0],
+                         i_image1[1][1][7:4], i_image1[1][2][7:0],
+                         i_image1[1][3][3:0], i_image2[0][0][7:4], 
+                         i_image2[0][1][7:0], i_image2[0][2][3:0], 
+                         i_image2[1][2][7:4], i_image2[1][3][7:0], 
+                         i_image3[1][0][3:0], i_image3[0][1][7:4]};
+assign     o_r        = {i_image4[0][0][7:0], i_image4[0][1][3:0],
+                          i_image4[1][1][7:4], i_image4[1][2][7:0],
+                          i_image4[1][3][3:0], i_image5[0][0][7:4],
+                          i_image5[0][1][7:0], i_image5[0][2][3:0],
+                          i_image5[1][2][7:4], i_image5[1][3][7:0],
+                          i_image6[1][0][3:0], i_image6[0][1][7:4],
+                          i_image6[0][2][7:0], i_image6[0][3][3:0],
+                          i_image6[1][3][7:4], i_image7[1][0][7:0], 
+                          i_image7[1][1][3:0], i_image7[0][2][7:4],
+                          i_image7[0][3][7:0], i_image8[0][0][3:0],
+                          i_image8[1][0][7:4], i_image8[1][1][7:0],
+                          i_image8[1][2][3:0], i_image8[0][3][7:4]};
 assign     o_trig     = o_trig_r;
 assign     o_rd_rdy   = o_rd_rdy_r;
 
@@ -438,7 +423,8 @@ begin
         end
         mul_plse:
         begin
-            conv_out      = pe_result1 + pe_result2 + pe_result3 + pe_result4;
+            conv_out      = (pe_result1 + pe_result2) + (pe_result3 + pe_result4);
+            // conv_out      = pe_result1_reg + pe_result2_reg + pe_result3_reg + pe_result4_reg;
             if ((conv_out > max_out) && (conv_out[22] != 1)) next_max = conv_out;
             if ((conv_out > max_out) && (conv_out[22] != 1)) next_max = conv_out;
             if ((conv_out > max_out) && (conv_out[22] != 1)) next_max = conv_out;
@@ -453,7 +439,8 @@ begin
         linear:
         begin
             next_max_new  = max_new+1;
-            conv_out      = pe_result1 + pe_result2 + pe_result3 + pe_result4;
+            conv_out      = (pe_result1 + pe_result2) + (pe_result3 + pe_result4);
+            // conv_out      = pe_result1_reg + pe_result2_reg + pe_result3_reg + pe_result4_reg;
             if (conv_out > max_out ) 
             begin
                 next_max_before = max_new;
@@ -805,9 +792,27 @@ begin
 end
 
 /* ====================Seq Part================== */
+// always@(posedge i_clk or negedge i_rst)
+// begin
+//     if(~i_rst)
+//     begin
+//         pe_result1_reg <= 0;
+//         pe_result2_reg <= 0;
+//         pe_result3_reg <= 0;
+//         pe_result4_reg <= 0;
+//     end
+//     else
+//     begin
+//         pe_result1_reg <= pe_result1;
+//         pe_result2_reg <= pe_result2;
+//         pe_result3_reg <= pe_result3;
+//         pe_result4_reg <= pe_result4;
+//     end
+// end
+
 always@(posedge i_clk or negedge i_rst)
 begin
-    if (!i_rst) 
+    if (~i_rst) 
     begin
         data_o_r       <= 0;
         o_valid_r      <= 0;

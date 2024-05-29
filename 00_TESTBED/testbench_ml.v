@@ -2,7 +2,7 @@
 
 `define CYCLE 			        20
 `define RST_DEL     	      2
-`define IN_DEL			        1
+`define IN_DEL			        2
 `define OUT_DEL			        0.5
 `define MAX_CYCLE   	      500000
 `define SDFFILE    		      "../02_SYN/core.sdf"

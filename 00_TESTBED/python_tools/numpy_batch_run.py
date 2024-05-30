@@ -17,7 +17,7 @@ digit2_weight = ckpt['digit2']
 digit3_weight = ckpt['digit3']
 
 print("Successfully loading ckpt!")
-# print(f"Conv1 Weight {conv1_weight}")
+print(f"Conv1 Weight {conv1_weight}")
 
 print("\n\n==================================")
 #==============================================================================
@@ -31,107 +31,68 @@ digit2 = Linear(64, 10, digit2_weight, False)
 digit3 = Linear(64, 10, digit3_weight, False)
 
 #==============================================================================
-# Using single image to Testing
-img_filepath = './numpy_datasets/350_988.npz'
-print(f"Testing single image {img_filepath} ...")
 
-# Loading image and golden answer from numpy npz
-npz = np.load(img_filepath)
-im = npz['img'] # (1, 32, 32) image
-golden = npz['golden'] # answer
-print(f"Image shape {im.shape}")
+conv1_max = 0
+conv2_max = 0
+conv3_max = 0
 
-out = conv1(im)
-out = Maxpool2d(out)
 
-out = out // 8
-# print(np.max(out))
-
-print("=========================layear1========================")
-for i in range(0, len(out)):
-    for j in range(0, len(out[0])): 
-        print(out[i][j])
-print(np.max(out))
-
-out = conv2(out)
-out = Maxpool2d(out)
-
-out = out // 128
-# print(np.max(out))
-
-print("=========================layear2========================")
-for i in range(0, len(out)):
-    for j in range(0, len(out[0])): 
-        print(out[i][j])
-print(np.max(out))
-
-out = conv3(out)
-out = Maxpool2d(out)
-
-out = out // 128
-
-print("=========================layear3========================")
-for i in range(0, len(out)):
-    for j in range(0, len(out[0])): 
-        print(out[i][j])
-print(np.max(out))
-
-out = out.flatten()
-out1 = digit1(out)
-print(out1)
-
-# out2 = digit2(out)
-# out3 = digit3(out)
-
-# # Obtain Answer
-# print(f"Detection: {np.argmax(out1)}{np.argmax(out2)}{np.argmax(out3)}")
-# print(f"Golden: {golden}")
-# print("\n\n==================================")
-#==============================================================================
 # Iterate through entire folder
-# folder_path = './numpy_datasets'
-# successful_detected = 0
-# total_num = 0
+folder_path = './numpy_datasets'
+successful_detected = 0
+total_num = 0
 
-# for filename in os.listdir(folder_path):
-#     if filename.endswith(('.npz')):  # Add any other file extensions as needed
-#         total_num += 1
+for filename in os.listdir(folder_path):
+    if filename.endswith(('.npz')):  # Add any other file extensions as needed
+        total_num += 1
 
-# print(f"Testing all images\nThere are {total_num} images.")
+print(f"Testing all images\nThere are {total_num} images.")
 
-# with tqdm(total=total_num) as pbar:
-#     for filename in os.listdir(folder_path):
-#         if filename.endswith(('.npz')):
+with tqdm(total=total_num) as pbar:
+    for filename in os.listdir(folder_path):
+        if filename.endswith(('.npz')):
 
-#             img_filepath = os.path.join(folder_path, filename)
-#             npz = np.load(img_filepath)
-#             im = npz['img'] # (1, 32, 32) image
-#             golden = int(npz['golden']) # answer
+            img_filepath = os.path.join(folder_path, filename)
+            npz = np.load(img_filepath)
+            im = npz['img'] # (1, 32, 32) image
+            golden = int(npz['golden']) # answer
 
-#             out = conv1(im)
-#             out = Maxpool2d(out)
-#             out = out // 8
+            out = conv1(im)
+            out = Maxpool2d(out)
+            out = out // 8
 
-#             out = conv2(out)
-#             out = Maxpool2d(out)
-#             out = out // 16
+            if (out).flatten().max() > conv1_max:
+                conv1_max = (out).flatten().max()
 
-#             out = conv3(out)
-#             out = Maxpool2d(out)
-#             out = out // 128
+            out = conv2(out)
+            out = Maxpool2d(out)
+            out = out // 128
 
-#             out = out.flatten()
+            if (out).flatten().max() > conv2_max:
+                conv2_max = (out).flatten().max()
 
-#             out1 = digit1(out)
-#             out2 = digit2(out)
-#             out3 = digit3(out)
+            out = conv3(out)
+            out = Maxpool2d(out)
+            out = out // 128
 
-#             detection = int(f"{np.argmax(out1)}{np.argmax(out2)}{np.argmax(out3)}")
+            if (out).flatten().max() > conv3_max:
+                conv3_max = (out).flatten().max()
 
-#             if detection == golden:
-#                 successful_detected += 1
+            out = out.flatten()
 
-#             pbar.update(1)
+            out1 = digit1(out)
+            out2 = digit2(out)
+            out3 = digit3(out)
 
-# print(f"Accuracy: {successful_detected/total_num}")
+            detection = int(f"{np.argmax(out1)}{np.argmax(out2)}{np.argmax(out3)}")
 
+            if detection == golden:
+                successful_detected += 1
+
+            pbar.update(1)
+
+print(f"Accuracy: {successful_detected/total_num}")
+
+print('max_pool1 max:', conv1_max)
+print('max_pool2 max:', conv2_max)
+print('max_pool3 max:', conv3_max)

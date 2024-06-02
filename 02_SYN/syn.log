@@ -30,14 +30,14 @@
                         https://solvnetplus.synopsys.com)
 Initializing...
 # Read Design
-read_file -format verilog {../01_RTL/core.v, ../01_RTL/pe.v}
+read_file -format verilog "../01_RTL/core_ml.v, ../01_RTL/pe.v, ../01_RTL/ml_demodulator.v, ../01_RTL/calculator.v"
 Loading db file '/usr/cad/synopsys/synthesis/cur/libraries/syn/dw_foundation.sldb'
-Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_tt1p8v25c.db'
-Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_ss1p62v125c.db'
-Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_ff1p98vm40c.db'
-Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_tt1p8v25c.db'
-Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_ss1p62v125c.db'
-Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_ff1p98vm40c.db'
+Loading db file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_generic_core_tt1p8v25c.db'
+Loading db file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_generic_core_ss1p62v125c.db'
+Loading db file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_generic_core_ff1p98vm40c.db'
+Loading db file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_t33_generic_io_tt1p8v25c.db'
+Loading db file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_t33_generic_io_ss1p62v125c.db'
+Loading db file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_t33_generic_io_ff1p98vm40c.db'
 Loading db file '/usr/cad/synopsys/synthesis/cur/libraries/syn/gtech.db'
 Loading db file '/usr/cad/synopsys/synthesis/cur/libraries/syn/standard.sldb'
   Loading link library 'fsa0m_a_generic_core_tt1p8v25c'
@@ -47,88 +47,113 @@ Loading db file '/usr/cad/synopsys/synthesis/cur/libraries/syn/standard.sldb'
   Loading link library 'fsa0m_a_t33_generic_io_ss1p62v125c'
   Loading link library 'fsa0m_a_t33_generic_io_ff1p98vm40c'
   Loading link library 'gtech'
-Loading verilog files: '/home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v' '/home/raid7_2/user11/r1921084/ICD/final/01_RTL/pe.v' 
+Loading verilog files: '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v' '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/pe.v' '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v' '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/calculator.v' 
 Detecting input file type automatically (-rtl or -netlist).
 Reading with Presto HDL Compiler (equivalent to -rtl option).
 Running PRESTO HDLC
-Compiling source file /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v
-Compiling source file /home/raid7_2/user11/r1921084/ICD/final/01_RTL/pe.v
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:104: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:110: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:116: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:122: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:128: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:134: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:140: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:146: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:194: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:202: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:206: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:210: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:214: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:218: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:222: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:226: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:230: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:242: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:243: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:247: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:248: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:252: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:253: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:257: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:258: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:262: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:263: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:267: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:268: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:272: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:273: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:277: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:278: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:301: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:302: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:308: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:309: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:315: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:316: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:322: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:323: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:329: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:330: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:336: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:337: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:343: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:344: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:350: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:351: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:354: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:357: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:363: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:369: unsigned to signed assignment occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:385: signed to unsigned part selection occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:386: signed to unsigned part selection occurs. (VER-318)
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v:387: signed to unsigned part selection occurs. (VER-318)
+Compiling source file /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v
+Compiling source file /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/pe.v
+Compiling source file /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v
+Compiling source file /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/calculator.v
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:133: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:139: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:145: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:151: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:157: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:163: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:169: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:175: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:183: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:189: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:243: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:251: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:255: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:259: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:263: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:267: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:271: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:275: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:279: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:291: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:292: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:296: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:297: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:301: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:302: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:306: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:307: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:311: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:312: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:316: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:317: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:321: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:322: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:326: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:327: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:350: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:351: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:357: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:358: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:364: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:365: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:371: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:372: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:378: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:379: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:385: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:386: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:392: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:393: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:399: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:400: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:406: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:412: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:418: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:429: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:430: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:431: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:435: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:436: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:436: Concatenations cannot have unsized numbers; assuming 32 bits. (ELAB-332)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:437: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:437: Concatenations cannot have unsized numbers; assuming 32 bits. (ELAB-332)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:473: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:474: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:478: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:479: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:483: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:484: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:488: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:489: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:493: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:494: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:498: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:499: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:503: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:504: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:508: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:509: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v:445: signed to unsigned part selection occurs. (VER-318)
 
-Statistics for case statements in always block at line 156 in file
-	'/home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v'
+Statistics for case statements in always block at line 205 in file
+	'/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v'
 ===============================================
 |           Line           |  full/ parallel  |
 ===============================================
-|           191            |     no/auto      |
+|           240            |     no/auto      |
 ===============================================
 
-Statistics for case statements in always block at line 419 in file
-	'/home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v'
+Statistics for case statements in always block at line 555 in file
+	'/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v'
 ===============================================
 |           Line           |  full/ parallel  |
 ===============================================
-|           430            |     no/auto      |
+|           574            |     no/auto      |
 ===============================================
 
 Inferred memory devices in process
-	in routine core line 619 in file
-		'/home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.v'.
+	in routine core line 815 in file
+		'/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core_ml.v'.
 ===============================================================================
 |    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
 ===============================================================================
@@ -143,12 +168,21 @@ Inferred memory devices in process
 |     y_image_reg     | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
 |  channel_count_reg  | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
 |  channel_count_reg  | Flip-flop |   1   |  N  | N  | N  | Y  | N  | N  | N  |
-|     max_out_reg     | Flip-flop |  23   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     max_out_reg     | Flip-flop |  14   |  Y  | N  | Y  | N  | N  | N  | N  |
 |      layer_reg      | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
 |  linear_count_reg   | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
 |  outcha_count_reg   | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
 |     max_new_reg     | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
 |   max_before_reg    | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+|   o_rd_rdy_r_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    o_trig_r_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    kernel_x_reg     | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    kernel_y_reg     | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    kernel_z_reg     | Flip-flop |   3   |  Y  | N  | N  | Y  | N  | N  | N  |
+| kernel_channel_reg  | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+| kernel_channel_reg  | Flip-flop |   1   |  N  | N  | N  | Y  | N  | N  | N  |
+|     count34_reg     | Flip-flop |   7   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    ml_finish_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
 |     kernel3_reg     | Flip-flop |  72   |  Y  | N  | Y  | N  | N  | N  | N  |
 |    i_image7_reg     | Flip-flop |  128  |  Y  | N  | Y  | N  | N  | N  | N  |
 |     kernel5_reg     | Flip-flop |  72   |  Y  | N  | Y  | N  | N  | N  | N  |
@@ -168,116 +202,250 @@ Statistics for MUX_OPs
 ======================================================
 | block name/line  | Inputs | Outputs | # sel inputs |
 ======================================================
-|     core/104     |   4    |   256   |      2       |
-|     core/104     |   4    |   320   |      2       |
-|     core/104     |   4    |   32    |      2       |
-|     core/104     |   4    |   32    |      2       |
-|     core/104     |   4    |   32    |      2       |
-|     core/104     |   4    |    8    |      2       |
-|     core/104     |   4    |   32    |      2       |
-|     core/104     |   4    |    8    |      2       |
-|     core/104     |   4    |   32    |      2       |
-|     core/104     |   4    |    8    |      2       |
-|     core/104     |   4    |   32    |      2       |
-|     core/104     |   4    |    8    |      2       |
-|     core/104     |   4    |   32    |      2       |
-|     core/104     |   4    |   32    |      2       |
-|     core/104     |   4    |   32    |      2       |
-|     core/104     |   4    |    8    |      2       |
-|     core/104     |   4    |   32    |      2       |
-|     core/104     |   4    |    8    |      2       |
-|     core/104     |   4    |   32    |      2       |
-|     core/104     |   4    |    8    |      2       |
-|     core/104     |   4    |   32    |      2       |
-|     core/104     |   4    |    8    |      2       |
-|     core/110     |   4    |   32    |      2       |
-|     core/110     |   4    |   32    |      2       |
-|     core/110     |   4    |   32    |      2       |
-|     core/110     |   4    |    8    |      2       |
-|     core/110     |   4    |   32    |      2       |
-|     core/110     |   4    |    8    |      2       |
-|     core/110     |   4    |   32    |      2       |
-|     core/110     |   4    |    8    |      2       |
-|     core/110     |   4    |   32    |      2       |
-|     core/110     |   4    |    8    |      2       |
-|     core/110     |   4    |   32    |      2       |
-|     core/110     |   4    |   32    |      2       |
-|     core/110     |   4    |   32    |      2       |
-|     core/110     |   4    |    8    |      2       |
-|     core/110     |   4    |   32    |      2       |
-|     core/110     |   4    |    8    |      2       |
-|     core/110     |   4    |   32    |      2       |
-|     core/110     |   4    |    8    |      2       |
-|     core/110     |   4    |   32    |      2       |
-|     core/110     |   4    |    8    |      2       |
-|     core/116     |   4    |   32    |      2       |
-|     core/116     |   4    |   32    |      2       |
-|     core/116     |   4    |   32    |      2       |
-|     core/116     |   4    |    8    |      2       |
-|     core/116     |   4    |   32    |      2       |
-|     core/116     |   4    |    8    |      2       |
-|     core/116     |   4    |   32    |      2       |
-|     core/116     |   4    |    8    |      2       |
-|     core/116     |   4    |   32    |      2       |
-|     core/116     |   4    |    8    |      2       |
-|     core/116     |   4    |   32    |      2       |
-|     core/116     |   4    |   32    |      2       |
-|     core/116     |   4    |   32    |      2       |
-|     core/116     |   4    |    8    |      2       |
-|     core/116     |   4    |   32    |      2       |
-|     core/116     |   4    |    8    |      2       |
-|     core/116     |   4    |   32    |      2       |
-|     core/116     |   4    |    8    |      2       |
-|     core/116     |   4    |   32    |      2       |
-|     core/116     |   4    |    8    |      2       |
-|     core/122     |   4    |   32    |      2       |
-|     core/122     |   4    |   32    |      2       |
-|     core/122     |   4    |   32    |      2       |
-|     core/122     |   4    |    8    |      2       |
-|     core/122     |   4    |   32    |      2       |
-|     core/122     |   4    |    8    |      2       |
-|     core/122     |   4    |   32    |      2       |
-|     core/122     |   4    |    8    |      2       |
-|     core/122     |   4    |   32    |      2       |
-|     core/122     |   4    |    8    |      2       |
-|     core/122     |   4    |   32    |      2       |
-|     core/122     |   4    |   32    |      2       |
-|     core/122     |   4    |   32    |      2       |
-|     core/122     |   4    |    8    |      2       |
-|     core/122     |   4    |   32    |      2       |
-|     core/122     |   4    |    8    |      2       |
-|     core/122     |   4    |   32    |      2       |
-|     core/122     |   4    |    8    |      2       |
-|     core/122     |   4    |   32    |      2       |
-|     core/122     |   4    |    8    |      2       |
-|     core/299     |   4    |   32    |      2       |
-|     core/300     |   4    |   32    |      2       |
-|     core/306     |   4    |   32    |      2       |
-|     core/307     |   4    |   32    |      2       |
-|     core/313     |   4    |   32    |      2       |
-|     core/314     |   4    |   32    |      2       |
-|     core/320     |   4    |   32    |      2       |
-|     core/321     |   4    |   32    |      2       |
-|     core/327     |   4    |   32    |      2       |
-|     core/328     |   4    |   32    |      2       |
-|     core/334     |   4    |   32    |      2       |
-|     core/335     |   4    |   32    |      2       |
-|     core/341     |   4    |   32    |      2       |
-|     core/342     |   4    |   32    |      2       |
+|     core/133     |   4    |   256   |      2       |
+|     core/133     |   4    |   320   |      2       |
+|     core/133     |   4    |   32    |      2       |
+|     core/133     |   4    |   32    |      2       |
+|     core/133     |   4    |   32    |      2       |
+|     core/133     |   4    |    8    |      2       |
+|     core/133     |   4    |   32    |      2       |
+|     core/133     |   4    |    8    |      2       |
+|     core/133     |   4    |   32    |      2       |
+|     core/133     |   4    |    8    |      2       |
+|     core/133     |   4    |   32    |      2       |
+|     core/133     |   4    |    8    |      2       |
+|     core/133     |   4    |   32    |      2       |
+|     core/133     |   4    |   32    |      2       |
+|     core/133     |   4    |   32    |      2       |
+|     core/133     |   4    |    8    |      2       |
+|     core/133     |   4    |   32    |      2       |
+|     core/133     |   4    |    8    |      2       |
+|     core/133     |   4    |   32    |      2       |
+|     core/133     |   4    |    8    |      2       |
+|     core/133     |   4    |   32    |      2       |
+|     core/133     |   4    |    8    |      2       |
+|     core/139     |   4    |   32    |      2       |
+|     core/139     |   4    |   32    |      2       |
+|     core/139     |   4    |   32    |      2       |
+|     core/139     |   4    |    8    |      2       |
+|     core/139     |   4    |   32    |      2       |
+|     core/139     |   4    |    8    |      2       |
+|     core/139     |   4    |   32    |      2       |
+|     core/139     |   4    |    8    |      2       |
+|     core/139     |   4    |   32    |      2       |
+|     core/139     |   4    |    8    |      2       |
+|     core/139     |   4    |   32    |      2       |
+|     core/139     |   4    |   32    |      2       |
+|     core/139     |   4    |   32    |      2       |
+|     core/139     |   4    |    8    |      2       |
+|     core/139     |   4    |   32    |      2       |
+|     core/139     |   4    |    8    |      2       |
+|     core/139     |   4    |   32    |      2       |
+|     core/139     |   4    |    8    |      2       |
+|     core/139     |   4    |   32    |      2       |
+|     core/139     |   4    |    8    |      2       |
+|     core/145     |   4    |   32    |      2       |
+|     core/145     |   4    |   32    |      2       |
+|     core/145     |   4    |   32    |      2       |
+|     core/145     |   4    |    8    |      2       |
+|     core/145     |   4    |   32    |      2       |
+|     core/145     |   4    |    8    |      2       |
+|     core/145     |   4    |   32    |      2       |
+|     core/145     |   4    |    8    |      2       |
+|     core/145     |   4    |   32    |      2       |
+|     core/145     |   4    |    8    |      2       |
+|     core/145     |   4    |   32    |      2       |
+|     core/145     |   4    |   32    |      2       |
+|     core/145     |   4    |   32    |      2       |
+|     core/145     |   4    |    8    |      2       |
+|     core/145     |   4    |   32    |      2       |
+|     core/145     |   4    |    8    |      2       |
+|     core/145     |   4    |   32    |      2       |
+|     core/145     |   4    |    8    |      2       |
+|     core/145     |   4    |   32    |      2       |
+|     core/145     |   4    |    8    |      2       |
+|     core/151     |   4    |   32    |      2       |
+|     core/151     |   4    |   32    |      2       |
+|     core/151     |   4    |   32    |      2       |
+|     core/151     |   4    |    8    |      2       |
+|     core/151     |   4    |   32    |      2       |
+|     core/151     |   4    |    8    |      2       |
+|     core/151     |   4    |   32    |      2       |
+|     core/151     |   4    |    8    |      2       |
+|     core/151     |   4    |   32    |      2       |
+|     core/151     |   4    |    8    |      2       |
+|     core/151     |   4    |   32    |      2       |
+|     core/151     |   4    |   32    |      2       |
+|     core/151     |   4    |   32    |      2       |
+|     core/151     |   4    |    8    |      2       |
+|     core/151     |   4    |   32    |      2       |
+|     core/151     |   4    |    8    |      2       |
+|     core/151     |   4    |   32    |      2       |
+|     core/151     |   4    |    8    |      2       |
+|     core/151     |   4    |   32    |      2       |
+|     core/151     |   4    |    8    |      2       |
 |     core/348     |   4    |   32    |      2       |
 |     core/349     |   4    |   32    |      2       |
+|     core/355     |   4    |   32    |      2       |
+|     core/356     |   4    |   32    |      2       |
+|     core/362     |   4    |   32    |      2       |
+|     core/363     |   4    |   32    |      2       |
+|     core/369     |   4    |   32    |      2       |
+|     core/370     |   4    |   32    |      2       |
+|     core/376     |   4    |   32    |      2       |
+|     core/377     |   4    |   32    |      2       |
+|     core/383     |   4    |   32    |      2       |
+|     core/384     |   4    |   32    |      2       |
+|     core/390     |   4    |   32    |      2       |
+|     core/391     |   4    |   32    |      2       |
+|     core/397     |   4    |   32    |      2       |
+|     core/398     |   4    |   32    |      2       |
 ======================================================
-Warning:  /home/raid7_2/user11/r1921084/ICD/final/01_RTL/pe.v:101: signed to unsigned assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/pe.v:97: signed to unsigned assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v:85: signed to unsigned assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v:117: signed to unsigned assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v:147: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v:148: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v:149: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v:150: unsigned to signed assignment occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine ml_demodulator line 87 in file
+		'/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    cycle_cnt_reg    | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine ml_demodulator line 92 in file
+		'/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      busy_reg       | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine ml_demodulator line 101 in file
+		'/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    i_trig_d_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine ml_demodulator line 105 in file
+		'/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    i_y_hat_d_reg    | Flip-flop |  64   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine ml_demodulator line 109 in file
+		'/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      i_r_d_reg      | Flip-flop |  128  |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine ml_demodulator line 121 in file
+		'/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     buffer_reg      | Flip-flop |  256  |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine ml_demodulator line 126 in file
+		'/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      w_ptr_reg      | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine ml_demodulator line 131 in file
+		'/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      r_ptr_reg      | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine ml_demodulator line 177 in file
+		'/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/ml_demodulator.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   min_x41_1_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x41_1_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x11_1_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x11_1_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x41_0_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x41_0_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x12_0_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x12_0_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x12_1_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x12_1_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x21_0_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x21_0_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x21_1_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x21_1_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x22_0_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x22_0_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x22_1_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x22_1_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x31_0_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x31_0_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x31_1_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x31_1_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x32_0_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x32_0_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x32_1_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x32_1_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x11_0_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x11_0_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x42_1_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x42_1_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+|   min_x42_0_n_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   min_x42_0_n_reg   | Flip-flop |   9   |  Y  | N  | N  | Y  | N  | N  | N  |
+===============================================================================
+Statistics for MUX_OPs
+========================================================
+|  block name/line   | Inputs | Outputs | # sel inputs |
+========================================================
+| ml_demodulator/118 |  256   |    1    |      8       |
+========================================================
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/calculator.v:67: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/calculator.v:68: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/calculator.v:69: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/calculator.v:70: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/calculator.v:71: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/calculator.v:72: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/calculator.v:73: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/calculator.v:74: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/calculator.v:94: signed to unsigned assignment occurs. (VER-318)
 Presto compilation completed successfully.
-Current design is now '/home/raid7_2/user11/r1921084/ICD/final/01_RTL/core.db:core'
-Loaded 2 designs.
+Current design is now '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/01_RTL/core.db:core'
+Loaded 4 designs.
 Current design is 'core'.
-core pe
+core pe ml_demodulator cal
 current_design core
 Current design is 'core'.
 {core}
 uniquify
 Information: Uniquified 4 instances of design 'pe'. (OPT-1056)
+Information: Uniquified 4 instances of design 'cal'. (OPT-1056)
 1
 link
 
@@ -285,22 +453,26 @@ link
   Using the following designs and libraries:
   --------------------------------------------------------------------------
   dw_foundation.sldb (library) /usr/cad/synopsys/synthesis/cur/libraries/syn/dw_foundation.sldb
-  fsa0m_a_generic_core_tt1p8v25c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_tt1p8v25c.db
-  fsa0m_a_generic_core_ss1p62v125c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_ss1p62v125c.db
-  fsa0m_a_generic_core_ff1p98vm40c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_ff1p98vm40c.db
-  fsa0m_a_t33_generic_io_tt1p8v25c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_tt1p8v25c.db
-  fsa0m_a_t33_generic_io_ss1p62v125c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_ss1p62v125c.db
-  fsa0m_a_t33_generic_io_ff1p98vm40c (library) /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_ff1p98vm40c.db
+  fsa0m_a_generic_core_tt1p8v25c (library) /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_generic_core_tt1p8v25c.db
+  fsa0m_a_generic_core_ss1p62v125c (library) /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_generic_core_ss1p62v125c.db
+  fsa0m_a_generic_core_ff1p98vm40c (library) /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_generic_core_ff1p98vm40c.db
+  fsa0m_a_t33_generic_io_tt1p8v25c (library) /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_t33_generic_io_tt1p8v25c.db
+  fsa0m_a_t33_generic_io_ss1p62v125c (library) /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_t33_generic_io_ss1p62v125c.db
+  fsa0m_a_t33_generic_io_ff1p98vm40c (library) /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_t33_generic_io_ff1p98vm40c.db
 
 Warning: Unable to resolve reference 'pe_3' in 'core'. (LINK-5)
 Warning: Unable to resolve reference 'pe_2' in 'core'. (LINK-5)
 Warning: Unable to resolve reference 'pe_1' in 'core'. (LINK-5)
 Warning: Unable to resolve reference 'pe_0' in 'core'. (LINK-5)
+Warning: Unable to resolve reference 'cal_3' in 'ml_demodulator'. (LINK-5)
+Warning: Unable to resolve reference 'cal_2' in 'ml_demodulator'. (LINK-5)
+Warning: Unable to resolve reference 'cal_1' in 'ml_demodulator'. (LINK-5)
+Warning: Unable to resolve reference 'cal_0' in 'ml_demodulator'. (LINK-5)
 0
 #source -echo -verbose ./your_design.sdc
 ############in sdc file
 # Set the Optimization Constraints 
-create_clock -period 40 -name "i_clk" -waveform {0 20} "i_clk"
+create_clock -period 20 -name "i_clk" -waveform {0 10} "i_clk"
 1
 set_dont_touch_network [get_ports i_clk]
 1
@@ -338,37 +510,158 @@ check_design
 ****************************************
 check_design summary:
 Version:     U-2022.12
-Date:        Wed May  1 22:40:59 2024
+Date:        Thu May 30 16:09:36 2024
 ****************************************
 
                    Name                                            Total
 --------------------------------------------------------------------------------
-Cells                                                              22
-    Cells do not drive (LINT-1)                                    22
+Inputs/Outputs                                                     11
+    Shorted outputs (LINT-31)                                       5
+    Constant outputs (LINT-52)                                      6
+
+Cells                                                             105
+    Cells do not drive (LINT-1)                                    95
+    Connected to power or ground (LINT-32)                          8
+    Nets connected to multiple pins on same cell (LINT-33)          2
+
+Nets                                                                8
+    Unloaded nets (LINT-2)                                          8
 --------------------------------------------------------------------------------
 
-Warning: In design 'core', cell 'B_980' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'B_981' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39792' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39796' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39800' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39804' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39808' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39812' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39816' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39820' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'B_982' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39861' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39862' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39869' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39885' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39886' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39894' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39898' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39899' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39918' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'B_986' does not drive any nets. (LINT-1)
-Warning: In design 'core', cell 'C39931' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'B_1818' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'B_1819' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59445' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59449' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59453' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59457' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59461' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59465' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59469' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59473' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'B_1820' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59558' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'B_1824' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59569' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59587' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59875' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59876' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59877' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59878' does not drive any nets. (LINT-1)
+Warning: In design 'core', cell 'C59879' does not drive any nets. (LINT-1)
+Warning: In design 'ml_demodulator', cell 'C8169' does not drive any nets. (LINT-1)
+Warning: In design 'ml_demodulator', cell 'C8450' does not drive any nets. (LINT-1)
+Warning: In design 'ml_demodulator', cell 'C8454' does not drive any nets. (LINT-1)
+Warning: In design 'ml_demodulator', cell 'B_336' does not drive any nets. (LINT-1)
+Warning: In design 'ml_demodulator', cell 'B_337' does not drive any nets. (LINT-1)
+Warning: In design 'ml_demodulator', cell 'B_338' does not drive any nets. (LINT-1)
+Warning: In design 'ml_demodulator', cell 'B_339' does not drive any nets. (LINT-1)
+Warning: In design 'ml_demodulator', cell 'B_340' does not drive any nets. (LINT-1)
+Warning: In design 'ml_demodulator', cell 'B_341' does not drive any nets. (LINT-1)
+Warning: In design 'ml_demodulator', cell 'B_342' does not drive any nets. (LINT-1)
+Warning: In design 'ml_demodulator', cell 'B_343' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_24' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_25' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_26' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_27' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_28' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_29' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_30' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_31' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_32' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_33' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_34' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_35' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_36' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_37' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_38' does not drive any nets. (LINT-1)
+Warning: In design 'cal_3', cell 'B_39' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_24' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_25' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_26' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_27' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_28' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_29' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_30' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_31' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_32' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_33' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_34' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_35' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_36' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_37' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_38' does not drive any nets. (LINT-1)
+Warning: In design 'cal_2', cell 'B_39' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_24' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_25' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_26' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_27' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_28' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_29' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_30' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_31' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_32' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_33' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_34' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_35' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_36' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_37' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_38' does not drive any nets. (LINT-1)
+Warning: In design 'cal_1', cell 'B_39' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_24' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_25' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_26' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_27' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_28' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_29' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_30' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_31' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_32' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_33' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_34' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_35' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_36' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_37' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_38' does not drive any nets. (LINT-1)
+Warning: In design 'cal_0', cell 'B_39' does not drive any nets. (LINT-1)
+Warning: In design 'core', net 'i_llr[0]' driven by pin 'ML_U0/o_llr[0]' has no loads. (LINT-2)
+Warning: In design 'core', net 'i_llr[1]' driven by pin 'ML_U0/o_llr[1]' has no loads. (LINT-2)
+Warning: In design 'core', net 'i_llr[2]' driven by pin 'ML_U0/o_llr[2]' has no loads. (LINT-2)
+Warning: In design 'core', net 'i_llr[3]' driven by pin 'ML_U0/o_llr[3]' has no loads. (LINT-2)
+Warning: In design 'core', net 'i_llr[4]' driven by pin 'ML_U0/o_llr[4]' has no loads. (LINT-2)
+Warning: In design 'core', net 'i_llr[5]' driven by pin 'ML_U0/o_llr[5]' has no loads. (LINT-2)
+Warning: In design 'core', net 'i_llr[6]' driven by pin 'ML_U0/o_llr[6]' has no loads. (LINT-2)
+Warning: In design 'core', net 'i_llr[7]' driven by pin 'ML_U0/o_llr[7]' has no loads. (LINT-2)
+Warning: In design 'ml_demodulator', output port 'o_llr[6]' is connected directly to output port 'o_llr[1]'. (LINT-31)
+Warning: In design 'ml_demodulator', output port 'o_llr[6]' is connected directly to output port 'o_llr[2]'. (LINT-31)
+Warning: In design 'ml_demodulator', output port 'o_llr[6]' is connected directly to output port 'o_llr[3]'. (LINT-31)
+Warning: In design 'ml_demodulator', output port 'o_llr[6]' is connected directly to output port 'o_llr[4]'. (LINT-31)
+Warning: In design 'ml_demodulator', output port 'o_llr[6]' is connected directly to output port 'o_llr[5]'. (LINT-31)
+Warning: In design 'ml_demodulator', a pin on submodule 'CAL_U0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'cal_x[1]' is connected to logic 0. 
+Warning: In design 'ml_demodulator', a pin on submodule 'CAL_U0' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'cal_x[0]' is connected to logic 0. 
+Warning: In design 'ml_demodulator', a pin on submodule 'CAL_U1' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'cal_x[1]' is connected to logic 0. 
+Warning: In design 'ml_demodulator', a pin on submodule 'CAL_U1' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'cal_x[0]' is connected to logic 1. 
+Warning: In design 'ml_demodulator', a pin on submodule 'CAL_U2' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'cal_x[1]' is connected to logic 1. 
+Warning: In design 'ml_demodulator', a pin on submodule 'CAL_U2' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'cal_x[0]' is connected to logic 0. 
+Warning: In design 'ml_demodulator', a pin on submodule 'CAL_U3' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'cal_x[1]' is connected to logic 1. 
+Warning: In design 'ml_demodulator', a pin on submodule 'CAL_U3' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'cal_x[0]' is connected to logic 1. 
+Warning: In design 'ml_demodulator', the same net is connected to more than one pin on submodule 'CAL_U0'. (LINT-33)
+   Net '*Logic0*' is connected to pins 'cal_x[1]', 'cal_x[0]''.
+Warning: In design 'ml_demodulator', the same net is connected to more than one pin on submodule 'CAL_U3'. (LINT-33)
+   Net '*Logic1*' is connected to pins 'cal_x[1]', 'cal_x[0]''.
+Warning: In design 'ml_demodulator', output port 'o_llr[6]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'ml_demodulator', output port 'o_llr[5]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'ml_demodulator', output port 'o_llr[4]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'ml_demodulator', output port 'o_llr[3]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'ml_demodulator', output port 'o_llr[2]' is connected directly to 'logic 0'. (LINT-52)
+Warning: In design 'ml_demodulator', output port 'o_llr[1]' is connected directly to 'logic 0'. (LINT-52)
 1
 # remove_attribute [find -hierarchy design {"*"}] dont_touch
 # Map and Optimize the Design
@@ -394,16 +687,16 @@ Information: Evaluating DesignWare library utilization. (UISN-27)
 | Design Information                                      | Value                                  |
 ====================================================================================================
 | Number of Scenarios                                     | 0                                      |
-| Leaf Cell Count                                         | 6453                                   |
-| Number of User Hierarchies                              | 4                                      |
-| Sequential Cell Count                                   | 1678                                   |
+| Leaf Cell Count                                         | 14473                                  |
+| Number of User Hierarchies                              | 9                                      |
+| Sequential Cell Count                                   | 2322                                   |
 | Macro Count                                             | 0                                      |
 | Number of Power Domains                                 | 0                                      |
 | Number of Path Groups                                   | 2                                      |
 | Number of VT Class                                      | 0                                      |
 | Number of Clocks                                        | 1                                      |
-| Number of Dont Touch Cells                              | 1829                                   |
-| Number of Dont Touch Nets                               | 1                                      |
+| Number of Dont Touch Cells                              | 4417                                   |
+| Number of Dont Touch Nets                               | 2                                      |
 | Number of Size Only Cells                               | 0                                      |
 | Design with UPF Data                                    | false                                  |
 ----------------------------------------------------------------------------------------------------
@@ -413,7 +706,7 @@ Information: Evaluating DesignWare library utilization. (UISN-27)
 ====================================================================================================
 Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
 
-Information: There are 22 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+Information: There are 124 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
 
   Simplifying Design 'core'
 
@@ -432,7 +725,7 @@ Warning: Operating condition WCCOM set on design core has different process,
 voltage and temperatures parameters than the parameters at which target library 
 fsa0m_a_generic_core_tt1p8v25c is characterized. Delays may be inaccurate as a result. (OPT-998)
   Building model 'DW01_NAND2'
-Information: Ungrouping 0 of 5 hierarchies before Pass 1 (OPT-775)
+Information: Ungrouping 0 of 10 hierarchies before Pass 1 (OPT-775)
 Information: State dependent leakage is now switched from on to off.
 
   Beginning Pass 1 Mapping
@@ -441,8 +734,19 @@ Information: State dependent leakage is now switched from on to off.
 Information: Added key list 'DesignWare' to design 'core'. (DDB-72)
 Information: The register 'layer_reg[5]' is a constant and will be removed. (OPT-1206)
  Implement Synthetic for 'core'.
+  Processing 'ml_demodulator'
+Information: Added key list 'DesignWare' to design 'ml_demodulator'. (DDB-72)
+ Implement Synthetic for 'ml_demodulator'.
+  Processing 'cal_0'
+ Implement Synthetic for 'cal_0'.
+  Processing 'cal_2'
+ Implement Synthetic for 'cal_2'.
   Processing 'pe_0'
  Implement Synthetic for 'pe_0'.
+  Processing 'cal_1'
+ Implement Synthetic for 'cal_1'.
+  Processing 'cal_3'
+ Implement Synthetic for 'cal_3'.
 
   Updating timing information
 Information: Updating design information... (UID-85)
@@ -450,34 +754,46 @@ Information: The library cell 'TIE1' in the library 'fsa0m_a_generic_core_tt1p8v
 Information: The library cell 'TIE0' in the library 'fsa0m_a_generic_core_tt1p8v25c' is not characterized for internal power. (PWR-536)
 Information: The library cell 'BHD1' in the library 'fsa0m_a_generic_core_tt1p8v25c' is not characterized for internal power. (PWR-536)
 Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+Information: The register 'ML_U0/w_ptr_reg[0]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ML_U0/w_ptr_reg[1]' is a constant and will be removed. (OPT-1206)
+Information: The register 'ML_U0/w_ptr_reg[2]' is a constant and will be removed. (OPT-1206)
 Information: The register 'x_image_reg[0]' is a constant and will be removed. (OPT-1206)
 Information: The register 'y_image_reg[0]' is a constant and will be removed. (OPT-1206)
 
   Beginning Mapping Optimizations  (Ultra High effort)
   -------------------------------
 Information: Added key list 'DesignWare' to design 'pe_3'. (DDB-72)
+Information: Added key list 'DesignWare' to design 'cal_3'. (DDB-72)
+Information: Added key list 'DesignWare' to design 'cal_2'. (DDB-72)
+Information: Added key list 'DesignWare' to design 'cal_1'. (DDB-72)
+Information: Added key list 'DesignWare' to design 'cal_0'. (DDB-72)
 Information: Added key list 'DesignWare' to design 'pe_0'. (DDB-72)
 Information: Added key list 'DesignWare' to design 'pe_1'. (DDB-72)
 Information: Added key list 'DesignWare' to design 'pe_2'. (DDB-72)
-Information: Updating design information... (UID-85)
 Information: The wire load model of the parent cell core is different from that of the child cell PE_U1 in the design pe_3. The child cell will not be ungrouped. (OPT-779)
+Information: The wire load model of the parent cell core is different from that of the child cell ML_U0 in the design ml_demodulator. The child cell will not be ungrouped. (OPT-779)
+Information: The wire load model of the parent cell ML_U0 is different from that of the child cell ML_U0/CAL_U0 in the design cal_3. The child cell will not be ungrouped. (OPT-779)
+Information: The wire load model of the parent cell ML_U0 is different from that of the child cell ML_U0/CAL_U1 in the design cal_2. The child cell will not be ungrouped. (OPT-779)
+Information: The wire load model of the parent cell ML_U0 is different from that of the child cell ML_U0/CAL_U2 in the design cal_1. The child cell will not be ungrouped. (OPT-779)
+Information: The wire load model of the parent cell ML_U0 is different from that of the child cell ML_U0/CAL_U3 in the design cal_0. The child cell will not be ungrouped. (OPT-779)
 Information: The wire load model of the parent cell core is different from that of the child cell PE_U4 in the design pe_0. The child cell will not be ungrouped. (OPT-779)
 Information: The wire load model of the parent cell core is different from that of the child cell PE_U3 in the design pe_1. The child cell will not be ungrouped. (OPT-779)
 Information: The wire load model of the parent cell core is different from that of the child cell PE_U2 in the design pe_2. The child cell will not be ungrouped. (OPT-779)
-Information: 3 other designs were not ungrouped because of differing wire load models. (OPT-779)
+Information: 8 other designs were not ungrouped because of differing wire load models. (OPT-779)
   Mapping Optimization (Phase 1)
+Information: The register 'count34_reg[6]' is a constant and will be removed. (OPT-1206)
 
                                   TOTAL                                                            
    ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE   MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER      COST    
   --------- --------- --------- --------- --------- ------------------------- --------- -----------
-    0:05:14  663648.2      0.00       0.0   52550.2                           2429629.5000      0.00  
-    0:05:16  663601.3      0.00       0.0   52550.2                           2429511.7500      0.00  
+    0:04:26  983621.4      0.00       0.0   52665.3                           3762808.5000      0.00  
+    0:04:27  983590.2      0.00       0.0   52665.3                           3762710.5000      0.00  
 
   Beginning Constant Register Removal
   -----------------------------------
-    0:05:17  663601.3      0.00       0.0   52550.2                           2429511.7500      0.00  
-    0:05:19  663601.3      0.00       0.0   52550.2                           2429511.7500      0.00  
+    0:04:29  983590.2      0.00       0.0   52665.3                           3762710.5000      0.00  
+    0:04:30  983590.2      0.00       0.0   52665.3                           3762710.5000      0.00  
 
   Beginning Global Optimizations
   ------------------------------
@@ -513,43 +829,45 @@ Information: 3 other designs were not ungrouped because of differing wire load m
   Global Optimization (Phase 28)
   Global Optimization (Phase 29)
   Global Optimization (Phase 30)
+  Global Optimization (Phase 31)
 
   Beginning Isolate Ports
   -----------------------
 
   Beginning Delay Optimization
   ----------------------------
-    0:05:53  538649.9      0.00       0.0   52261.4                           1688085.1250      0.00  
-    0:05:53  538649.9      0.00       0.0   52261.4                           1688085.1250      0.00  
-    0:05:53  538649.9      0.00       0.0   52261.4                           1688085.1250      0.00  
-    0:05:53  538649.9      0.00       0.0   52261.4                           1688085.1250      0.00  
-    0:05:58  538649.9      0.00       0.0   52261.4                           1688085.1250      0.00  
-    0:06:00  538649.9      0.00       0.0   52261.4                           1688085.1250      0.00  
+    0:04:55  785227.9      0.91     142.3   51713.1                           2650142.0000      0.00  
+    0:04:55  785874.7      0.00       0.0   51707.4                           2651647.5000      0.00  
+    0:04:55  785874.7      0.00       0.0   51707.4                           2651647.5000      0.00  
+    0:04:56  785868.5      0.00       0.0   51707.4                           2651611.5000      0.00  
+    0:05:00  785849.7      0.00       0.0   51707.4                           2651611.5000      0.00  
+    0:05:01  785849.7      0.00       0.0   51707.4                           2651611.5000      0.00  
 
   Beginning WLM Backend Optimization
   --------------------------------------
-    0:06:18  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:18  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:18  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
+    0:05:13  780250.1      0.00       0.0   51692.5                           2619155.7500      0.00  
+    0:05:18  773488.0      0.00       0.0   51688.8                           2582885.0000      0.00  
+    0:05:18  773488.0      0.00       0.0   51688.8                           2582885.0000      0.00  
+    0:05:18  773488.0      0.00       0.0   51688.8                           2582885.0000      0.00  
+    0:05:20  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
 
 
   Beginning Design Rule Fixing  (max_transition)  (max_capacitance)
@@ -559,12 +877,12 @@ Information: 3 other designs were not ungrouped because of differing wire load m
    ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE   MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER      COST    
   --------- --------- --------- --------- --------- ------------------------- --------- -----------
-    0:06:21  536484.4      0.00       0.0   51863.9                           1678079.5000      0.00  
-  Global Optimization (Phase 31)
+    0:05:21  772866.2      0.00       0.0   51688.8                           2580356.2500      0.00  
   Global Optimization (Phase 32)
   Global Optimization (Phase 33)
-    0:06:24  537493.7      0.00       0.0   25457.5                           1683698.5000      0.00  
-    0:06:24  537493.7      0.00       0.0   25457.5                           1683698.5000      0.00  
+  Global Optimization (Phase 34)
+    0:05:22  773819.2      0.00       0.0   25457.5                           2585709.2500      0.00  
+    0:05:22  773819.2      0.00       0.0   25457.5                           2585709.2500      0.00  
 
 
   Beginning Leakage Power Optimization  (max_leakage_power 0)
@@ -574,52 +892,53 @@ Information: 3 other designs were not ungrouped because of differing wire load m
    ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE   MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER      COST    
   --------- --------- --------- --------- --------- ------------------------- --------- -----------
-    0:06:24  537493.7      0.00       0.0   25457.5                           1683698.5000      0.00  
-    0:06:24  541518.5      0.00       0.0   25457.5                           1702691.0000      0.00  
-    0:06:24  541518.5      0.00       0.0   25457.5                           1702691.0000      0.00  
-    0:06:24  541518.5      0.00       0.0   25457.5                           1702691.0000      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:37  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
+    0:05:22  773819.2      0.00       0.0   25457.5                           2585709.2500      0.00  
+    0:05:22  783228.0      0.00       0.0   25457.5                           2643960.5000      0.00  
+    0:05:22  783228.0      0.00       0.0   25457.5                           2643960.5000      0.00  
+    0:05:22  783228.0      0.00       0.0   25457.5                           2643960.5000      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:28  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
 
                                   TOTAL                                                            
    ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE   MIN DELAY 
     TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER      COST    
   --------- --------- --------- --------- --------- ------------------------- --------- -----------
-    0:06:39  539184.2      0.00       0.0   25457.4                           1688336.2500      0.00  
-    0:06:43  538184.3      0.00       0.0   25457.5                           1683532.2500      0.00  
-    0:06:44  538184.3      0.00       0.0   25457.5                           1683532.2500      0.00  
-    0:06:44  538184.3      0.00       0.0   25457.5                           1683532.2500      0.00  
-    0:06:50  538124.9      0.00       0.0   25457.6                           1683136.5000      0.00  
-    0:07:00  535922.0      0.00       0.0   25457.5                           1673196.0000      0.00  
-    0:07:00  535922.0      0.00       0.0   25457.5                           1673196.0000      0.00  
-    0:07:00  535922.0      0.00       0.0   25457.5                           1673196.0000      0.00  
-    0:07:00  535922.0      0.00       0.0   25457.5                           1673196.0000      0.00  
-    0:07:00  535922.0      0.00       0.0   25457.5                           1673196.0000      0.00  
-    0:07:00  535922.0      0.00       0.0   25457.5                           1673196.0000      0.00  
-    0:07:07  535825.1      0.00       0.0   25592.3                           1672738.8750      0.00  
-Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_tt1p8v25c.db'
-Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_ss1p62v125c.db'
-Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_ff1p98vm40c.db'
-Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_tt1p8v25c.db'
-Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_ss1p62v125c.db'
-Loading db file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_t33_generic_io_ff1p98vm40c.db'
+    0:05:30  776662.8      0.00       0.0   25457.4                           2598916.7500      0.00  
+    0:05:35  769838.2      0.00       0.0   25457.5                           2545685.5000      0.00  
+    0:05:35  769838.2      0.00       0.0   25457.5                           2545685.5000      0.00  
+    0:05:35  769838.2      0.00       0.0   25457.5                           2545685.5000      0.00  
+    0:05:38  769169.5      0.00       0.0   25458.2                           2542922.5000      0.00  
+    0:05:45  766963.4      0.00       0.0   25458.2                           2532820.0000      0.00  
+    0:05:47  765566.6      0.00       0.0   25457.5                           2525506.0000      0.00  
+    0:05:47  765566.6      0.00       0.0   25457.5                           2525506.0000      0.00  
+    0:05:47  765566.6      0.00       0.0   25457.5                           2525506.0000      0.00  
+    0:05:47  765566.6      0.00       0.0   25457.5                           2525506.0000      0.00  
+    0:05:48  765566.6      0.00       0.0   25457.5                           2525506.0000      0.00  
+    0:05:48  765566.6      0.00       0.0   25457.5                           2525506.0000      0.00  
+    0:05:56  764457.3      0.00       0.0   25457.5                           2520403.7500      0.00  
+Loading db file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_generic_core_tt1p8v25c.db'
+Loading db file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_generic_core_ss1p62v125c.db'
+Loading db file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_generic_core_ff1p98vm40c.db'
+Loading db file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_t33_generic_io_tt1p8v25c.db'
+Loading db file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_t33_generic_io_ss1p62v125c.db'
+Loading db file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_t33_generic_io_ff1p98vm40c.db'
 
 
 Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
@@ -628,7 +947,7 @@ Note: Symbol # after min delay cost means estimated hold TNS across all active s
   Optimization Complete
   ---------------------
 Warning: Design 'core' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
-     Net 'i_clk': 1675 load(s), 1 driver(s)
+     Net 'i_clk': 2315 load(s), 1 driver(s)
   Loading target library 'fsa0m_a_generic_core_ss1p62v125c'
   Loading target library 'fsa0m_a_generic_core_ff1p98vm40c'
   Loading target library 'fsa0m_a_t33_generic_io_tt1p8v25c'
@@ -641,14 +960,15 @@ Information: Propagating switching activity (low effort zero delay simulation). 
 report_area > area_core.out
 report_power > power_core.out
 report_timing -path full -delay max > timing_core.out
+report_timing -path full -delay max -max_paths 5 -nworst 1 > timing_core_2.out
 #write -format db -hierarchy -output $active_design.db
 write -format verilog -hierarchy -output core_syn.v
-Writing verilog file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/core_syn.v'.
+Writing verilog file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/core_syn.v'.
 Warning: Verilog writer has added 4 nets to module core using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
 1
 write_sdf -version 2.1 -context verilog core.sdf
 Information: Annotated 'cell' delays are assumed to include load delay. (UID-282)
-Information: Writing timing information to file '/home/raid7_2/user11/r1921084/ICD/final/02_SYN/core.sdf'. (WT-3)
+Information: Writing timing information to file '/home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/core.sdf'. (WT-3)
 Information: Updating design information... (UID-85)
 Warning: Design 'core' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
 1
@@ -656,9 +976,9 @@ write_sdc core.sdc
 1
 exit
 
-Memory usage for this session 510 Mbytes.
-Memory usage for this session including child processes 602 Mbytes.
-CPU usage for this session 439 seconds ( 0.12 hours ).
-Elapsed time for this session 458 seconds ( 0.13 hours ).
+Memory usage for this session 535 Mbytes.
+Memory usage for this session including child processes 710 Mbytes.
+CPU usage for this session 369 seconds ( 0.10 hours ).
+Elapsed time for this session 381 seconds ( 0.11 hours ).
 
 Thank you...

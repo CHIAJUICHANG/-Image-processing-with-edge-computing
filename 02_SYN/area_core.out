@@ -3,30 +3,30 @@
 Report : area
 Design : core
 Version: U-2022.12
-Date   : Wed May  1 22:48:17 2024
+Date   : Thu May 30 16:15:40 2024
 ****************************************
 
 Information: Updating design information... (UID-85)
 Warning: Design 'core' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
 Library(s) Used:
 
-    fsa0m_a_generic_core_tt1p8v25c (File: /home/raid7_2/user11/r1921084/ICD/final/02_SYN/fsa0m_a_generic_core_tt1p8v25c.db)
+    fsa0m_a_generic_core_tt1p8v25c (File: /home/raid7_2/user11/r1942133/ICD_Lab/Final_Project/Image-processing-with-edge-computing-3/02_SYN/fsa0m_a_generic_core_tt1p8v25c.db)
 
-Number of ports:                         1264
-Number of nets:                         25908
-Number of cells:                        21818
-Number of combinational cells:          20139
-Number of sequential cells:              1675
+Number of ports:                         2310
+Number of nets:                         37276
+Number of cells:                        31281
+Number of combinational cells:          28957
+Number of sequential cells:              2315
 Number of macros/black boxes:               0
-Number of buf/inv:                       2650
-Number of references:                      54
+Number of buf/inv:                       4162
+Number of references:                      74
 
-Combinational area:             436372.074467
-Buf/Inv area:                    18480.067013
-Noncombinational area:           99453.010536
+Combinational area:             626063.058188
+Buf/Inv area:                    28629.417312
+Noncombinational area:          138394.267845
 Macro/Black Box area:                0.000000
 Net Interconnect area:      undefined  (Wire load has zero net area)
 
-Total cell area:                535825.085003
+Total cell area:                764457.326033
 Total area:                 undefined
 1

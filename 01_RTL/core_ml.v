@@ -66,7 +66,8 @@ reg         [  1:0] y_axis       , next_y_axis;
 reg         [  5:0] x_image      , next_x_image;
 reg         [  5:0] y_image      , next_y_image;
 reg         [  2:0] state        , next_state;
-reg  signed [ 22:0] max_out      , next_max;
+reg  signed [ 13:0] max_out      , next_max;
+reg  signed [ 13:0] conv_result;
 reg  signed [ 22:0] conv_out;
 reg         [  4:0] linear_count , next_linear_count;
 reg         [  3:0] outcha_count , next_outcha_count;
@@ -239,7 +240,7 @@ begin
     case(state)
         idle:
         begin
-            next_max = 23'b100_0000_0000_0000_0000_0000; 
+            next_max = 14'b10_0000_0000_0000; 
         end
         kernel_in:
         begin
@@ -399,22 +400,22 @@ begin
                         next_i_image8[x_axis+3][y_axis] = i_data[ 7:0];
                     end
                 end 
-                if (next_state == mul_plse ) next_max = 23'b100_0000_0000_0000_0000_0000;
+                if (next_state == mul_plse ) next_max = 14'b00_0000_0000_0000;
                 if (next_linear_count ==  1) 
                 begin
-                    next_max = 23'b100_0000_0000_0000_0000_0000;
+                    next_max = 14'b10_0000_0000_0000;
                     next_max_new    = 0;
                     next_max_before = 0;
                 end
                 if (next_linear_count == 11)
                 begin
-                    next_max = 23'b100_0000_0000_0000_0000_0000;
+                    next_max = 14'b10_0000_0000_0000;
                     next_max_new    = 0;
                     next_max_before = 0;
                 end
                 if (next_linear_count == 21)
                 begin
-                    next_max = 23'b100_0000_0000_0000_0000_0000;
+                    next_max = 14'b10_0000_0000_0000;
                     next_max_new    = 0;
                     next_max_before = 0;
                 end
@@ -425,15 +426,15 @@ begin
         begin
             conv_out      = (pe_result1 + pe_result2) + (pe_result3 + pe_result4);
             // conv_out      = pe_result1_reg + pe_result2_reg + pe_result3_reg + pe_result4_reg;
-            if ((conv_out > max_out) && (conv_out[22] != 1)) next_max = conv_out;
-            if ((conv_out > max_out) && (conv_out[22] != 1)) next_max = conv_out;
-            if ((conv_out > max_out) && (conv_out[22] != 1)) next_max = conv_out;
+            if ((conv_out[13:0] > max_out) && (conv_out[22] != 1)) next_max = conv_out[13:0];
+            if ((conv_out[13:0] > max_out) && (conv_out[22] != 1)) next_max = conv_out[13:0];
+            if ((conv_out[13:0] > max_out) && (conv_out[22] != 1)) next_max = conv_out[13:0];
             if ((x_axis == 1) && (y_axis == 1))
             begin
                 o_valid_w = 1;
-                if (layer == 30) data_o_w  = next_max[ 9:3]; 
-                if (layer == 14) data_o_w  = next_max[14:7];
-                if (layer ==  6) data_o_w  = next_max[14:7];
+                if (layer == 30) data_o_w  = next_max[ 10:3]; 
+                if (layer == 14) data_o_w  = {0,next_max[13:7]};
+                if (layer ==  6) data_o_w  = {0,next_max[13:7]};
             end
         end
         linear:
@@ -441,10 +442,11 @@ begin
             next_max_new  = max_new+1;
             conv_out      = (pe_result1 + pe_result2) + (pe_result3 + pe_result4);
             // conv_out      = pe_result1_reg + pe_result2_reg + pe_result3_reg + pe_result4_reg;
-            if (conv_out > max_out ) 
+            conv_result = $signed({conv_out[22], conv_out[12:0]});
+            if (conv_result > max_out ) 
             begin
                 next_max_before = max_new;
-                next_max        = conv_out;
+                next_max        = conv_result;
             end
             if (linear_count ==  10)
             begin
